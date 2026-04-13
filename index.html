@@ -473,14 +473,12 @@ function renderPagination(totalPages, total) {
 
 function renderTracking(t) {
   const el = document.getElementById('tracking-stats');
-  // Compute stats from history for real-time accuracy
+  // Compute stats from history - only count rounds with results
   const hist = currentHistory || [];
-  let wins = 0, losses = 0, ties = 0, pending = 0;
+  let wins = 0, losses = 0;
   for (const h of hist) {
     if (h.outcome === 'WIN') wins++;
     else if (h.outcome === 'LOSS') losses++;
-    else if (h.outcome === 'TIE') ties++;
-    else pending++;
   }
   const total = wins + losses;
   const wr = total > 0 ? (wins / total * 100).toFixed(1) : '0.0';
@@ -503,7 +501,6 @@ function renderTracking(t) {
     <div class="stat-card"><div class="label">全部轮胜率</div><div class="value ${parseFloat(wr)>=50?'green':'red'}">${wr}%</div></div>
     <div class="stat-card"><div class="label">近20轮胜率</div><div class="value ${parseFloat(r20wr)>=50?'green':'red'}">${r20wr}%</div></div>
     <div class="stat-card"><div class="label">胜 / 负</div><div class="value">${wins} / ${losses}</div></div>
-    <div class="stat-card"><div class="label">待定</div><div class="value">${pending}</div></div>
   `;
   if (timeTotal > 0) {
     html += `<div class="stat-card"><div class="label">Time信号</div><div class="value ${parseFloat(timeWr)>=50?'green':'red'}">${timeWr}% (${t.time_wins}/${t.time_losses})</div></div>`;

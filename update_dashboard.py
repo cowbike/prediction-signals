@@ -194,6 +194,53 @@ def load_tracking():
         return {"wins": 0, "losses": 0, "time_wins": 0, "time_losses": 0}
 
 
+def update_tracking_results():
+    """Check on-chain results for tracking predictions missing outcome, update tracking file."""
+    try:
+        t = json.loads(TRACKING_FILE.read_text())
+    except:
+        return
+    
+    preds = t.get("predictions", {})
+    if not preds:
+        return
+    
+    sys.path.insert(0, str(HOME))
+    from prediction_monitor import get_round
+    
+    updated = False
+    for epoch_str, pred in preds.items():
+        if pred.get("result"):
+            continue
+        try:
+            rd = get_round(int(epoch_str))
+            if not rd or rd.get("close_p", 0) == 0 or rd.get("lock_p", 0) == 0:
+                continue
+            winner = "BULL" if rd["close_p"] > rd["lock_p"] else "BEAR" if rd["close_p"] < rd["lock_p"] else "TIE"
+            pred["result"] = winner
+            if winner == pred.get("direction"):
+                pred["outcome"] = "WIN"
+            elif winner == "TIE":
+                pred["outcome"] = "TIE"
+            else:
+                pred["outcome"] = "LOSS"
+            updated = True
+        except:
+            continue
+    
+    if not updated:
+        return
+    
+    # Recompute win/loss counts
+    wins = sum(1 for p in preds.values() if p.get("outcome") == "WIN")
+    losses = sum(1 for p in preds.values() if p.get("outcome") == "LOSS")
+    t["wins"] = wins
+    t["losses"] = losses
+    
+    TRACKING_FILE.write_text(json.dumps(t, ensure_ascii=False))
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] Updated tracking: {wins}W/{losses}L")
+
+
 def git_push():
     """Commit and push to GitHub."""
     repo_dir = str(Path(__file__).parent)
@@ -223,6 +270,9 @@ def git_push():
 
 
 def main():
+    # First update tracking results from on-chain
+    update_tracking_results()
+    
     current = parse_latest_signal()
     history = parse_history()
     tracking = load_tracking()
