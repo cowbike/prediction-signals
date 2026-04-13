@@ -77,6 +77,7 @@
   .signal-row:last-child { border-bottom: none; }
   .signal-icon { font-size: 18px; width: 28px; text-align: center; }
   .signal-name { width: 50px; font-size: 13px; color: var(--dim); }
+  .signal-sub { font-size: 10px; color: rgba(139,148,158,0.6); margin-top: 1px; }
   .signal-dot { width: 10px; height: 10px; border-radius: 50%; margin: 0 8px; }
   .dot-bull { background: var(--green); }
   .dot-bear { background: var(--red); }
@@ -259,12 +260,13 @@ function renderSignal(sig) {
   const grid = document.getElementById('signals-grid');
   grid.innerHTML = '';
   const icons = { Time: '⏰', Pool: '🏊', Mom: '📈', Liq: '💥', FR: '💰' };
+  const subs = { Pool: '40% 赔率偏差', FR: '20% 资金费率', Mom: '15% RSI+EMA', Liq: '15% 多空比', Time: '10% 时段偏差' };
   for (const s of sig.signals || []) {
     const row = document.createElement('div');
     row.className = 'signal-row';
     row.innerHTML = `
       <span class="signal-icon">${icons[s.name] || '📊'}</span>
-      <span class="signal-name">${s.name}</span>
+      <span class="signal-name">${s.name}<div class="signal-sub">${subs[s.name] || ''}</div></span>
       <span class="signal-dot ${dotClass(s.direction)}"></span>
       <span class="signal-score">${s.score}</span>
       <span class="signal-detail">${s.info || ''}</span>
