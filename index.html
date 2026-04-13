@@ -349,9 +349,10 @@ function renderHistoryPage() {
     const predCls = h.direction === 'BULL' ? 'bull' : h.direction === 'BEAR' ? 'bear' : '';
     const actCls = actualDir === 'BULL' ? 'bull' : actualDir === 'BEAR' ? 'bear' : '';
     const outcome = h.outcome === 'WIN' ? '✅' : h.outcome === 'LOSS' ? '❌' : h.outcome === 'TIE' ? '➖' : '⏳';
+    const trendTag = h.trend ? ' <span style="font-size:10px;color:var(--yellow)" title="' + h.trend + '">⚠️</span>' : '';
     const tr = document.createElement('tr');
     tr.innerHTML = '<td class="col-epoch">#' + h.epoch + '</td>' +
-      '<td class="col-dir ' + predCls + '">' + (h.direction || '--') + '</td>' +
+      '<td class="col-dir ' + predCls + '">' + (h.direction || '--') + trendTag + '</td>' +
       '<td class="col-arrow">→</td>' +
       '<td class="col-actual ' + actCls + '">' + actualDir + '</td>' +
       '<td class="col-conf">' + (h.confidence ? Math.round(h.confidence) : '--') + '</td>' +
