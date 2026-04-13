@@ -161,8 +161,8 @@
 <body>
 
 <div class="header">
-  <h1>🥞 PancakeSwap BNB Prediction</h1>
-  <div class="sub">实时信号看板 · 5 分钟一轮</div>
+  <h1>🎰 BNB百家乐</h1>
+  <div class="sub">实时信号看板 · 每5分钟一轮</div>
 </div>
 
 <div class="status-bar">
@@ -381,7 +381,7 @@ async function fetchData() {
     const data = await resp.json();
     document.getElementById('live-dot').className = 'dot dot-live';
     document.getElementById('live-text').textContent = '实时';
-    document.getElementById('update-time').textContent = new Date().toLocaleTimeString('zh-CN');
+    // clock ticks every second via setInterval below
     renderSignal(data.current);
     renderHistory(data.history);
     renderTracking(data.tracking);
@@ -393,6 +393,15 @@ async function fetchData() {
   document.getElementById('refresh-count').textContent = refreshCount;
 }
 
+// Live clock ticking every second
+let clockInterval;
+function startClock() {
+  if (clockInterval) clearInterval(clockInterval);
+  clockInterval = setInterval(() => {
+    document.getElementById('update-time').textContent = new Date().toLocaleTimeString('zh-CN');
+  }, 1000);
+}
+startClock();
 fetchData();
 setInterval(fetchData, REFRESH_MS);
 </script>
