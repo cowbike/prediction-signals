@@ -71,6 +71,13 @@
   .pool-bar .bar-fill-bear { height: 100%; background: var(--red); border-radius: 3px; transition: width 0.5s; }
   .pool-pct { min-width: 40px; text-align: right; font-size: 12px; }
 
+  .trend-bar {
+    padding: 8px 20px; font-size: 12px; text-align: center;
+    background: rgba(248,81,73,0.08); color: var(--yellow);
+    border-bottom: 1px solid var(--border); display: none;
+  }
+  .trend-bar.active { display: block; }
+
   .signals-grid { padding: 12px 20px; }
   .signal-row {
     display: flex; align-items: center; padding: 10px 0;
@@ -209,6 +216,7 @@
   <div class="pool-bar" style="font-size:12px; color:var(--dim)">
     池子: <span id="pool-total">0.00</span> BNB &nbsp;|&nbsp; 赔率 B:<span id="odds-bull">--</span>x R:<span id="odds-bear">--</span>x
   </div>
+  <div class="trend-bar" id="trend-bar">⚠️ <span id="trend-text"></span></div>
   <div class="signals-grid" id="signals-grid"></div>
 </div>
 
@@ -235,7 +243,7 @@
 </div>
 
 <div class="footer">
-  数据每 10 秒刷新 · <span id="refresh-count">0</span> 次刷新
+  一乐爸爸 · hermes agent + mimo v2 pro 强势搭建 · <span id="refresh-count">0</span> 次刷新
 </div>
 
 <script>
@@ -269,6 +277,16 @@ function renderSignal(sig) {
   document.getElementById('pool-total').textContent = total.toFixed(2);
   document.getElementById('odds-bull').textContent = bullPct > 0 ? (100/bullPct).toFixed(1) : '--';
   document.getElementById('odds-bear').textContent = bearPct > 0 ? (100/bearPct).toFixed(1) : '--';
+
+  // Trend detection display
+  const trendBar = document.getElementById('trend-bar');
+  const trendText = document.getElementById('trend-text');
+  if (sig.trend) {
+    trendText.textContent = sig.trend;
+    trendBar.classList.add('active');
+  } else {
+    trendBar.classList.remove('active');
+  }
 
   const grid = document.getElementById('signals-grid');
   grid.innerHTML = '';

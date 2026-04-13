@@ -54,8 +54,9 @@ def parse_latest_signal():
     
     # Parse individual signals
     signals = []
+    trend_info = None
     for line in block:
-        m = re.match(r".*(⏰Time|🏊Pool|📈Mom|💥Liq|💰FR):(🟢|🔴|⚪)?\((\d+)\)\s*(.*)", line)
+        m = re.match(r".*(⏰Time|🏊Pool|📈Mom|💥Liq|💰FR):[🟢🔴⚪]?\((\d+)\)\s*(.*)", line)
         if m:
             name_map = {"⏰Time": "Time", "🏊Pool": "Pool", "📈Mom": "Mom", "💥Liq": "Liq", "💰FR": "FR"}
             emoji_dir = {"🟢": "BULL", "🔴": "BEAR", "⚪": None}
@@ -66,6 +67,9 @@ def parse_latest_signal():
             score = int(m.group(3))
             info = m.group(4).strip()
             signals.append({"name": name, "direction": direction_s, "score": score, "info": info})
+        m2 = re.search(r"⚠️Trend:\s*(.*)", line)
+        if m2:
+            trend_info = m2.group(1).strip()
     
     # Parse time
     m = re.search(r"⏰\s*([\d:]+)\s*HKT", text)
@@ -79,6 +83,7 @@ def parse_latest_signal():
         "pool_bull": pool_bull,
         "pool_bear": pool_bear,
         "signals": signals,
+        "trend": trend_info,
         "time": alert_time
     }
 
