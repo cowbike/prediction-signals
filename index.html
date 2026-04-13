@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🥞 PancakeSwap Prediction Signal</title>
+<style>
+  :root {
+    --bg: #0d1117; --card: #161b22; --border: #30363d;
+    --text: #e6edf3; --dim: #8b949e; --green: #3fb950;
+    --red: #f85149; --yellow: #d29922; --blue: #58a6ff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace; min-height: 100vh; }
+
+  .header {
+    text-align: center; padding: 24px 16px 8px;
+    background: linear-gradient(135deg, #1a1e2e 0%, #161b22 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .sub { color: var(--dim); font-size: 12px; }
+
+  .status-bar {
+    display: flex; justify-content: center; gap: 24px; padding: 12px;
+    background: var(--card); border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .status-bar .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+  .dot-live { background: var(--green); animation: pulse 2s infinite; }
+  .dot-stale { background: var(--red); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .signal-card {
+    max-width: 480px; margin: 16px auto; background: var(--card);
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  }
+  .signal-header {
+    padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .signal-direction {
+    font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 8px;
+  }
+  .signal-direction.bull { color: var(--green); }
+  .signal-direction.bear { color: var(--red); }
+  .signal-direction.skip { color: var(--dim); }
+  .signal-confidence {
+    font-size: 14px; padding: 4px 12px; border-radius: 20px;
+    background: rgba(255,255,255,0.06); color: var(--dim);
+  }
+
+  .pool-bar {
+    padding: 12px 20px; display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid var(--border); font-size: 13px;
+  }
+  .pool-bar .bar-track {
+    flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;
+  }
+  .pool-bar .bar-fill-bull { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.5s; }
+  .pool-bar .bar-fill-bear { height: 100%; background: var(--red); border-radius: 3px; transition: width 0.5s; }
+  .pool-pct { min-width: 40px; text-align: right; font-size: 12px; }
+
+  .signals-grid { padding: 12px 20px; }
+  .signal-row {
+    display: flex; align-items: center; padding: 10px 0;
+    border-bottom: 1px solid rgba(48,54,61,0.5);
+  }
+  .signal-row:last-child { border-bottom: none; }
+  .signal-icon { font-size: 18px; width: 28px; text-align: center; }
+  .signal-name { width: 50px; font-size: 13px; color: var(--dim); }
+  .signal-dot { width: 10px; height: 10px; border-radius: 50%; margin: 0 8px; }
+  .dot-bull { background: var(--green); }
+  .dot-bear { background: var(--red); }
+  .dot-neutral { background: var(--dim); }
+  .signal-score { width: 36px; text-align: right; font-size: 13px; font-weight: 600; }
+  .signal-detail { flex: 1; font-size: 11px; color: var(--dim); text-align: right; margin-left: 8px; }
+
+  .history { max-width: 480px; margin: 16px auto; padding: 0 16px; }
+  .history h3 { font-size: 14px; color: var(--dim); margin-bottom: 8px; padding: 0 4px; }
+  .history-item {
+    display: flex; align-items: center; padding: 8px 12px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; margin-bottom: 6px; font-size: 12px;
+  }
+  .history-epoch { width: 70px; color: var(--dim); }
+  .history-dir { width: 50px; font-weight: 600; }
+  .history-dir.bull { color: var(--green); }
+  .history-dir.bear { color: var(--red); }
+  .history-conf { width: 40px; text-align: right; }
+  .history-result { margin-left: auto; font-size: 14px; }
+  .history-time { color: var(--dim); margin-left: 8px; font-size: 11px; }
+
+  .tracking { max-width: 480px; margin: 16px auto; padding: 0 16px 32px; }
+  .tracking h3 { font-size: 14px; color: var(--dim); margin-bottom: 8px; padding: 0 4px; }
+  .tracking-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px; text-align: center;
+  }
+  .stat-card .label { font-size: 11px; color: var(--dim); margin-bottom: 4px; }
+  .stat-card .value { font-size: 20px; font-weight: 700; }
+  .stat-card .value.green { color: var(--green); }
+  .stat-card .value.red { color: var(--red); }
+
+  .footer { text-align: center; padding: 16px; color: var(--dim); font-size: 11px; }
+
+  @media (max-width: 520px) {
+    .signal-card, .history, .tracking { margin-left: 8px; margin-right: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🥞 PancakeSwap BNB Prediction</h1>
+  <div class="sub">实时信号看板 · 5 分钟一轮</div>
+</div>
+
+<div class="status-bar">
+  <span><span class="dot dot-live" id="live-dot"></span><span id="live-text">连接中...</span></span>
+  <span id="update-time">--</span>
+</div>
+
+<div class="signal-card" id="signal-card">
+  <div class="signal-header">
+    <div class="signal-direction skip" id="signal-dir">等待数据...</div>
+    <div class="signal-confidence" id="signal-epoch">--</div>
+  </div>
+  <div class="pool-bar">
+    <span style="color:var(--green)">BULL</span>
+    <div class="bar-track"><div class="bar-fill-bull" id="bull-bar" style="width:50%"></div></div>
+    <span class="pool-pct" id="bull-pct">50%</span>
+    <span class="pool-pct" id="bear-pct" style="color:var(--red)">50%</span>
+    <div class="bar-track"><div class="bar-fill-bear" id="bear-bar" style="width:50%"></div></div>
+    <span style="color:var(--red)">BEAR</span>
+  </div>
+  <div class="pool-bar" style="font-size:12px; color:var(--dim)">
+    池子: <span id="pool-total">0.00</span> BNB &nbsp;|&nbsp; 赔率 B:<span id="odds-bull">--</span>x R:<span id="odds-bear">--</span>x
+  </div>
+  <div class="signals-grid" id="signals-grid"></div>
+</div>
+
+<div class="history">
+  <h3>📜 近期信号</h3>
+  <div id="history-list"></div>
+</div>
+
+<div class="tracking">
+  <h3>📊 胜率统计</h3>
+  <div class="tracking-stats" id="tracking-stats"></div>
+</div>
+
+<div class="footer">
+  一乐爸爸 · 数据每 10 秒刷新 · <span id="refresh-count">0</span> 次刷新
+</div>
+
+<script>
+const DATA_URL = 'https://raw.githubusercontent.com/cowbike/prediction-signals/main/signals.json';
+const REFRESH_MS = 10000;
+let refreshCount = 0;
+let lastEpoch = 0;
+
+function dotClass(d) {
+  return d === 'BULL' ? 'dot-bull' : d === 'BEAR' ? 'dot-bear' : 'dot-neutral';
+}
+function dirClass(d) {
+  return d === 'BULL' ? 'bull' : d === 'BEAR' ? 'bear' : 'skip';
+}
+
+function renderSignal(sig) {
+  if (!sig) return;
+  const dirEl = document.getElementById('signal-dir');
+  const icon = sig.direction === 'BULL' ? '🟢 BULL' : sig.direction === 'BEAR' ? '🔴 BEAR' : '⚪ SKIP';
+  dirEl.textContent = icon;
+  dirEl.className = 'signal-direction ' + dirClass(sig.direction);
+  document.getElementById('signal-epoch').textContent = `Epoch ${sig.epoch} · 信心 ${Math.round(sig.confidence)}`;
+
+  const total = sig.pool_total || 0;
+  const bullPct = total > 0 ? (sig.pool_bull / total * 100) : 50;
+  const bearPct = total > 0 ? (sig.pool_bear / total * 100) : 50;
+  document.getElementById('bull-bar').style.width = bullPct + '%';
+  document.getElementById('bear-bar').style.width = bearPct + '%';
+  document.getElementById('bull-pct').textContent = bullPct.toFixed(0) + '%';
+  document.getElementById('bear-pct').textContent = bearPct.toFixed(0) + '%';
+  document.getElementById('pool-total').textContent = total.toFixed(2);
+  document.getElementById('odds-bull').textContent = bullPct > 0 ? (100/bullPct).toFixed(1) : '--';
+  document.getElementById('odds-bear').textContent = bearPct > 0 ? (100/bearPct).toFixed(1) : '--';
+
+  const grid = document.getElementById('signals-grid');
+  grid.innerHTML = '';
+  const icons = { Time: '⏰', Pool: '🏊', Mom: '📈', Liq: '💥', FR: '💰' };
+  for (const s of sig.signals || []) {
+    const row = document.createElement('div');
+    row.className = 'signal-row';
+    row.innerHTML = `
+      <span class="signal-icon">${icons[s.name] || '📊'}</span>
+      <span class="signal-name">${s.name}</span>
+      <span class="signal-dot ${dotClass(s.direction)}"></span>
+      <span class="signal-score">${s.score}</span>
+      <span class="signal-detail">${s.info || ''}</span>
+    `;
+    grid.appendChild(row);
+  }
+
+  // Sound on new epoch
+  if (sig.epoch !== lastEpoch && lastEpoch > 0) {
+    try { new Audio('data:audio/wav;base64,UklGRl9vT19LYXZPAEVSAAAABAAQAAEAQB8AAAB9AAACABAAZGF0YQ==').play().catch(()=>{}); } catch(e){}
+  }
+  lastEpoch = sig.epoch;
+}
+
+function renderHistory(history) {
+  const list = document.getElementById('history-list');
+  list.innerHTML = '';
+  for (const h of (history || []).slice(-10).reverse()) {
+    const item = document.createElement('div');
+    item.className = 'history-item';
+    const resultIcon = h.outcome === '✅ WIN' ? '✅' : h.outcome === '❌ LOSS' ? '❌' : '⏳';
+    item.innerHTML = `
+      <span class="history-epoch">#${h.epoch}</span>
+      <span class="history-dir ${dirClass(h.direction)}">${h.direction || '--'}</span>
+      <span class="history-conf">${h.confidence ? Math.round(h.confidence) : '--'}</span>
+      <span class="history-result">${h.outcome ? resultIcon : '⏳'}</span>
+      <span class="history-time">${h.time || ''}</span>
+    `;
+    list.appendChild(item);
+  }
+}
+
+function renderTracking(t) {
+  const el = document.getElementById('tracking-stats');
+  if (!t) { el.innerHTML = '<div class="stat-card"><div class="label">暂无数据</div></div>'; return; }
+  const total = (t.wins||0) + (t.losses||0);
+  const wr = total > 0 ? ((t.wins||0) / total * 100).toFixed(1) : '0.0';
+  const timeTotal = (t.time_wins||0) + (t.time_losses||0);
+  const timeWr = timeTotal > 0 ? ((t.time_wins||0) / timeTotal * 100).toFixed(1) : '0.0';
+  el.innerHTML = `
+    <div class="stat-card"><div class="label">综合胜率</div><div class="value ${parseFloat(wr)>=50?'green':'red'}">${wr}%</div></div>
+    <div class="stat-card"><div class="label">Time 信号</div><div class="value ${parseFloat(timeWr)>=50?'green':'red'}">${timeWr}%</div></div>
+    <div class="stat-card"><div class="label">胜 / 负</div><div class="value">${t.wins||0} / ${t.losses||0}</div></div>
+    <div class="stat-card"><div class="label">Time 胜 / 负</div><div class="value">${t.time_wins||0} / ${t.time_losses||0}</div></div>
+  `;
+}
+
+async function fetchData() {
+  try {
+    const resp = await fetch(DATA_URL + '?t=' + Date.now());
+    if (!resp.ok) throw new Error(resp.status);
+    const data = await resp.json();
+    document.getElementById('live-dot').className = 'dot dot-live';
+    document.getElementById('live-text').textContent = '实时';
+    document.getElementById('update-time').textContent = new Date().toLocaleTimeString('zh-CN');
+    renderSignal(data.current);
+    renderHistory(data.history);
+    renderTracking(data.tracking);
+  } catch (e) {
+    document.getElementById('live-dot').className = 'dot dot-stale';
+    document.getElementById('live-text').textContent = '连接失败';
+  }
+  refreshCount++;
+  document.getElementById('refresh-count').textContent = refreshCount;
+}
+
+fetchData();
+setInterval(fetchData, REFRESH_MS);
+</script>
+</body>
+</html>
