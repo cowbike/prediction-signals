@@ -473,17 +473,15 @@ function renderPagination(totalPages, total) {
 
 function renderTracking(t) {
   const el = document.getElementById('tracking-stats');
-  // Compute stats from history - only count rounds with results
   const hist = currentHistory || [];
-  let wins = 0, losses = 0;
-  for (const h of hist) {
-    if (h.outcome === 'WIN') wins++;
-    else if (h.outcome === 'LOSS') losses++;
-  }
-  const total = wins + losses;
-  const wr = total > 0 ? (wins / total * 100).toFixed(1) : '0.0';
 
-  // Recent 20 win rate
+  // Use tracking data for overall stats (covers all rounds, not just last 100)
+  const totalWins = (t && t.wins != null) ? t.wins : 0;
+  const totalLosses = (t && t.losses != null) ? t.losses : 0;
+  const totalAll = totalWins + totalLosses;
+  const wr = totalAll > 0 ? (totalWins / totalAll * 100).toFixed(1) : '0.0';
+
+  // Recent 20 from history
   const recent20 = hist.slice(-20);
   let r20w = 0, r20l = 0;
   for (const h of recent20) {
@@ -500,7 +498,7 @@ function renderTracking(t) {
   let html = `
     <div class="stat-card"><div class="label">全部轮胜率</div><div class="value ${parseFloat(wr)>=50?'green':'red'}">${wr}%</div></div>
     <div class="stat-card"><div class="label">近20轮胜率</div><div class="value ${parseFloat(r20wr)>=50?'green':'red'}">${r20wr}%</div></div>
-    <div class="stat-card"><div class="label">胜 / 负</div><div class="value">${wins} / ${losses}</div></div>
+    <div class="stat-card"><div class="label">胜 / 负</div><div class="value">${totalWins} / ${totalLosses}</div></div>
   `;
   if (timeTotal > 0) {
     html += `<div class="stat-card"><div class="label">Time信号</div><div class="value ${parseFloat(timeWr)>=50?'green':'red'}">${timeWr}% (${t.time_wins}/${t.time_losses})</div></div>`;
