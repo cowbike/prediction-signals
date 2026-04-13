@@ -78,6 +78,49 @@
   }
   .trend-bar.active { background: rgba(248,81,73,0.08); color: var(--yellow); }
 
+  .wallet-section {
+    max-width: 480px; margin: 12px auto; padding: 0 16px;
+  }
+  .btn-row { display: flex; gap: 8px; }
+  .btn {
+    flex: 1; padding: 12px 16px; border: 1px solid var(--border);
+    border-radius: 10px; font-size: 13px; font-weight: 600;
+    cursor: pointer; font-family: inherit; transition: all 0.2s;
+    text-align: center;
+  }
+  .btn-wallet {
+    background: var(--card); color: var(--text);
+  }
+  .btn-wallet:hover { border-color: var(--blue); }
+  .btn-wallet.connected { border-color: var(--green); color: var(--green); }
+  .btn-bet {
+    background: var(--card); color: var(--dim);
+  }
+  .btn-bet:hover:not(:disabled) { border-color: var(--yellow); color: var(--yellow); }
+  .btn-bet.ready { border-color: var(--green); color: var(--green); background: rgba(63,185,80,0.08); }
+  .btn-bet:disabled { opacity: 0.4; cursor: default; }
+
+  .wallet-info {
+    display: none; margin-top: 8px; padding: 10px 14px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; font-size: 12px; color: var(--dim);
+    justify-content: space-between; align-items: center;
+  }
+  .wallet-info.show { display: flex; }
+  .wallet-addr { color: var(--text); font-weight: 600; }
+  .wallet-bnb { color: var(--yellow); font-weight: 700; }
+
+  .bet-status {
+    display: none; margin-top: 8px; padding: 8px 14px;
+    background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+    border-radius: 8px; font-size: 12px; color: var(--dim); text-align: center;
+  }
+  .bet-status.show { display: block; }
+  .bet-status.countdown { color: var(--yellow); border-color: var(--yellow); }
+  .bet-status.betting { color: var(--blue); border-color: var(--blue); }
+  .bet-status.success { color: var(--green); border-color: var(--green); }
+  .bet-status.error { color: var(--red); border-color: var(--red); }
+
   .signals-grid { padding: 12px 20px; }
   .signal-row {
     display: flex; align-items: center; padding: 10px 0;
@@ -218,6 +261,18 @@
   </div>
   <div class="trend-bar" id="trend-bar">⚠️ <span id="trend-text"></span></div>
   <div class="signals-grid" id="signals-grid"></div>
+</div>
+
+<div class="wallet-section">
+  <div class="btn-row">
+    <button class="btn btn-wallet" id="btn-wallet" onclick="connectWallet()">🔗 连接钱包</button>
+    <button class="btn btn-bet" id="btn-bet" onclick="toggleAutoBet()" disabled>🎯 自动下注</button>
+  </div>
+  <div class="wallet-info" id="wallet-info">
+    <span><span class="wallet-addr" id="wallet-addr"></span></span>
+    <span>BNB: <span class="wallet-bnb" id="wallet-bnb">--</span></span>
+  </div>
+  <div class="bet-status" id="bet-status"></div>
 </div>
 
 <div class="history">
@@ -436,6 +491,7 @@ async function fetchData() {
     const resp = await fetch(DATA_URL + '?t=' + Date.now());
     if (!resp.ok) throw new Error(resp.status);
     const data = await resp.json();
+    window._signalData = data;
     document.getElementById('live-dot').className = 'dot dot-live';
     document.getElementById('live-text').textContent = '实时';
     // clock ticks every second via setInterval below
@@ -461,6 +517,171 @@ function startClock() {
 startClock();
 fetchData();
 setInterval(fetchData, REFRESH_MS);
+
+// ─── MetaMask + Auto Bet ───
+const PREDICTION_ADDR = '0x18B2A687610328590Bc8F2e5fEdDe3b582A49cdA';
+const PREDICTION_ABI = [
+  'function betBull(uint256 epoch) payable',
+  'function betBear(uint256 epoch) payable',
+  'function claimable(uint256 epoch, address user) view returns (bool)',
+];
+const BET_BEFORE_LOCK = 30; // seconds before lock to trigger bet
+const BNB_CHAIN_ID = '0x38'; // 56
+
+let walletAddress = null;
+let autoBetEnabled = false;
+let betCountdownTimer = null;
+let lastBetEpoch = 0;
+
+function shortAddr(addr) {
+  return addr.slice(0, 6) + '...' + addr.slice(-4);
+}
+
+async function connectWallet() {
+  if (!window.ethereum) {
+    alert('请安装 MetaMask 钱包');
+    return;
+  }
+  try {
+    // Switch to BSC
+    try {
+      await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: BNB_CHAIN_ID }] });
+    } catch (switchError) {
+      if (switchError.code === 4902) {
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [{
+            chainId: BNB_CHAIN_ID, chainName: 'BNB Smart Chain',
+            nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+            rpcUrls: ['https://bsc-dataseed.binance.org/'],
+            blockExplorerUrls: ['https://bscscan.com/']
+          }]
+        });
+      }
+    }
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    walletAddress = accounts[0];
+    document.getElementById('btn-wallet').textContent = '✅ ' + shortAddr(walletAddress);
+    document.getElementById('btn-wallet').classList.add('connected');
+    document.getElementById('wallet-addr').textContent = shortAddr(walletAddress);
+    document.getElementById('wallet-info').classList.add('show');
+    document.getElementById('btn-bet').disabled = false;
+    refreshBalance();
+  } catch (e) {
+    console.error('Wallet connect error:', e);
+  }
+}
+
+async function refreshBalance() {
+  if (!walletAddress || !window.ethereum) return;
+  try {
+    const bal = await window.ethereum.request({
+      method: 'eth_getBalance', params: [walletAddress, 'latest']
+    });
+    const bnb = parseInt(bal, 16) / 1e18;
+    document.getElementById('wallet-bnb').textContent = bnb.toFixed(4);
+  } catch (e) {}
+}
+
+function toggleAutoBet() {
+  autoBetEnabled = !autoBetEnabled;
+  const btn = document.getElementById('btn-bet');
+  if (autoBetEnabled) {
+    btn.textContent = '🟢 自动下注中';
+    btn.classList.add('ready');
+    showBetStatus('countdown', '⏳ 等待信号，将在锁定前' + BET_BEFORE_LOCK + '秒自动下注');
+    startBetCountdown();
+  } else {
+    btn.textContent = '🎯 自动下注';
+    btn.classList.remove('ready');
+    hideBetStatus();
+    if (betCountdownTimer) clearInterval(betCountdownTimer);
+  }
+}
+
+function showBetStatus(type, msg) {
+  const el = document.getElementById('bet-status');
+  el.className = 'bet-status show ' + type;
+  el.textContent = msg;
+}
+
+function hideBetStatus() {
+  document.getElementById('bet-status').className = 'bet-status';
+}
+
+function startBetCountdown() {
+  if (betCountdownTimer) clearInterval(betCountdownTimer);
+  betCountdownTimer = setInterval(() => {
+    if (!autoBetEnabled) return;
+    const data = window._signalData;
+    if (!data || !data.lock_ts || !data.current) return;
+
+    const now = Math.floor(Date.now() / 1000);
+    const serverDrift = now - (data.current_ts || now);
+    const lockTs = data.lock_ts;
+    const secondsLeft = lockTs - now + serverDrift;
+
+    if (secondsLeft <= BET_BEFORE_LOCK && secondsLeft > 0 && lastBetEpoch !== data.current.epoch) {
+      executeBet(data.current);
+    } else if (secondsLeft > BET_BEFORE_LOCK) {
+      showBetStatus('countdown',
+        '⏳ 距锁定 ' + Math.floor(secondsLeft / 60) + 'm ' + (secondsLeft % 60) + 's | 信号: ' +
+        (data.current.direction || 'SKIP') + ' 信心:' + Math.round(data.current.confidence || 0));
+    }
+    refreshBalance();
+  }, 1000);
+}
+
+async function executeBet(signal) {
+  if (!walletAddress || !window.ethereum) return;
+  if (!signal.direction || signal.direction === 'SKIP') {
+    showBetStatus('error', '⚠️ 本期信号 SKIP，跳过下注');
+    return;
+  }
+  const epoch = signal.epoch;
+  if (lastBetEpoch === epoch) return;
+  lastBetEpoch = epoch;
+
+  const betAmount = '0.005'; // default 0.005 BNB
+  const valueHex = '0x' + (BigInt(Math.floor(parseFloat(betAmount) * 1e18))).toString(16);
+
+  try {
+    showBetStatus('betting', '🦊 请在 MetaMask 确认下注... E' + epoch + ' ' + signal.direction);
+    const methodSig = signal.direction === 'BULL' ? 'betBull(uint256)' : 'betBear(uint256)';
+    const epochHex = '0x' + BigInt(epoch).toString(16);
+    // Encode function call: selector(4 bytes) + padded uint256
+    const fnHash = getSelector(methodSig);
+    const data = fnHash + epochHex.slice(2).padStart(64, '0');
+
+    const txHash = await window.ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [{
+        from: walletAddress,
+        to: PREDICTION_ADDR,
+        value: valueHex,
+        data: data,
+      }]
+    });
+    showBetStatus('success', '✅ 下注成功! E' + epoch + ' ' + signal.direction + ' | tx: ' + txHash.slice(0, 10) + '...');
+  } catch (e) {
+    const msg = e.message || String(e);
+    if (msg.includes('User denied') || msg.includes('user rejected')) {
+      showBetStatus('error', '❌ 用户取消了交易');
+    } else {
+      showBetStatus('error', '❌ 下注失败: ' + msg.slice(0, 80));
+    }
+    lastBetEpoch = 0; // allow retry
+  }
+}
+
+// Pre-computed keccak256 function selectors for PancakeSwap V2 Prediction
+function getSelector(method) {
+  const selectors = {
+    'betBull(uint256)': 'e8e39d94',
+    'betBear(uint256)': '6d6c9860',
+  };
+  return '0x' + (selectors[method] || '00000000');
+}
 </script>
 </body>
 </html>

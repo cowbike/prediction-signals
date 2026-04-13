@@ -226,11 +226,27 @@ def main():
     current = parse_latest_signal()
     history = parse_history()
     tracking = load_tracking()
-    
+
+    # Fetch on-chain round data for lock_ts
+    lock_ts = 0
+    current_epoch = 0
+    if current and current.get("epoch"):
+        current_epoch = current["epoch"]
+        try:
+            sys.path.insert(0, str(HOME))
+            from prediction_monitor import get_round
+            rd = get_round(current_epoch)
+            if rd:
+                lock_ts = rd.get("lock_ts", 0)
+        except Exception as e:
+            print(f"  lock_ts fetch error: {e}")
+
     data = {
         "current": current or {"epoch": 0, "direction": "SKIP", "confidence": 0,
                                 "pool_total": 0, "pool_bull": 0, "pool_bear": 0,
                                 "signals": [], "time": "--"},
+        "lock_ts": lock_ts,
+        "current_ts": int(time.time()),
         "history": history,
         "tracking": tracking,
         "updated": datetime.now().isoformat(),
