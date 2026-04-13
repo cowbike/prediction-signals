@@ -38,6 +38,8 @@
   .dot-live { background: var(--green); animation: pulse 2s infinite; }
   .dot-stale { background: var(--red); }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  @keyframes flash { 0% { box-shadow: 0 0 0 0 rgba(88,166,255,0.5); } 100% { box-shadow: 0 0 0 0 transparent; } }
+  .flash-update { animation: flash 1s ease-out; }
 
   .signal-card {
     max-width: 480px; margin: 16px auto; background: var(--card);
@@ -294,9 +296,13 @@ function renderSignal(sig) {
     grid.appendChild(row);
   }
 
-  // Sound on new epoch
+  // Sound + flash on new epoch
   if (sig.epoch !== lastEpoch && lastEpoch > 0) {
     try { new Audio('data:audio/wav;base64,UklGRl9vT19LYXZPAEVSAAAABAAQAAEAQB8AAAB9AAACABAAZGF0YQ==').play().catch(()=>{}); } catch(e){}
+    const card = document.getElementById('signal-card');
+    card.classList.remove('flash-update');
+    void card.offsetWidth; // reflow
+    card.classList.add('flash-update');
   }
   lastEpoch = sig.epoch;
 }
