@@ -11,7 +11,7 @@ HOME = Path.home()
 LOG_FILE = HOME / ".hermes" / "prediction_monitor.log"
 TRACKING_FILE = HOME / ".hermes" / "prediction_tracking.json"
 OUTPUT_FILE = Path(__file__).parent / "signals.json"
-MAX_HISTORY = 50
+MAX_HISTORY = 100
 
 def parse_latest_signal():
     """Parse the latest signal block from the log."""
