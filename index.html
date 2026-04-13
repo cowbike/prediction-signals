@@ -120,6 +120,20 @@
   .stat-card .value.green { color: var(--green); }
   .stat-card .value.red { color: var(--red); }
 
+  .pagination {
+    display: flex; justify-content: center; align-items: center;
+    gap: 6px; margin-top: 10px; padding: 0 4px;
+  }
+  .pagination button {
+    background: var(--card); border: 1px solid var(--border); color: var(--text);
+    padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer;
+    font-family: inherit;
+  }
+  .pagination button:hover { border-color: var(--blue); }
+  .pagination button.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .pagination button:disabled { opacity: 0.3; cursor: default; }
+  .pagination .page-info { color: var(--dim); font-size: 11px; margin: 0 4px; }
+
   .footer { text-align: center; padding: 16px; color: var(--dim); font-size: 11px; }
 
   @media (max-width: 520px) {
@@ -236,10 +250,26 @@ function renderSignal(sig) {
   lastEpoch = sig.epoch;
 }
 
+let currentHistory = [];
+let currentPage = 1;
+const PAGE_SIZE = 10;
+
 function renderHistory(history) {
+  currentHistory = history || [];
+  currentPage = 1;
+  renderHistoryPage();
+}
+
+function renderHistoryPage() {
   const list = document.getElementById('history-list');
   list.innerHTML = '';
-  for (const h of (history || []).slice(-10).reverse()) {
+  const total = currentHistory.length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  if (currentPage > totalPages) currentPage = totalPages;
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = currentHistory.slice(start, start + PAGE_SIZE);
+
+  for (const h of pageItems) {
     const item = document.createElement('div');
     item.className = 'history-item';
     const resultIcon = h.outcome === '✅ WIN' ? '✅' : h.outcome === '❌ LOSS' ? '❌' : '⏳';
@@ -255,6 +285,59 @@ function renderHistory(history) {
     `;
     list.appendChild(item);
   }
+  renderPagination(totalPages, total);
+}
+
+function renderPagination(totalPages, total) {
+  let el = document.getElementById('pagination');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'pagination';
+    el.className = 'pagination';
+    document.querySelector('.history').appendChild(el);
+  }
+  el.innerHTML = '';
+
+  const prev = document.createElement('button');
+  prev.textContent = '‹ 上一页';
+  prev.disabled = currentPage <= 1;
+  prev.onclick = () => { currentPage--; renderHistoryPage(); };
+  el.appendChild(prev);
+
+  // Show max 5 page buttons centered around current
+  let startP = Math.max(1, currentPage - 2);
+  let endP = Math.min(totalPages, startP + 4);
+  if (endP - startP < 4) startP = Math.max(1, endP - 4);
+  if (startP > 1) {
+    const b1 = document.createElement('button');
+    b1.textContent = '1'; b1.onclick = () => { currentPage = 1; renderHistoryPage(); };
+    el.appendChild(b1);
+    if (startP > 2) { const dots = document.createElement('span'); dots.className = 'page-info'; dots.textContent = '…'; el.appendChild(dots); }
+  }
+  for (let p = startP; p <= endP; p++) {
+    const btn = document.createElement('button');
+    btn.textContent = p;
+    btn.className = p === currentPage ? 'active' : '';
+    btn.onclick = ((pg) => () => { currentPage = pg; renderHistoryPage(); })(p);
+    el.appendChild(btn);
+  }
+  if (endP < totalPages) {
+    if (endP < totalPages - 1) { const dots = document.createElement('span'); dots.className = 'page-info'; dots.textContent = '…'; el.appendChild(dots); }
+    const bN = document.createElement('button');
+    bN.textContent = totalPages; bN.onclick = () => { currentPage = totalPages; renderHistoryPage(); };
+    el.appendChild(bN);
+  }
+
+  const info = document.createElement('span');
+  info.className = 'page-info';
+  info.textContent = `${total} 条`;
+  el.appendChild(info);
+
+  const next = document.createElement('button');
+  next.textContent = '下一页 ›';
+  next.disabled = currentPage >= totalPages;
+  next.onclick = () => { currentPage++; renderHistoryPage(); };
+  el.appendChild(next);
 }
 
 function renderTracking(t) {
