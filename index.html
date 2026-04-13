@@ -283,7 +283,7 @@ let currentPage = 1;
 const PAGE_SIZE = 10;
 
 function renderHistory(history) {
-  currentHistory = history || [];
+  currentHistory = (history || []).slice().reverse();
   currentPage = 1;
   renderHistoryPage();
 }
