@@ -76,19 +76,7 @@
   .signal-score { width: 36px; text-align: right; font-size: 13px; font-weight: 600; }
   .signal-detail { flex: 1; font-size: 11px; color: var(--dim); text-align: right; margin-left: 8px; }
 
-  .history { max-width: 480px; margin: 16px auto; padding: 0 16px; }
-  .history h3 { font-size: 14px; color: var(--dim); margin-bottom: 8px; padding: 0 4px; }
-  .history-header {
-    display: flex; align-items: center; padding: 6px 12px;
-    font-size: 11px; color: var(--dim); font-weight: 600;
-  }
-  .history-header .hh-epoch { width: 70px; }
-  .history-header .hh-dir { width: 50px; }
-  .history-header .hh-arrow { width: 20px; text-align: center; }
-  .history-header .hh-actual { width: 50px; }
-  .history-header .hh-conf { width: 40px; text-align: right; }
-  .history-header .hh-result { margin-left: auto; width: 24px; text-align: center; }
-  .history-header .hh-time { color: var(--dim); margin-left: 8px; font-size: 11px; }
+
   .history-item {
     display: flex; align-items: center; padding: 8px 12px;
     background: var(--card); border: 1px solid var(--border);
@@ -121,6 +109,34 @@
   .stat-card .value.green { color: var(--green); }
   .stat-card .value.red { color: var(--red); }
 
+  .pagination {
+    display: flex; justify-content: center; align-items: center;
+    gap: 6px; margin-top: 10px; padding: 0 4px;
+  }
+  .pagination button {
+    background: var(--card); border: 1px solid var(--border); color: var(--text);
+    padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer;
+    font-family: inherit;
+  }
+  .pagination button:hover { border-color: var(--blue); }
+  .pagination button.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .pagination button:disabled { opacity: 0.3; cursor: default; }
+  .pagination .page-info { color: var(--dim); font-size: 11px; margin: 0 4px; }
+
+  .history { max-width: 480px; margin: 16px auto; padding: 0 16px; }
+  .history h3 { font-size: 14px; color: var(--dim); margin-bottom: 8px; padding: 0 4px; }
+  .history table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .history th { text-align: left; padding: 6px 4px; color: var(--dim); font-weight: 600; font-size: 11px; border-bottom: 1px solid var(--border); }
+  .history td { padding: 7px 4px; border-bottom: 1px solid rgba(48,54,61,0.4); }
+  .history .col-epoch { width: 58px; color: var(--dim); }
+  .history .col-dir { width: 40px; font-weight: 600; }
+  .history .col-arrow { width: 18px; text-align: center; color: var(--dim); }
+  .history .col-actual { width: 44px; font-weight: 600; }
+  .history .col-conf { width: 34px; text-align: right; }
+  .history .col-result { width: 60px; text-align: center; }
+  .history .col-time { text-align: right; color: var(--dim); }
+  .bull { color: var(--green); }
+  .bear { color: var(--red); }
   .pagination {
     display: flex; justify-content: center; align-items: center;
     gap: 6px; margin-top: 10px; padding: 0 4px;
@@ -175,16 +191,19 @@
 
 <div class="history">
   <h3>📜 近期信号</h3>
-  <div class="history-header">
-    <span class="h-col h-epoch">期号</span>
-    <span class="h-col h-dir">预测</span>
-    <span class="h-col h-arrow"></span>
-    <span class="h-col h-actual">实际</span>
-    <span class="h-col h-conf" style="text-align:right">信心</span>
-    <span class="h-col h-result">预测结果</span>
-    <span class="h-col h-time">时间</span>
-  </div>
-  <div id="history-list"></div>
+  <table>
+    <thead><tr>
+      <th class="col-epoch">期号</th>
+      <th class="col-dir">预测</th>
+      <th class="col-arrow"></th>
+      <th class="col-actual">实际</th>
+      <th class="col-conf" style="text-align:right">信心</th>
+      <th class="col-result">预测结果</th>
+      <th class="col-time">时间</th>
+    </tr></thead>
+    <tbody id="history-tbody"></tbody>
+  </table>
+  <div id="pagination"></div>
 </div>
 
 <div class="tracking">
@@ -262,8 +281,8 @@ function renderHistory(history) {
 }
 
 function renderHistoryPage() {
-  const list = document.getElementById('history-list');
-  list.innerHTML = '';
+  const tbody = document.getElementById('history-tbody');
+  tbody.innerHTML = '';
   const total = currentHistory.length;
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   if (currentPage > totalPages) currentPage = totalPages;
@@ -271,20 +290,19 @@ function renderHistoryPage() {
   const pageItems = currentHistory.slice(start, start + PAGE_SIZE);
 
   for (const h of pageItems) {
-    const item = document.createElement('div');
-    item.className = 'history-item';
-
     const actualDir = h.result || '--';
-    item.innerHTML = `
-      <span class="h-col h-epoch">#${h.epoch}</span>
-      <span class="h-col h-dir ${dirClass(h.direction)}">${h.direction || '--'}</span>
-      <span class="h-col h-arrow">→</span>
-      <span class="h-col h-actual ${dirClass(actualDir)}">${actualDir}</span>
-      <span class="h-col h-conf">${h.confidence ? Math.round(h.confidence) : '--'}</span>
-      <span class="h-col h-result">${h.outcome === '✅ WIN' ? '✅正确' : h.outcome === '❌ LOSS' ? '❌错误' : h.outcome ? '➖平' : '⏳'}</span>
-      <span class="h-col h-time">${h.time || ''}</span>
-    `;
-    list.appendChild(item);
+    const predCls = h.direction === 'BULL' ? 'bull' : h.direction === 'BEAR' ? 'bear' : '';
+    const actCls = actualDir === 'BULL' ? 'bull' : actualDir === 'BEAR' ? 'bear' : '';
+    const outcome = h.outcome === '✅ WIN' ? '✅正确' : h.outcome === '❌ LOSS' ? '❌错误' : h.outcome ? '➖平' : '⏳';
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td class="col-epoch">#' + h.epoch + '</td>' +
+      '<td class="col-dir ' + predCls + '">' + (h.direction || '--') + '</td>' +
+      '<td class="col-arrow">→</td>' +
+      '<td class="col-actual ' + actCls + '">' + actualDir + '</td>' +
+      '<td class="col-conf">' + (h.confidence ? Math.round(h.confidence) : '--') + '</td>' +
+      '<td class="col-result">' + outcome + '</td>' +
+      '<td class="col-time">' + (h.time || '') + '</td>';
+    tbody.appendChild(tr);
   }
   renderPagination(totalPages, total);
 }
