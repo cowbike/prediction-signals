@@ -3,7 +3,7 @@
 Read prediction_monitor.log + prediction_tracking.json,
 write signals.json, git commit + push to GitHub.
 """
-import json, os, re, subprocess, time
+import json, os, re, subprocess, sys, time
 from pathlib import Path
 from datetime import datetime
 
@@ -84,32 +84,37 @@ def parse_latest_signal():
 
 
 def parse_history():
-    """Parse all signal blocks from the log for history."""
+    """Parse latest signal blocks from the log (from end)."""
     if not LOG_FILE.exists():
         return []
     lines = LOG_FILE.read_text().splitlines()
     history = []
-    
-    for i, line in enumerate(lines):
-        if "🥞 Prediction Signal" not in line:
+
+    # Scan from end, collect signal blocks
+    i = len(lines) - 1
+    while i >= 0 and len(history) < MAX_HISTORY + 20:
+        if "\U0001f95e Pancake Prediction Signal" not in lines[i] and "🥞 Prediction Signal" not in lines[i]:
+            i -= 1
             continue
         block = lines[i:i + 20]
         text = "\n".join(block)
-        
+
         m = re.search(r"Epoch:\s*(\d+)", text)
         if not m:
+            i -= 1
             continue
         epoch = int(m.group(1))
-        
+
         m = re.search(r"Signal:\s*(🟢|🔴)?(BULL|BEAR)\s*\(信心:(\d+\.?\d*)\)", text)
         if not m:
+            i -= 1
             continue
         direction = m.group(2)
         confidence = float(m.group(3))
-        
+
         m = re.search(r"⏰\s*([\d:]+)\s*HKT", text)
         alert_time = m.group(1) if m else ""
-        
+
         history.append({
             "epoch": epoch,
             "direction": direction,
@@ -117,13 +122,17 @@ def parse_history():
             "time": alert_time,
             "outcome": None
         })
-    
+        i -= 1
+
+    # Reverse so oldest first
+    history.reverse()
+
     # Deduplicate by epoch (keep last)
     seen = {}
     for h in history:
         seen[h["epoch"]] = h
     history = sorted(seen.values(), key=lambda x: x["epoch"])
-    
+
     # Merge with tracking results
     try:
         tracking = json.loads(TRACKING_FILE.read_text())
@@ -136,9 +145,29 @@ def parse_history():
                 h["result"] = pred["result"]
     except:
         pass
-    
-    return history[-MAX_HISTORY:]
 
+    # Fallback: check on-chain for entries missing result
+    try:
+        sys.path.insert(0, str(HOME))
+        from prediction_monitor import get_round
+        for h in history:
+            if h.get("result"):
+                continue
+            rd = get_round(h["epoch"])
+            if not rd or rd.get("close_p", 0) == 0 or rd.get("lock_p", 0) == 0:
+                continue
+            winner = "BULL" if rd["close_p"] > rd["lock_p"] else "BEAR" if rd["close_p"] < rd["lock_p"] else "TIE"
+            h["result"] = winner
+            if winner == h["direction"]:
+                h["outcome"] = "WIN"
+            elif winner == "TIE":
+                h["outcome"] = "TIE"
+            else:
+                h["outcome"] = "LOSS"
+    except Exception as e:
+        print(f"On-chain check error: {e}")
+
+    return history[-MAX_HISTORY:]
 
 def load_tracking():
     """Load tracking stats."""
