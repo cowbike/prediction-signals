@@ -84,6 +84,7 @@
   .signal-header-row .h-name { width: 50px; }
   .signal-header-row .h-dot { width: 10px; margin: 0 8px; }
   .signal-header-row .h-score { width: 36px; text-align: right; }
+  .signal-header-row .h-weight { width: 32px; text-align: right; }
   .signal-header-row .h-detail { flex: 1; text-align: right; margin-left: 8px; }
   .signal-icon { font-size: 18px; width: 28px; text-align: center; }
   .signal-name { width: 50px; font-size: 13px; color: var(--dim); }
@@ -93,6 +94,7 @@
   .dot-bear { background: var(--red); }
   .dot-neutral { background: var(--dim); }
   .signal-score { width: 36px; text-align: right; font-size: 13px; font-weight: 600; }
+  .signal-weight { width: 32px; text-align: right; font-size: 11px; color: rgba(139,148,158,0.5); }
   .signal-detail { flex: 1; font-size: 11px; color: var(--dim); text-align: right; margin-left: 8px; }
 
 
@@ -273,11 +275,12 @@ function renderSignal(sig) {
   // 表头
   const hdr = document.createElement('div');
   hdr.className = 'signal-header-row';
-  hdr.innerHTML = '<span class="h-icon"></span><span class="h-name">指标</span><span class="h-dot"></span><span class="h-score">分值</span><span class="h-detail">实时数据</span>';
+  hdr.innerHTML = '<span class="h-icon"></span><span class="h-name">指标</span><span class="h-dot"></span><span class="h-score">分值</span><span class="h-weight">权重</span><span class="h-detail">实时数据</span>';
   grid.appendChild(hdr);
 
   const icons = { Time: '⏰', Pool: '🏊', Mom: '📈', Liq: '💥', FR: '💰' };
-  const subs = { Pool: '40% 赔率偏差', FR: '20% 资金费率', Mom: '15% RSI+EMA', Liq: '15% 多空比', Time: '10% 时段偏差' };
+  const subs = { Pool: '赔率偏差', FR: '资金费率', Mom: 'RSI+EMA', Liq: '多空比', Time: '时段偏差' };
+  const weights = { Pool: '40%', FR: '20%', Mom: '15%', Liq: '15%', Time: '10%' };
   for (const s of sig.signals || []) {
     const row = document.createElement('div');
     row.className = 'signal-row';
@@ -286,6 +289,7 @@ function renderSignal(sig) {
       <span class="signal-name">${s.name}<div class="signal-sub">${subs[s.name] || ''}</div></span>
       <span class="signal-dot ${dotClass(s.direction)}"></span>
       <span class="signal-score">${s.score}</span>
+      <span class="signal-weight">${weights[s.name] || ''}</span>
       <span class="signal-detail">${s.info || ''}</span>
     `;
     grid.appendChild(row);
