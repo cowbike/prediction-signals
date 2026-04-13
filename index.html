@@ -73,10 +73,10 @@
 
   .trend-bar {
     padding: 8px 20px; font-size: 12px; text-align: center;
-    background: rgba(248,81,73,0.08); color: var(--yellow);
-    border-bottom: 1px solid var(--border); display: none;
+    background: rgba(255,255,255,0.02); color: var(--dim);
+    border-bottom: 1px solid var(--border);
   }
-  .trend-bar.active { display: block; }
+  .trend-bar.active { background: rgba(248,81,73,0.08); color: var(--yellow); }
 
   .signals-grid { padding: 12px 20px; }
   .signal-row {
@@ -278,13 +278,14 @@ function renderSignal(sig) {
   document.getElementById('odds-bull').textContent = bullPct > 0 ? (100/bullPct).toFixed(1) : '--';
   document.getElementById('odds-bear').textContent = bearPct > 0 ? (100/bearPct).toFixed(1) : '--';
 
-  // Trend detection display
+  // Trend detection display — always visible
   const trendBar = document.getElementById('trend-bar');
   const trendText = document.getElementById('trend-text');
   if (sig.trend) {
-    trendText.textContent = sig.trend;
+    trendText.textContent = '⚠️ ' + sig.trend;
     trendBar.classList.add('active');
   } else {
+    trendText.textContent = '趋势: 正常';
     trendBar.classList.remove('active');
   }
 
