@@ -78,6 +78,17 @@
 
   .history { max-width: 480px; margin: 16px auto; padding: 0 16px; }
   .history h3 { font-size: 14px; color: var(--dim); margin-bottom: 8px; padding: 0 4px; }
+  .history-header {
+    display: flex; align-items: center; padding: 6px 12px;
+    font-size: 11px; color: var(--dim); font-weight: 600;
+  }
+  .history-header .hh-epoch { width: 70px; }
+  .history-header .hh-dir { width: 50px; }
+  .history-header .hh-arrow { width: 20px; text-align: center; }
+  .history-header .hh-actual { width: 50px; }
+  .history-header .hh-conf { width: 40px; text-align: right; }
+  .history-header .hh-result { margin-left: auto; width: 24px; text-align: center; }
+  .history-header .hh-time { color: var(--dim); margin-left: 8px; font-size: 11px; }
   .history-item {
     display: flex; align-items: center; padding: 8px 12px;
     background: var(--card); border: 1px solid var(--border);
@@ -149,6 +160,15 @@
 
 <div class="history">
   <h3>📜 近期信号</h3>
+  <div class="history-header">
+    <span class="hh-epoch">期号</span>
+    <span class="hh-dir">预测</span>
+    <span class="hh-arrow"></span>
+    <span class="hh-actual">实际</span>
+    <span class="hh-conf" style="text-align:right">信心</span>
+    <span class="hh-result">果</span>
+    <span class="hh-time">时间</span>
+  </div>
   <div id="history-list"></div>
 </div>
 
@@ -230,7 +250,7 @@ function renderHistory(history) {
       <span style="color:var(--dim);margin:0 2px">→</span>
       <span class="history-actual ${dirClass(actualDir)}">${actualDir}</span>
       <span class="history-conf">${h.confidence ? Math.round(h.confidence) : '--'}</span>
-      <span class="history-result">${h.outcome ? resultIcon : '⏳'}</span>
+      <span class="history-result" style="width:24px;text-align:center">${h.outcome ? resultIcon : '⏳'}</span>
       <span class="history-time">${h.time || ''}</span>
     `;
     list.appendChild(item);
