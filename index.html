@@ -133,7 +133,7 @@
   .history .col-arrow { width: 18px; text-align: center; color: var(--dim); }
   .history .col-actual { width: 44px; font-weight: 600; }
   .history .col-conf { width: 34px; text-align: right; }
-  .history .col-result { width: 60px; text-align: center; }
+  .history .col-result { width: 48px; text-align: center; }
   .history .col-time { text-align: right; color: var(--dim); }
   .bull { color: var(--green); }
   .bear { color: var(--red); }
@@ -198,7 +198,7 @@
       <th class="col-arrow"></th>
       <th class="col-actual">实际</th>
       <th class="col-conf" style="text-align:right">信心</th>
-      <th class="col-result">预测结果</th>
+      <th class="col-result">结果</th>
       <th class="col-time">时间</th>
     </tr></thead>
     <tbody id="history-tbody"></tbody>
@@ -293,7 +293,7 @@ function renderHistoryPage() {
     const actualDir = h.result || '--';
     const predCls = h.direction === 'BULL' ? 'bull' : h.direction === 'BEAR' ? 'bear' : '';
     const actCls = actualDir === 'BULL' ? 'bull' : actualDir === 'BEAR' ? 'bear' : '';
-    const outcome = h.outcome === '✅ WIN' ? '✅正确' : h.outcome === '❌ LOSS' ? '❌错误' : h.outcome ? '➖平' : '⏳';
+    const outcome = h.outcome === 'WIN' ? '✅' : h.outcome === 'LOSS' ? '❌' : h.outcome === 'TIE' ? '➖' : '⏳';
     const tr = document.createElement('tr');
     tr.innerHTML = '<td class="col-epoch">#' + h.epoch + '</td>' +
       '<td class="col-dir ' + predCls + '">' + (h.direction || '--') + '</td>' +
