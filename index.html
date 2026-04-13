@@ -176,13 +176,13 @@
 <div class="history">
   <h3>📜 近期信号</h3>
   <div class="history-header">
-    <span class="hh-epoch">期号</span>
-    <span class="hh-dir">预测</span>
-    <span class="hh-arrow"></span>
-    <span class="hh-actual">实际</span>
-    <span class="hh-conf" style="text-align:right">信心</span>
-    <span class="hh-result" style="width:56px;text-align:center">预测结果</span>
-    <span class="hh-time">时间</span>
+    <span class="h-col h-epoch">期号</span>
+    <span class="h-col h-dir">预测</span>
+    <span class="h-col h-arrow"></span>
+    <span class="h-col h-actual">实际</span>
+    <span class="h-col h-conf" style="text-align:right">信心</span>
+    <span class="h-col h-result">预测结果</span>
+    <span class="h-col h-time">时间</span>
   </div>
   <div id="history-list"></div>
 </div>
@@ -276,13 +276,13 @@ function renderHistoryPage() {
 
     const actualDir = h.result || '--';
     item.innerHTML = `
-      <span class="history-epoch">#${h.epoch}</span>
-      <span class="history-dir ${dirClass(h.direction)}">${h.direction || '--'}</span>
-      <span style="color:var(--dim);margin:0 2px">→</span>
-      <span class="history-actual ${dirClass(actualDir)}">${actualDir}</span>
-      <span class="history-conf">${h.confidence ? Math.round(h.confidence) : '--'}</span>
-      <span class="history-outcome">${h.outcome === '✅ WIN' ? '✅正确' : h.outcome === '❌ LOSS' ? '❌错误' : h.outcome ? '➖平' : '⏳'}</span>
-      <span class="history-time">${h.time || ''}</span>
+      <span class="h-col h-epoch">#${h.epoch}</span>
+      <span class="h-col h-dir ${dirClass(h.direction)}">${h.direction || '--'}</span>
+      <span class="h-col h-arrow">→</span>
+      <span class="h-col h-actual ${dirClass(actualDir)}">${actualDir}</span>
+      <span class="h-col h-conf">${h.confidence ? Math.round(h.confidence) : '--'}</span>
+      <span class="h-col h-result">${h.outcome === '✅ WIN' ? '✅正确' : h.outcome === '❌ LOSS' ? '❌错误' : h.outcome ? '➖平' : '⏳'}</span>
+      <span class="h-col h-time">${h.time || ''}</span>
     `;
     list.appendChild(item);
   }
