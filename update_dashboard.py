@@ -158,6 +158,9 @@ def git_push():
     """Commit and push to GitHub."""
     repo_dir = str(Path(__file__).parent)
     try:
+        # Pull latest first to avoid non-fast-forward rejection
+        subprocess.run(["git", "-C", repo_dir, "pull", "--rebase", "--quiet"],
+                       capture_output=True, timeout=30)
         subprocess.run(["git", "-C", repo_dir, "add", "signals.json"],
                        capture_output=True, timeout=10)
         result = subprocess.run(
