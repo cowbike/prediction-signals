@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BNB Prediction 多信号量化策略 Report — 一乐爸爸</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0e17;color:#c9d1d9;line-height:1.7;padding:20px}
+.c{max-width:960px;margin:0 auto}
+h1{font-size:26px;color:#f0b90b;text-align:center;margin:20px 0 8px}
+h2{font-size:18px;color:#f0b90b;margin:28px 0 10px;padding-bottom:8px;border-bottom:1px solid #1e2a3a}
+h3{font-size:15px;color:#7ee787;margin:16px 0 8px}
+.sub{text-align:center;color:#8b949e;font-size:12px;margin-bottom:28px}
+.card{background:#111827;border:1px solid #1e2a3a;border-radius:12px;padding:18px;margin:14px 0}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0}
+.b{background:#111827;border:1px solid #1e2a3a;border-radius:10px;padding:12px;text-align:center}
+.bv{font-size:20px;font-weight:bold}
+.bl{font-size:10px;color:#8b949e;margin-top:3px}
+.bull{color:#3fb950}.bear{color:#f85149}.gold{color:#f0b90b}.blue{color:#58a6ff}.purple{color:#d2a8ff}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
+th{background:#111827;color:#f0b90b;padding:8px;text-align:left;border:1px solid #1e2a3a}
+td{padding:6px 8px;border:1px solid #1e2a3a}
+tr:nth-child(even){background:#0d1117}
+.warn{background:#1c1010;border-left:4px solid #f85149;padding:12px;margin:12px 0;border-radius:6px}
+.tip{background:#0d1c10;border-left:4px solid #3fb950;padding:12px;margin:12px 0;border-radius:6px}
+.gold-bar{background:#1a1500;border-left:4px solid #f0b90b;padding:12px;margin:12px 0;border-radius:6px}
+pre{background:#111827;border:1px solid #1e2a3a;border-radius:8px;padding:12px;margin:8px 0;overflow-x:auto;font-size:11px;color:#c9d1d9}
+code{background:#1f2937;padding:1px 5px;border-radius:3px;font-size:11px;color:#f0b90b}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:bold}
+.tb{background:rgba(63,185,80,.15);color:#3fb950}
+.tr{background:rgba(248,81,73,.15);color:#f85149}
+.ty{background:rgba(240,185,11,.15);color:#f0b90b}
+.tg{background:rgba(139,148,158,.15);color:#8b949e}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:160px;margin:12px 0;padding:0 4px}
+.bar{flex:1;border-radius:4px 4px 0 0;position:relative;min-width:28px}
+.bar .bval{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:bold;white-space:nowrap}
+.bar .blbl{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:9px;color:#8b949e;white-space:nowrap}
+.arch{display:flex;flex-direction:column;gap:6px;margin:14px 0}
+.alayer{display:flex;align-items:center;gap:8px}
+.albl{width:90px;text-align:right;font-size:11px;color:#8b949e;flex-shrink:0}
+.abox{flex:1;background:#111827;border:1px solid #1e2a3a;border-radius:6px;padding:8px 12px;font-size:12px}
+.aw{width:36px;text-align:center;font-size:12px;color:#f0b90b;font-weight:bold;flex-shrink:0}
+.flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:10px 0}
+.fbox{background:#111827;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;font-size:11px}
+.farrow{color:#f0b90b;font-size:18px}
+.footer{text-align:center;color:#484f58;font-size:11px;margin-top:40px;padding-top:16px;border-top:1px solid #1e2a3a}
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#3fb950;animation:pulse 2s infinite;margin-right:6px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.link-btn{display:inline-block;padding:8px 20px;background:#f0b90b;color:#0a0e17;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;margin:10px 5px}
+.link-btn:hover{opacity:0.85}
+@media(max-width:600px){.g{grid-template-columns:repeat(2,1fr)}.alayer{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="c">
+
+<h1>🥞 BNB Prediction 多信号量化策略</h1>
+<p class="sub">五信号自动盯盘 · 实时看板 · Telegram 告警 · 一乐爸爸出品</p>
+
+<!-- 实时看板入口 -->
+<div style="text-align:center;margin:16px 0">
+  <a href="http://bjlbnb.uk" class="link-btn"><span class="live-dot"></span>进入实时监控看板</a>
+</div>
+
+<!-- ==================== 核心数据 ==================== -->
+<h2>📊 实盘数据（截至 2026-04-14）</h2>
+
+<div class="g">
+  <div class="b"><div class="bv gold">98</div><div class="bl">监控轮次</div></div>
+  <div class="b"><div class="bv bull">47</div><div class="bl">✅ 胜</div></div>
+  <div class="b"><div class="bv bear">51</div><div class="bl">❌ 负</div></div>
+  <div class="b"><div class="bv" style="color:#f0b90b">48.0%</div><div class="bl">综合胜率</div></div>
+</div>
+
+<div class="g">
+  <div class="b"><div class="bv bull">57%</div><div class="bl">BULL 方向胜率</div></div>
+  <div class="b"><div class="bv bear">46%</div><div class="bl">BEAR 方向胜率</div></div>
+  <div class="b"><div class="bv bull">5</div><div class="bl">最长连胜</div></div>
+  <div class="b"><div class="bv bear">9</div><div class="bl">最长连败</div></div>
+</div>
+
+<!-- ==================== 信号架构 ==================== -->
+<h2>🏗️ 五信号加权架构</h2>
+
+<div class="arch">
+  <div class="alayer">
+    <div class="albl">赔率偏差</div>
+    <div class="abox">读取链上池子 BULL/BEAR 资金比例，计算赔率。crowd 极端偏离时反向下注</div>
+    <div class="aw">40%</div>
+  </div>
+  <div class="alayer">
+    <div class="albl">资金费率</div>
+    <div class="abox">Binance 永续合约 BNBUSDT funding rate。正费率→空头主导→BEAR，反之 BULL</div>
+    <div class="aw">20%</div>
+  </div>
+  <div class="alayer">
+    <div class="albl">RSI + EMA</div>
+    <div class="abox">5 分钟 K 线 RSI 超买超卖 + 5/20 周期 EMA 斜率。动量指标</div>
+    <div class="aw">15%</div>
+  </div>
+  <div class="alayer">
+    <div class="albl">多空比</div>
+    <div class="abox">Binance 全网账户多空比。LS > 2.0 → 极端多头 → 反向 BEAR</div>
+    <div class="aw">15%</div>
+  </div>
+  <div class="alayer">
+    <div class="albl">时段偏差</div>
+    <div class="abox">UTC 小时级别历史胜率偏差。亚洲/欧美时段各有不同 BULL/BEAR 倾向</div>
+    <div class="aw">10%</div>
+  </div>
+</div>
+
+<div class="flow">
+  <div class="fbox">读链上池子<br><small>每秒轮询</small></div>
+  <div class="farrow">→</div>
+  <div class="fbox">5 信号评分<br><small>加权汇总</small></div>
+  <div class="farrow">→</div>
+  <div class="fbox">方向 + 信心<br><small>BULL/BEAR</small></div>
+  <div class="farrow">→</div>
+  <div class="fbox">Telegram 推送<br><small>lock 前 40s</small></div>
+  <div class="farrow">→</div>
+  <div class="fbox">实时看板<br><small>http://bjlbnb.uk</small></div>
+</div>
+
+<!-- ==================== 胜率分析 ==================== -->
+<h2>📈 胜率分层分析</h2>
+
+<h3>按信心度</h3>
+<table>
+  <tr><th>信心区间</th><th>轮次数</th><th>胜率</th><th>评价</th></tr>
+  <tr><td>61+（强信号）</td><td>8</td><td><span class="bear">38%</span></td><td><span class="tag tr">样本太少</span></td></tr>
+  <tr><td>51-60</td><td>3</td><td><span class="bull">67%</span></td><td><span class="tag tb">有效但稀少</span></td></tr>
+  <tr><td>41-50（中等）</td><td>29</td><td><span class="gold">48%</span></td><td><span class="tag ty">接近随机</span></td></tr>
+  <tr><td>31-40</td><td>17</td><td><span class="gold">47%</span></td><td><span class="tag ty">接近随机</span></td></tr>
+  <tr><td>20-30（弱信号）</td><td>41</td><td><span class="bull">49%</span></td><td><span class="tag ty">接近随机</span></td></tr>
+</table>
+
+<h3>按方向</h3>
+<table>
+  <tr><th>方向</th><th>轮次数</th><th>胜</th><th>负</th><th>胜率</th></tr>
+  <tr><td><span class="bull">🟢 BULL</span></td><td>14</td><td>8</td><td>6</td><td><span class="bull">57%</span></td></tr>
+  <tr><td><span class="bear">🔴 BEAR</span></td><td>84</td><td>39</td><td>45</td><td><span class="bear">46%</span></td></tr>
+</table>
+
+<div class="gold-bar">
+  💡 <strong>观察：</strong>BULL 信号胜率 57% 高于 BEAR 的 46%，但 BULL 信号仅占 14%（池子多数时间 crowd 偏 BEAR，反众下注多出 BULL）。信号偏向 BEAR 的时段胜率偏低，可能与 BSC 夜间（UTC+8）波动特性有关。
+</div>
+
+<!-- ==================== 时段分析 ==================== -->
+<h2>🕐 时段胜率分布（UTC+8）</h2>
+
+<div class="bar-chart">
+  <div class="bar" style="height:29%"><div class="bval bear">29%</div><div class="blbl">00h</div></div>
+  <div class="bar" style="height:12%"><div class="bval bear">12%</div><div class="blbl">16h</div></div>
+  <div class="bar" style="height:67%;background:#3fb950"><div class="bval bull">67%</div><div class="blbl">17h</div></div>
+  <div class="bar" style="height:33%"><div class="bval bear">33%</div><div class="blbl">18h</div></div>
+  <div class="bar" style="height:55%;background:#f0b90b"><div class="bval gold">55%</div><div class="blbl">19h</div></div>
+  <div class="bar" style="height:50%;background:#f0b90b"><div class="bval gold">50%</div><div class="blbl">20h</div></div>
+  <div class="bar" style="height:67%;background:#3fb950"><div class="bval bull">67%</div><div class="blbl">21h</div></div>
+  <div class="bar" style="height:17%"><div class="bval bear">17%</div><div class="blbl">22h</div></div>
+  <div class="bar" style="height:83%;background:#3fb950"><div class="bval bull">83%</div><div class="blbl">23h</div></div>
+</div>
+
+<table>
+  <tr><th>时段</th><th>轮次</th><th>胜/负</th><th>胜率</th><th>建议</th></tr>
+  <tr><td>23:00</td><td>12</td><td>10/2</td><td><span class="bull">83%</span></td><td><span class="tag tb">🔥 黄金时段</span></td></tr>
+  <tr><td>17:00</td><td>12</td><td>8/4</td><td><span class="bull">67%</span></td><td><span class="tag tb">✅ 优质时段</span></td></tr>
+  <tr><td>21:00</td><td>12</td><td>8/4</td><td><span class="bull">67%</span></td><td><span class="tag tb">✅ 优质时段</span></td></tr>
+  <tr><td>19:00</td><td>11</td><td>6/5</td><td><span class="gold">55%</span></td><td><span class="tag ty">⚖️ 一般</span></td></tr>
+  <tr><td>20:00</td><td>12</td><td>6/6</td><td><span class="gold">50%</span></td><td><span class="tag ty">⚖️ 随机</span></td></tr>
+  <tr><td>00:00</td><td>7</td><td>2/5</td><td><span class="bear">29%</span></td><td><span class="tag tr">⚠️ 避开</span></td></tr>
+  <tr><td>18:00</td><td>12</td><td>4/8</td><td><span class="bear">33%</span></td><td><span class="tag tr">⚠️ 避开</span></td></tr>
+  <tr><td>22:00</td><td>12</td><td>2/10</td><td><span class="bear">17%</span></td><td><span class="tag tr">🚫 回避</span></td></tr>
+  <tr><td>16:00</td><td>8</td><td>1/7</td><td><span class="bear">12%</span></td><td><span class="tag tr">🚫 回避</span></td></tr>
+</table>
+
+<div class="tip">
+  ✅ <strong>时段策略：</strong>23:00、17:00、21:00 三个时段胜率最高（67-83%），建议集中资金在此时段下注。16:00、18:00、22:00 胜率低于 35%，建议避开。
+</div>
+
+<!-- ==================== 技术架构 ==================== -->
+<h2>⚙️ 系统架构</h2>
+
+<table>
+  <tr><th>组件</th><th>技术</th><th>职责</th></tr>
+  <tr><td>监控引擎</td><td>Python daemon</td><td>每秒轮询合约，5 信号评分，生成方向+信心</td></tr>
+  <tr><td>告警推送</td><td>Telegram bot</td><td>lock 前 40s 推送，方向翻转/信心升级即时重推</td></tr>
+  <tr><td>实时看板</td><td>HTML + GitHub Pages</td><td>10 秒自动刷新，新 epoch 蓝光闪烁</td></tr>
+  <tr><td>胜率追踪</td><td>JSON + 链上回查</td><td>自动结算 win/loss，实时统计</td></tr>
+  <tr><td>数据源</td><td>BSC 链上 + Binance API</td><td>合约 rounds() + funding rate + K 线 + 多空比</td></tr>
+  <tr><td>部署</td><td>systemd + cron</td><td>24/7 自动运行，开机自启，崩溃自恢复</td></tr>
+</table>
+
+<!-- ==================== 告警格式 ==================== -->
+<h2>📱 Telegram 告警示例</h2>
+
+<pre style="color:#e6edf3">⚡ PREDICTION ALERT #135
+━━━━━━━━━━━━━━━
+Epoch: 472336 → 472337
+Signal: 🔴BEAR (conf:49)
+Odds: 1.18x
+Pool: 1.00 BNB
+BULL: 0.15(15%)
+BEAR: 0.85(85%)
+Lock in: 18s
+━━━━━━━━━━━━━━━
+Pool:BULL(45) B:15%(6.7x) R:85%(1.2x)
+FR:BEAR(30) FR:+0.0150%
+Mom:BULL(20) $580.5 RSI:45 flat
+Liq:- (0) LS:1.23
+Time:BEAR(15) 23h BEAR:52.1%
+
+⏰ 23:19:03 HKT</pre>
+
+<!-- ==================== 风险提示 ==================== -->
+<h2>⚠️ 风险提示</h2>
+
+<div class="warn">
+  <strong>当前胜率 48%，略低于随机（50%），尚未证明稳定盈利。</strong><br><br>
+  • PancakeSwap 抽水 3%（house edge），理论期望为负<br>
+  • 小池子（<5 BNB）的 crowd 偏差可能只是几个人的钱，不代表真正趋势<br>
+  • 信号模型基于历史数据，不代表未来表现<br>
+  • 本系统仅供研究学习，不构成投资建议<br>
+  • 只用你能承受归零的资金
+</div>
+
+<!-- ==================== 路线图 ==================== -->
+<h2>🗺️ 后续优化方向</h2>
+
+<table>
+  <tr><th>方向</th><th>内容</th><th>优先级</th></tr>
+  <tr><td>信号优化</td><td>根据实盘数据调整权重，降低无效信号占比</td><td><span class="tag tb">高</span></td></tr>
+  <tr><td>时段过滤</td><td>只在 17/21/23 点三个高胜率时段推送</td><td><span class="tag tb">高</span></td></tr>
+  <tr><td>资金管理</td><td>凯利公式动态调整下注金额</td><td><span class="tag ty">中</span></td></tr>
+  <tr><td>链上回测</td><td>扩大回测范围，验证时段策略的统计显著性</td><td><span class="tag ty">中</span></td></tr>
+  <tr><td>自动下注</td><td>授权钱包后全自动执行（需谨慎）</td><td><span class="tag tg">低</span></td></tr>
+</table>
+
+<!-- ==================== 署名 ==================== -->
+<div style="text-align:center;margin-top:32px;padding:20px;background:#111827;border:2px solid #f0b90b;border-radius:12px">
+  <div style="font-size:28px">👨‍👧</div>
+  <div style="font-size:22px;color:#f0b90b;font-weight:bold;margin-top:8px">一乐爸爸</div>
+  <div style="font-size:12px;color:#8b949e;margin-top:4px">yilepunks · 2026</div>
+</div>
+
+<div class="footer">
+  数据来源：BSC 链上 + Binance Futures API · 实时看板：<a href="http://bjlbnb.uk" style="color:#58a6ff">bjlbnb.uk</a>
+</div>
+
+</div>
+</body>
+</html>
