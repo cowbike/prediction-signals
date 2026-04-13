@@ -103,6 +103,7 @@
   .history-actual.bull { color: var(--green); }
   .history-actual.bear { color: var(--red); }
   .history-match { width: 20px; text-align: center; font-size: 14px; margin-left: 4px; }
+  .history-outcome { width: 56px; text-align: center; font-size: 12px; }
   .history-result { margin-left: auto; font-size: 14px; }
   .history-time { color: var(--dim); margin-left: 8px; font-size: 11px; }
 
@@ -180,7 +181,7 @@
     <span class="hh-arrow"></span>
     <span class="hh-actual">实际</span>
     <span class="hh-conf" style="text-align:right">信心</span>
-    <span class="hh-result">果</span>
+    <span class="hh-result" style="width:56px;text-align:center">预测结果</span>
     <span class="hh-time">时间</span>
   </div>
   <div id="history-list"></div>
@@ -272,7 +273,7 @@ function renderHistoryPage() {
   for (const h of pageItems) {
     const item = document.createElement('div');
     item.className = 'history-item';
-    const resultIcon = h.outcome === '✅ WIN' ? '✅' : h.outcome === '❌ LOSS' ? '❌' : '⏳';
+
     const actualDir = h.result || '--';
     item.innerHTML = `
       <span class="history-epoch">#${h.epoch}</span>
@@ -280,7 +281,7 @@ function renderHistoryPage() {
       <span style="color:var(--dim);margin:0 2px">→</span>
       <span class="history-actual ${dirClass(actualDir)}">${actualDir}</span>
       <span class="history-conf">${h.confidence ? Math.round(h.confidence) : '--'}</span>
-      <span class="history-result" style="width:24px;text-align:center">${h.outcome ? resultIcon : '⏳'}</span>
+      <span class="history-outcome">${h.outcome === '✅ WIN' ? '✅正确' : h.outcome === '❌ LOSS' ? '❌错误' : h.outcome ? '➖平' : '⏳'}</span>
       <span class="history-time">${h.time || ''}</span>
     `;
     list.appendChild(item);
