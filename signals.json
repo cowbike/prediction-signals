@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 472340,
+    "epoch": 472341,
     "direction": "BULL",
-    "confidence": 42.0,
-    "pool_total": 0.33,
-    "pool_bull": 0.31,
-    "pool_bear": 0.02,
+    "confidence": 39.0,
+    "pool_total": 2.26,
+    "pool_bull": 1.35,
+    "pool_bear": 0.9,
     "signals": [
       {
         "name": "Time",
@@ -17,19 +17,19 @@
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:95.0%(1.1x) R:5.0%(20.0x) ⚠️ trap(BULL极端失衡)"
+        "info": "B:60.0%(1.7x) R:40.0%(2.5x)"
       },
       {
         "name": "Mom",
         "direction": "BULL",
-        "score": 64,
-        "info": "$602.45 RSI:67 EMA:+0.32% ↑"
+        "score": 51,
+        "info": "$602.28 RSI:54 EMA:+0.26% ↑"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 78,
-        "info": "LS:2.56 long-squeeze"
+        "info": "LS:2.55 long-squeeze"
       },
       {
         "name": "FR",
@@ -38,17 +38,9 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "time": "23:24:09"
+    "time": "23:29:15"
   },
   "history": [
-    {
-      "epoch": 472241,
-      "direction": "BULL",
-      "confidence": 45.0,
-      "time": "14:58:58",
-      "outcome": "LOSS",
-      "result": "BEAR"
-    },
     {
       "epoch": 472242,
       "direction": "BEAR",
@@ -830,13 +822,21 @@
       "direction": "BEAR",
       "confidence": 63.0,
       "time": "23:19:03",
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BEAR"
     },
     {
       "epoch": 472340,
       "direction": "BULL",
       "confidence": 42.0,
       "time": "23:24:09",
+      "outcome": null
+    },
+    {
+      "epoch": 472341,
+      "direction": "BULL",
+      "confidence": 39.0,
+      "time": "23:29:15",
       "outcome": null
     }
   ],
@@ -846,5 +846,5 @@
     "time_wins": 0,
     "time_losses": 0
   },
-  "updated": "2026-04-13T23:25:12.262971"
+  "updated": "2026-04-13T23:30:12.924222"
 }
