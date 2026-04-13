@@ -18,7 +18,15 @@
     background: linear-gradient(135deg, #1a1e2e 0%, #161b22 100%);
     border-bottom: 1px solid var(--border);
   }
-  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header h1 {
+    font-size: 28px; margin-bottom: 4px; font-weight: 800;
+    background: linear-gradient(90deg, #ff0000, #ff7700, #ffff00, #00ff00, #0077ff, #8800ff, #ff00ff, #ff0000);
+    background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 3s linear infinite;
+  }
+  @keyframes rainbow { 0%{background-position:0% center} 100%{background-position:200% center} }
   .header .sub { color: var(--dim); font-size: 12px; }
 
   .status-bar {
