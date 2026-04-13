@@ -243,7 +243,7 @@ function renderSignal(sig) {
   const icon = sig.direction === 'BULL' ? '🟢 BULL' : sig.direction === 'BEAR' ? '🔴 BEAR' : '⚪ SKIP';
   dirEl.textContent = icon;
   dirEl.className = 'signal-direction ' + dirClass(sig.direction);
-  document.getElementById('signal-epoch').textContent = `Epoch ${sig.epoch} · 信心 ${Math.round(sig.confidence)}`;
+  document.getElementById('signal-epoch').textContent = `最新期号 ${sig.epoch} · 信心 ${Math.round(sig.confidence)}`;
 
   const total = sig.pool_total || 0;
   const bullPct = total > 0 ? (sig.pool_bull / total * 100) : 50;
