@@ -473,17 +473,49 @@ function renderPagination(totalPages, total) {
 
 function renderTracking(t) {
   const el = document.getElementById('tracking-stats');
-  if (!t) { el.innerHTML = '<div class="stat-card"><div class="label">暂无数据</div></div>'; return; }
-  const total = (t.wins||0) + (t.losses||0);
-  const wr = total > 0 ? ((t.wins||0) / total * 100).toFixed(1) : '0.0';
-  const timeTotal = (t.time_wins||0) + (t.time_losses||0);
+  // Compute stats from history for real-time accuracy
+  const hist = currentHistory || [];
+  let wins = 0, losses = 0, ties = 0, pending = 0;
+  for (const h of hist) {
+    if (h.outcome === 'WIN') wins++;
+    else if (h.outcome === 'LOSS') losses++;
+    else if (h.outcome === 'TIE') ties++;
+    else pending++;
+  }
+  const total = wins + losses;
+  const wr = total > 0 ? (wins / total * 100).toFixed(1) : '0.0';
+
+  // Also show backend cumulative stats if available
+  const bTotal = (t && t.wins != null) ? (t.wins||0) + (t.losses||0) : 0;
+  const bWr = bTotal > 0 ? ((t.wins||0) / bTotal * 100).toFixed(1) : null;
+
+  // Recent 20 win rate
+  const recent20 = hist.slice(-20);
+  let r20w = 0, r20l = 0;
+  for (const h of recent20) {
+    if (h.outcome === 'WIN') r20w++;
+    else if (h.outcome === 'LOSS') r20l++;
+  }
+  const r20total = r20w + r20l;
+  const r20wr = r20total > 0 ? (r20w / r20total * 100).toFixed(1) : '0.0';
+
+  // Time signal stats from backend
+  const timeTotal = (t && t.time_wins != null) ? (t.time_wins||0) + (t.time_losses||0) : 0;
   const timeWr = timeTotal > 0 ? ((t.time_wins||0) / timeTotal * 100).toFixed(1) : '0.0';
-  el.innerHTML = `
-    <div class="stat-card"><div class="label">综合胜率</div><div class="value ${parseFloat(wr)>=50?'green':'red'}">${wr}%</div></div>
-    <div class="stat-card"><div class="label">Time 信号</div><div class="value ${parseFloat(timeWr)>=50?'green':'red'}">${timeWr}%</div></div>
-    <div class="stat-card"><div class="label">胜 / 负</div><div class="value">${t.wins||0} / ${t.losses||0}</div></div>
-    <div class="stat-card"><div class="label">Time 胜 / 负</div><div class="value">${t.time_wins||0} / ${t.time_losses||0}</div></div>
+
+  let html = `
+    <div class="stat-card"><div class="label">近${total}轮胜率</div><div class="value ${parseFloat(wr)>=50?'green':'red'}">${wr}%</div></div>
+    <div class="stat-card"><div class="label">近20轮胜率</div><div class="value ${parseFloat(r20wr)>=50?'green':'red'}">${r20wr}%</div></div>
+    <div class="stat-card"><div class="label">胜 / 负</div><div class="value">${wins} / ${losses}</div></div>
+    <div class="stat-card"><div class="label">待定</div><div class="value">${pending}</div></div>
   `;
+  if (bWr !== null) {
+    html += `<div class="stat-card"><div class="label">历史总计</div><div class="value ${parseFloat(bWr)>=50?'green':'red'}">${bWr}% (${t.wins}胜${t.losses}负)</div></div>`;
+  }
+  if (timeTotal > 0) {
+    html += `<div class="stat-card"><div class="label">Time信号</div><div class="value ${parseFloat(timeWr)>=50?'green':'red'}">${timeWr}% (${t.time_wins}/${t.time_losses})</div></div>`;
+  }
+  el.innerHTML = html;
 }
 
 async function fetchData() {
