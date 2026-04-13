@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 472439,
-    "direction": "BULL",
-    "confidence": 33.0,
-    "pool_total": 0.93,
-    "pool_bull": 0.21,
-    "pool_bear": 0.73,
+    "epoch": 472440,
+    "direction": "BEAR",
+    "confidence": 27.0,
+    "pool_total": 0.59,
+    "pool_bull": 0.18,
+    "pool_bear": 0.41,
     "signals": [
       {
         "name": "Time",
@@ -16,20 +16,20 @@
       {
         "name": "Pool",
         "direction": "BULL",
-        "score": 92,
-        "info": "B:22.1%(4.5x) R:77.9%(1.3x)"
+        "score": 67,
+        "info": "B:30.7%(3.3x) R:69.3%(1.4x)"
       },
       {
         "name": "Mom",
-        "direction": "BULL",
-        "score": 3,
-        "info": "$615.01 RSI:30 EMA:+0.15% OS"
+        "direction": null,
+        "score": 0,
+        "info": "$614.79 RSI:30 EMA:+0.05% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 70,
-        "info": "LS:2.40 long-squeeze"
+        "score": 69,
+        "info": "LS:2.39 long-squeeze"
       },
       {
         "name": "FR",
@@ -38,21 +38,12 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": "📉 连跌3根($-1.40)",
-    "time": "07:49:22"
+    "trend": "📉 连跌3根($-1.86)",
+    "time": "07:54:52"
   },
-  "lock_ts": 1776124220,
-  "current_ts": 1776124202,
+  "lock_ts": 1776124526,
+  "current_ts": 1776124494,
   "history": [
-    {
-      "epoch": 472340,
-      "direction": "BULL",
-      "confidence": 42.0,
-      "time": "23:24:09",
-      "trend": null,
-      "outcome": "WIN",
-      "result": "BULL"
-    },
     {
       "epoch": 472341,
       "direction": "BULL",
@@ -932,7 +923,8 @@
       "confidence": 24.0,
       "time": "07:44:17",
       "trend": null,
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BEAR"
     },
     {
       "epoch": 472439,
@@ -941,13 +933,21 @@
       "time": "07:49:22",
       "trend": "📉 连跌3根($-1.40)",
       "outcome": null
+    },
+    {
+      "epoch": 472440,
+      "direction": "BEAR",
+      "confidence": 27.0,
+      "time": "07:54:52",
+      "trend": "📉 连跌3根($-1.86)",
+      "outcome": null
     }
   ],
   "tracking": {
-    "wins": 126,
+    "wins": 127,
     "losses": 139,
     "time_wins": 0,
     "time_losses": 0
   },
-  "updated": "2026-04-14T07:50:02.684650"
+  "updated": "2026-04-14T07:54:54.713258"
 }
