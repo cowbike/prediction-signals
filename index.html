@@ -427,12 +427,15 @@ function renderPagination(totalPages, total) {
   let startP = Math.max(1, currentPage - 2);
   let endP = Math.min(totalPages, startP + 4);
   if (endP - startP < 4) startP = Math.max(1, endP - 4);
+
+  // Always show page 1 if not in range
   if (startP > 1) {
     const b1 = document.createElement('button');
     b1.textContent = '1'; b1.onclick = () => { currentPage = 1; renderHistoryPage(); };
     el.appendChild(b1);
     if (startP > 2) { const dots = document.createElement('span'); dots.className = 'page-info'; dots.textContent = '…'; el.appendChild(dots); }
   }
+
   for (let p = startP; p <= endP; p++) {
     const btn = document.createElement('button');
     btn.textContent = p;
@@ -440,6 +443,8 @@ function renderPagination(totalPages, total) {
     btn.onclick = ((pg) => () => { currentPage = pg; renderHistoryPage(); })(p);
     el.appendChild(btn);
   }
+
+  // Always show last page if not in range
   if (endP < totalPages) {
     if (endP < totalPages - 1) { const dots = document.createElement('span'); dots.className = 'page-info'; dots.textContent = '…'; el.appendChild(dots); }
     const bN = document.createElement('button');
