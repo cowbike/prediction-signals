@@ -428,6 +428,7 @@ function renderHistoryPage() {
     tbody.appendChild(tr);
   }
   renderPagination(totalPages, total);
+  renderPageInfo();
 }
 
 function renderPagination(totalPages, total) {
@@ -459,14 +460,21 @@ function renderPagination(totalPages, total) {
   next.disabled = currentPage >= totalPages;
   next.onclick = () => { currentPage++; renderHistoryPage(); };
   el.appendChild(next);
+}
 
-  // Show current page range indicator
+function renderPageInfo() {
+  const total = currentHistory.length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  let el = document.getElementById('page-info-bar');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'page-info-bar';
+    el.style.cssText = 'text-align:center;font-size:12px;color:var(--dim);margin-top:6px;padding:4px;';
+    document.querySelector('.history').appendChild(el);
+  }
   const rangeStart = Math.floor((currentPage - 1) / 10) * 10 + 1;
   const rangeEnd = Math.min(rangeStart + 9, totalPages);
-  const info = document.createElement('span');
-  info.className = 'page-info';
-  info.textContent = `共${totalPages}页，第${rangeStart}-${rangeEnd}页`;
-  el.appendChild(info);
+  el.textContent = `共 ${totalPages} 页，当前第 ${rangeStart}-${rangeEnd} 页`;
 }
 
 function renderTracking(t) {
