@@ -183,17 +183,18 @@
 
   .pagination {
     display: flex; justify-content: center; align-items: center;
-    gap: 12px; margin-top: 12px; padding: 8px 0;
+    gap: 4px; margin-top: 12px; padding: 8px 0;
   }
   .pagination button {
     background: none; border: 1px solid var(--border); color: var(--dim);
-    width: 32px; height: 32px; border-radius: 8px; font-size: 16px;
-    cursor: pointer; font-family: inherit; display: flex; align-items: center;
-    justify-content: center; transition: all 0.2s;
+    min-width: 30px; height: 30px; border-radius: 6px; font-size: 12px;
+    cursor: pointer; font-family: inherit; padding: 0 6px;
+    transition: all 0.15s;
   }
   .pagination button:hover:not(:disabled) { border-color: var(--blue); color: var(--blue); }
+  .pagination button.active { border-color: var(--blue); color: var(--blue); background: rgba(88,166,255,0.1); }
   .pagination button:disabled { opacity: 0.2; cursor: default; }
-  .pagination .page-info { color: var(--dim); font-size: 12px; min-width: 60px; text-align: center; }
+  .pagination .page-info { color: var(--dim); font-size: 11px; margin: 0 2px; }
 
   .history { max-width: 480px; margin: 16px auto; padding: 0 16px; }
   .history h3 { font-size: 14px; color: var(--dim); margin-bottom: 8px; padding: 0 4px; }
@@ -414,24 +415,42 @@ function renderPagination(totalPages, total) {
     el.className = 'pagination';
     document.querySelector('.history').appendChild(el);
   }
+  el.innerHTML = '';
 
   const prev = document.createElement('button');
   prev.textContent = '‹';
   prev.disabled = currentPage <= 1;
   prev.onclick = () => { currentPage--; renderHistoryPage(); };
+  el.appendChild(prev);
 
-  const info = document.createElement('span');
-  info.className = 'page-info';
-  info.textContent = `${currentPage}/${totalPages} · ${total}条`;
+  // Show max 5 page buttons centered around current
+  let startP = Math.max(1, currentPage - 2);
+  let endP = Math.min(totalPages, startP + 4);
+  if (endP - startP < 4) startP = Math.max(1, endP - 4);
+  if (startP > 1) {
+    const b1 = document.createElement('button');
+    b1.textContent = '1'; b1.onclick = () => { currentPage = 1; renderHistoryPage(); };
+    el.appendChild(b1);
+    if (startP > 2) { const dots = document.createElement('span'); dots.className = 'page-info'; dots.textContent = '…'; el.appendChild(dots); }
+  }
+  for (let p = startP; p <= endP; p++) {
+    const btn = document.createElement('button');
+    btn.textContent = p;
+    btn.className = p === currentPage ? 'active' : '';
+    btn.onclick = ((pg) => () => { currentPage = pg; renderHistoryPage(); })(p);
+    el.appendChild(btn);
+  }
+  if (endP < totalPages) {
+    if (endP < totalPages - 1) { const dots = document.createElement('span'); dots.className = 'page-info'; dots.textContent = '…'; el.appendChild(dots); }
+    const bN = document.createElement('button');
+    bN.textContent = totalPages; bN.onclick = () => { currentPage = totalPages; renderHistoryPage(); };
+    el.appendChild(bN);
+  }
 
   const next = document.createElement('button');
   next.textContent = '›';
   next.disabled = currentPage >= totalPages;
   next.onclick = () => { currentPage++; renderHistoryPage(); };
-
-  el.innerHTML = '';
-  el.appendChild(prev);
-  el.appendChild(info);
   el.appendChild(next);
 }
 
