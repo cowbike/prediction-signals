@@ -305,7 +305,6 @@ const DATA_URL = './signals.json';
 const REFRESH_MS = 10000;
 let refreshCount = 0;
 let lastEpoch = 0;
-let lastSignalEpoch = 0;
 
 // Theme toggle
 function toggleTheme() {
@@ -429,7 +428,6 @@ function renderHistoryPage() {
     tbody.appendChild(tr);
   }
   renderPagination(totalPages, total);
-  renderPageInfo();
 }
 
 function renderPagination(totalPages, total) {
@@ -461,21 +459,6 @@ function renderPagination(totalPages, total) {
   next.disabled = currentPage >= totalPages;
   next.onclick = () => { currentPage++; renderHistoryPage(); };
   el.appendChild(next);
-}
-
-function renderPageInfo() {
-  const total = currentHistory.length;
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-  let el = document.getElementById('page-info-bar');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'page-info-bar';
-    el.style.cssText = 'text-align:center;font-size:12px;color:var(--dim);margin-top:6px;padding:4px;';
-    document.querySelector('.history').appendChild(el);
-  }
-  const rangeStart = Math.floor((currentPage - 1) / 10) * 10 + 1;
-  const rangeEnd = Math.min(rangeStart + 9, totalPages);
-  el.textContent = `共 ${totalPages} 页，当前第 ${rangeStart}-${rangeEnd} 页`;
 }
 
 function renderTracking(t) {
