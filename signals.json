@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 472528,
+    "epoch": 472529,
     "direction": "BEAR",
     "confidence": 20.0,
-    "pool_total": 2.7,
-    "pool_bull": 1.14,
-    "pool_bear": 1.56,
+    "pool_total": 1.01,
+    "pool_bull": 0.02,
+    "pool_bear": 0.99,
     "signals": [
       {
         "name": "Time",
@@ -17,19 +17,19 @@
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:42.2%(2.4x) R:57.8%(1.7x)"
+        "info": "B:2.4%(42.0x) R:97.6%(1.0x) ⚠️ trap(BEAR极端失衡)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$614.86 RSI:52 EMA:+0.16% flat"
+        "info": "$614.91 RSI:50 EMA:+0.14% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 63,
-        "info": "LS:2.27 long-squeeze"
+        "info": "LS:2.26 long-squeeze"
       },
       {
         "name": "FR",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0154% neutral"
       }
     ],
-    "trend": null,
-    "time": "15:23:35"
+    "trend": "📉 连跌3根($-1.13)",
+    "time": "15:28:41"
   },
-  "lock_ts": 1776151472,
-  "current_ts": 1776151532,
+  "lock_ts": 1776151778,
+  "current_ts": 1776151834,
   "history": [
     {
       "epoch": 472031,
@@ -4751,17 +4751,27 @@
       "time": "15:23:35",
       "time_full": "2026-04-14 15:23:35",
       "trend": null,
+      "outcome": "LOSS",
+      "result": "BULL"
+    },
+    {
+      "epoch": 472529,
+      "direction": "BEAR",
+      "confidence": 20.0,
+      "time": "15:28:41",
+      "time_full": "2026-04-14 15:28:41",
+      "trend": "📉 连跌3根($-1.13)",
       "outcome": null
     }
   ],
   "tracking": {
     "wins": 162,
-    "losses": 182,
+    "losses": 183,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 47.0,
-    "total_24h": 470,
+    "win_rate_24h": 46.9,
+    "total_24h": 471,
     "hourly_wins": {
       "21": 11,
       "22": 4,
@@ -4807,15 +4817,15 @@
       "12": 10,
       "13": 16,
       "14": 15,
-      "15": 9,
+      "15": 10,
       "16": 8,
       "17": 4,
       "18": 8,
       "19": 5,
       "20": 6
     },
-    "tracking_win_rate_24h": 47.0,
-    "tracking_total_24h": 470
+    "tracking_win_rate_24h": 46.9,
+    "tracking_total_24h": 471
   },
-  "updated": "2026-04-14T15:25:32.020043"
+  "updated": "2026-04-14T15:30:34.513663"
 }
