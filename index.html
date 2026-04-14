@@ -459,6 +459,14 @@ function renderPagination(totalPages, total) {
   next.disabled = currentPage >= totalPages;
   next.onclick = () => { currentPage++; renderHistoryPage(); };
   el.appendChild(next);
+
+  // Show current page range indicator
+  const rangeStart = Math.floor((currentPage - 1) / 10) * 10 + 1;
+  const rangeEnd = Math.min(rangeStart + 9, totalPages);
+  const info = document.createElement('span');
+  info.className = 'page-info';
+  info.textContent = `共${totalPages}页，第${rangeStart}-${rangeEnd}页`;
+  el.appendChild(info);
 }
 
 function renderTracking(t) {
