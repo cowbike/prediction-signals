@@ -514,7 +514,7 @@ function renderTracking(t) {
 
   // Hourly win rate distribution from history
   if (t.hourly_wins && Object.keys(t.hourly_wins).length > 0) {
-    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">⏰ 小时胜率分布 (HKT)</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
+    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">⏰ 小时胜率分布 (HKT)</div><div style="display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-top:8px;">`;
     for (let h = 0; h < 24; h++) {
       const hs = String(h);
       const hw = t.hourly_wins[hs] || 0;
@@ -523,7 +523,7 @@ function renderTracking(t) {
       if (ht === 0) continue;
       const hwr = (hw / ht * 100).toFixed(0);
       const color = hwr >= 55 ? '#4caf50' : hwr <= 45 ? '#f44336' : '#888';
-      html += `<div style="text-align:center;padding:4px 6px;background:${color}22;border-radius:4px;border:1px solid ${color}44;min-width:52px;">
+      html += `<div style="text-align:center;padding:5px 4px;background:${color}22;border-radius:4px;border:1px solid ${color}44;">
         <div style="font-size:11px;color:#aaa;">${String(h).padStart(2,'0')}:00</div>
         <div style="font-weight:bold;color:${color};">${hwr}%</div>
         <div style="font-size:10px;color:#777;">${hw}W/${hl}L</div>
