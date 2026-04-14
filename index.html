@@ -501,9 +501,9 @@ function renderTracking(t) {
   const timeWr = timeTotal > 0 ? ((t.time_wins||0) / timeTotal * 100).toFixed(1) : '0.0';
 
   let html = `
-    <div class="stat-card"><div class="label">全部轮胜率</div><div class="value ${parseFloat(wr)>=50?'green':'red'}\">${wr}%</div></div>
-    <div class="stat-card"><div class="label">近20轮胜率</div><div class="value ${parseFloat(r20wr)>=50?'green':'red'}\">${r20wr}%</div></div>
-    <div class="stat-card"><div class="label">胜 / 负</div><div class=\"value\">${totalWins} / ${totalLosses}</div></div>
+    <div class="stat-card" style="flex:0 0 calc(50% - 6px);"><div class="label">全部轮胜率</div><div class="value ${parseFloat(wr)>=50?'green':'red'}\\\">${wr}%</div></div>
+    <div class="stat-card"><div class="label">近20轮胜率</div><div class="value ${parseFloat(r20wr)>=50?'green':'red'}\\\">${r20wr}%</div></div>
+    <div class="stat-card" style="flex:0 0 calc(50% - 6px);"><div class="label">胜 / 负</div><div class=\\\"value\\\">${totalWins} / ${totalLosses}</div></div>
   `;
   if (total24h > 0) {
     html += `<div class="stat-card"><div class="label">24h胜率 (${total24h}轮)</div><div class="value ${wr24h>=50?'green':'red'}\">${wr24h}%</div></div>`;
