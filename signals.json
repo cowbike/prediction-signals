@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 472444,
+    "epoch": 472445,
     "direction": "BULL",
-    "confidence": 44.0,
-    "pool_total": 0.38,
-    "pool_bull": 0.25,
-    "pool_bear": 0.13,
+    "confidence": 41.0,
+    "pool_total": 0.29,
+    "pool_bull": 0.04,
+    "pool_bear": 0.25,
     "signals": [
       {
         "name": "Time",
@@ -15,20 +15,20 @@
       },
       {
         "name": "Pool",
-        "direction": "BEAR",
-        "score": 16,
-        "info": "B:65.8%(1.5x) R:34.2%(2.9x)"
+        "direction": null,
+        "score": 0,
+        "info": "B:13.5%(7.4x) R:86.5%(1.2x) ⚠️ trap(BEAR极端失衡)"
       },
       {
         "name": "Mom",
         "direction": "BULL",
         "score": 100,
-        "info": "$613.68 RSI:4 EMA:-0.17% OS"
+        "info": "$613.45 RSI:13 EMA:-0.24% OS"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 70,
+        "score": 69,
         "info": "LS:2.39 long-squeeze"
       },
       {
@@ -38,21 +38,12 @@
         "info": "FR:+0.0154% neutral"
       }
     ],
-    "trend": "📉 连跌3根($-1.19)",
-    "time": "08:14:54"
+    "trend": null,
+    "time": "08:19:59"
   },
-  "lock_ts": 1776125750,
-  "current_ts": 1776125703,
+  "lock_ts": 1776126056,
+  "current_ts": 1776126002,
   "history": [
-    {
-      "epoch": 472345,
-      "direction": "BULL",
-      "confidence": 53.0,
-      "time": "23:49:48",
-      "trend": null,
-      "outcome": "WIN",
-      "result": "BULL"
-    },
     {
       "epoch": 472346,
       "direction": "BEAR",
@@ -932,7 +923,8 @@
       "confidence": 41.0,
       "time": "08:09:47",
       "trend": "📉 连跌3根($-0.30)",
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BULL"
     },
     {
       "epoch": 472444,
@@ -941,13 +933,21 @@
       "time": "08:14:54",
       "trend": "📉 连跌3根($-1.19)",
       "outcome": null
+    },
+    {
+      "epoch": 472445,
+      "direction": "BULL",
+      "confidence": 41.0,
+      "time": "08:19:59",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
-    "wins": 128,
+    "wins": 129,
     "losses": 141,
     "time_wins": 0,
     "time_losses": 0
   },
-  "updated": "2026-04-14T08:15:03.137325"
+  "updated": "2026-04-14T08:20:02.993796"
 }
