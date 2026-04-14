@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 472557,
+    "epoch": 472558,
     "direction": "BULL",
     "confidence": 25.0,
-    "pool_total": 0.45,
-    "pool_bull": 0.18,
-    "pool_bear": 0.27,
+    "pool_total": 0.18,
+    "pool_bull": 0.02,
+    "pool_bear": 0.16,
     "signals": [
       {
         "name": "Time",
@@ -17,13 +17,13 @@
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:39.6%(2.5x) R:60.4%(1.7x)"
+        "info": "B:12.3%(8.2x) R:87.7%(1.1x) ⚠️ trap(BEAR极端失衡)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$617.88 RSI:36 EMA:+0.02% flat"
+        "info": "$617.84 RSI:43 EMA:-0.02% flat"
       },
       {
         "name": "Liq",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0059% neutral"
       }
     ],
-    "trend": "📉 连跌3根($-0.86)",
-    "time": "17:51:28"
+    "trend": null,
+    "time": "17:56:35"
   },
-  "lock_ts": 1776160346,
-  "current_ts": 1776160531,
+  "lock_ts": 1776160652,
+  "current_ts": 1776160834,
   "history": [
     {
       "epoch": 472031,
@@ -5041,17 +5041,27 @@
       "time": "17:51:28",
       "time_full": "2026-04-14 17:51:28",
       "trend": "📉 连跌3根($-0.86)",
+      "outcome": "LOSS",
+      "result": "BEAR"
+    },
+    {
+      "epoch": 472558,
+      "direction": "BULL",
+      "confidence": 25.0,
+      "time": "17:56:35",
+      "time_full": "2026-04-14 17:56:35",
+      "trend": null,
       "outcome": null
     }
   ],
   "tracking": {
     "wins": 173,
-    "losses": 200,
+    "losses": 201,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 46.5,
-    "total_24h": 499,
+    "win_rate_24h": 46.4,
+    "total_24h": 500,
     "hourly_wins": {
       "21": 11,
       "22": 4,
@@ -5099,13 +5109,13 @@
       "14": 15,
       "15": 13,
       "16": 17,
-      "17": 9,
+      "17": 10,
       "18": 8,
       "19": 5,
       "20": 6
     },
-    "tracking_win_rate_24h": 46.5,
-    "tracking_total_24h": 499
+    "tracking_win_rate_24h": 46.4,
+    "tracking_total_24h": 500
   },
-  "updated": "2026-04-14T17:55:31.883014"
+  "updated": "2026-04-14T18:00:34.502602"
 }
