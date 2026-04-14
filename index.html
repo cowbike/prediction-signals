@@ -435,6 +435,16 @@ function renderPagination(totalPages, total) {
   next.disabled = currentPage >= totalPages;
   next.onclick = () => { currentPage++; renderHistoryPage(); };
   el.appendChild(next);
+
+  // Show group indicator (10 pages per group)
+  const group = Math.ceil(currentPage / 10);
+  const totalGroups = Math.ceil(totalPages / 10);
+  if (totalGroups > 1) {
+    const info = document.createElement('span');
+    info.className = 'page-info';
+    info.textContent = `第${group}组/${totalGroups}`;
+    el.appendChild(info);
+  }
 }
 
 function renderTracking(t) {
