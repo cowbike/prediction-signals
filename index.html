@@ -481,18 +481,46 @@ function renderTracking(t) {
   const r20total = r20w + r20l;
   const r20wr = r20total > 0 ? (r20w / r20total * 100).toFixed(1) : '0.0';
 
+  // 24h win rate from backend (computed from history)
+  const wr24h = t.win_rate_24h || 0;
+  const total24h = t.total_24h || 0;
+
   // Time signal stats from backend
   const timeTotal = (t && t.time_wins != null) ? (t.time_wins||0) + (t.time_losses||0) : 0;
   const timeWr = timeTotal > 0 ? ((t.time_wins||0) / timeTotal * 100).toFixed(1) : '0.0';
 
   let html = `
-    <div class="stat-card"><div class="label">全部轮胜率</div><div class="value ${parseFloat(wr)>=50?'green':'red'}">${wr}%</div></div>
-    <div class="stat-card"><div class="label">近20轮胜率</div><div class="value ${parseFloat(r20wr)>=50?'green':'red'}">${r20wr}%</div></div>
-    <div class="stat-card"><div class="label">胜 / 负</div><div class="value">${totalWins} / ${totalLosses}</div></div>
+    <div class="stat-card"><div class="label">全部轮胜率</div><div class="value ${parseFloat(wr)>=50?'green':'red'}\">${wr}%</div></div>
+    <div class="stat-card"><div class="label">近20轮胜率</div><div class="value ${parseFloat(r20wr)>=50?'green':'red'}\">${r20wr}%</div></div>
+    <div class="stat-card"><div class="label">胜 / 负</div><div class=\"value\">${totalWins} / ${totalLosses}</div></div>
   `;
-  if (timeTotal > 0) {
-    html += `<div class="stat-card"><div class="label">Time信号</div><div class="value ${parseFloat(timeWr)>=50?'green':'red'}">${timeWr}% (${t.time_wins}/${t.time_losses})</div></div>`;
+  if (total24h > 0) {
+    html += `<div class="stat-card"><div class="label">24h胜率 (${total24h}轮)</div><div class="value ${wr24h>=50?'green':'red'}\">${wr24h}%</div></div>`;
   }
+  if (timeTotal > 0) {
+    html += `<div class="stat-card"><div class="label">Time信号</div><div class="value ${parseFloat(timeWr)>=50?'green':'red'}\">${timeWr}% (${t.time_wins}/${t.time_losses})</div></div>`;
+  }
+
+  // Hourly win rate distribution from history
+  if (t.hourly_wins && Object.keys(t.hourly_wins).length > 0) {
+    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">⏰ 小时胜率分布 (HKT)</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
+    for (let h = 0; h < 24; h++) {
+      const hs = String(h);
+      const hw = t.hourly_wins[hs] || 0;
+      const hl = t.hourly_losses[hs] || 0;
+      const ht = hw + hl;
+      if (ht === 0) continue;
+      const hwr = (hw / ht * 100).toFixed(0);
+      const color = hwr >= 55 ? '#4caf50' : hwr <= 45 ? '#f44336' : '#888';
+      html += `<div style="text-align:center;padding:4px 6px;background:${color}22;border-radius:4px;border:1px solid ${color}44;min-width:52px;">
+        <div style="font-size:11px;color:#aaa;">${String(h).padStart(2,'0')}:00</div>
+        <div style="font-weight:bold;color:${color};">${hwr}%</div>
+        <div style="font-size:10px;color:#777;">${hw}W/${hl}L</div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
   el.innerHTML = html;
 }
 

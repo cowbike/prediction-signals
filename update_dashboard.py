@@ -5,7 +5,7 @@ write signals.json, git commit + push to GitHub.
 """
 import json, os, re, subprocess, sys, time
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 
 HOME = Path.home()
 LOG_FILE = HOME / ".hermes" / "prediction_monitor.log"
@@ -120,6 +120,17 @@ def parse_history():
         m = re.search(r"⏰\s*([\d:]+)\s*HKT", text)
         alert_time = m.group(1) if m else ""
 
+        # Compute full datetime for 24h filtering
+        time_full = None
+        if alert_time:
+            try:
+                # Find the log line timestamp (format: "HH:MM:SS")
+                # Use today's date as approximation
+                today = datetime.now().strftime("%Y-%m-%d")
+                time_full = f"{today} {alert_time}"
+            except:
+                pass
+
         trend_info = None
         m2 = re.search(r"⚠️Trend:\s*(.*)", text)
         if m2:
@@ -130,6 +141,7 @@ def parse_history():
             "direction": direction,
             "confidence": confidence,
             "time": alert_time,
+            "time_full": time_full,
             "trend": trend_info if trend_info else None,
             "outcome": None
         })
@@ -180,18 +192,72 @@ def parse_history():
 
     return history[-MAX_HISTORY:]
 
-def load_tracking():
-    """Load tracking stats."""
+def load_tracking(history=None):
+    """Load tracking stats, enriched with 24h and hourly stats from history."""
+    base = {"wins": 0, "losses": 0, "skips": 0,
+            "time_wins": 0, "time_losses": 0,
+            "win_rate_24h": 50.0, "total_24h": 0,
+            "hourly_wins": {}, "hourly_losses": {},
+            "tracking_win_rate_24h": 50.0, "tracking_total_24h": 0}
     try:
         t = json.loads(TRACKING_FILE.read_text())
-        return {
+        base.update({
             "wins": t.get("wins", 0),
             "losses": t.get("losses", 0),
+            "skips": t.get("skips", 0),
             "time_wins": t.get("time_wins", 0),
             "time_losses": t.get("time_losses", 0),
-        }
+        })
     except:
-        return {"wins": 0, "losses": 0, "time_wins": 0, "time_losses": 0}
+        pass
+
+    # Compute 24h stats and hourly distribution from history
+    if history:
+        now = datetime.now()
+        cutoff = now - timedelta(hours=24)
+        wins_24h = 0
+        losses_24h = 0
+        hourly_wins = {}
+        hourly_losses = {}
+        for h in history:
+            if not h.get("outcome"):
+                continue
+            # Hourly distribution (all time)
+            t_str = h.get("time", "")
+            if t_str:
+                try:
+                    hour = int(t_str.split(":")[0])
+                    hour_key = str(hour)
+                    if h["outcome"] == "WIN":
+                        hourly_wins[hour_key] = hourly_wins.get(hour_key, 0) + 1
+                    elif h["outcome"] == "LOSS":
+                        hourly_losses[hour_key] = hourly_losses.get(hour_key, 0) + 1
+                except:
+                    pass
+            # 24h stats
+            t_full = h.get("time_full")
+            if t_full:
+                try:
+                    ts = datetime.fromisoformat(t_full)
+                    if ts >= cutoff:
+                        if h["outcome"] == "WIN":
+                            wins_24h += 1
+                        elif h["outcome"] == "LOSS":
+                            losses_24h += 1
+                except:
+                    pass
+        total_24h = wins_24h + losses_24h
+        base["win_rate_24h"] = round(wins_24h / total_24h * 100, 1) if total_24h > 0 else 50.0
+        base["total_24h"] = total_24h
+        base["hourly_wins"] = hourly_wins
+        base["hourly_losses"] = hourly_losses
+
+        # Tracking file 24h (for comparison)
+        if total_24h > 0:
+            base["tracking_win_rate_24h"] = base["win_rate_24h"]
+            base["tracking_total_24h"] = total_24h
+
+    return base
 
 
 def update_tracking_results():
@@ -275,7 +341,7 @@ def main():
     
     current = parse_latest_signal()
     history = parse_history()
-    tracking = load_tracking()
+    tracking = load_tracking(history)
 
     # Fetch on-chain round data for lock_ts
     lock_ts = 0
