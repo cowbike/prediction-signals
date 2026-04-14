@@ -436,15 +436,13 @@ function renderPagination(totalPages, total) {
   next.onclick = () => { currentPage++; renderHistoryPage(); };
   el.appendChild(next);
 
-  // Show group indicator (10 pages per group)
-  const group = Math.ceil(currentPage / 10);
-  const totalGroups = Math.ceil(totalPages / 10);
-  if (totalGroups > 1) {
-    const info = document.createElement('span');
-    info.className = 'page-info';
-    info.textContent = `第${group}组/${totalGroups}`;
-    el.appendChild(info);
-  }
+  // Show current page range indicator
+  const rangeStart = Math.floor((currentPage - 1) / 10) * 10 + 1;
+  const rangeEnd = Math.min(rangeStart + 9, totalPages);
+  const info = document.createElement('span');
+  info.className = 'page-info';
+  info.textContent = `共${totalPages}页，第${rangeStart}-${rangeEnd}页`;
+  el.appendChild(info);
 }
 
 function renderTracking(t) {
