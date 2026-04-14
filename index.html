@@ -183,18 +183,17 @@
 
   .pagination {
     display: flex; justify-content: center; align-items: center;
-    gap: 4px; margin-top: 12px; padding: 8px 0;
+    gap: 6px; margin-top: 10px; padding: 0 4px;
   }
   .pagination button {
-    background: none; border: 1px solid var(--border); color: var(--dim);
-    min-width: 30px; height: 30px; border-radius: 6px; font-size: 12px;
-    cursor: pointer; font-family: inherit; padding: 0 6px;
-    transition: all 0.15s;
+    background: var(--card); border: 1px solid var(--border); color: var(--text);
+    padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer;
+    font-family: inherit;
   }
-  .pagination button:hover:not(:disabled) { border-color: var(--blue); color: var(--blue); }
-  .pagination button.active { border-color: var(--blue); color: var(--blue); background: rgba(88,166,255,0.1); }
-  .pagination button:disabled { opacity: 0.2; cursor: default; }
-  .pagination .page-info { color: var(--dim); font-size: 11px; margin: 0 2px; }
+  .pagination button:hover { border-color: var(--blue); }
+  .pagination button.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .pagination button:disabled { opacity: 0.3; cursor: default; }
+  .pagination .page-info { color: var(--dim); font-size: 11px; margin: 0 4px; }
 
   .history { max-width: 480px; margin: 16px auto; padding: 0 16px; }
   .history h3 { font-size: 14px; color: var(--dim); margin-bottom: 8px; padding: 0 4px; }
@@ -418,25 +417,12 @@ function renderPagination(totalPages, total) {
   el.innerHTML = '';
 
   const prev = document.createElement('button');
-  prev.textContent = '‹';
+  prev.textContent = '‹ 上一页';
   prev.disabled = currentPage <= 1;
   prev.onclick = () => { currentPage--; renderHistoryPage(); };
   el.appendChild(prev);
 
-  // Show max 5 page buttons centered around current
-  let startP = Math.max(1, currentPage - 2);
-  let endP = Math.min(totalPages, startP + 4);
-  if (endP - startP < 4) startP = Math.max(1, endP - 4);
-
-  // Always show page 1 if not in range
-  if (startP > 1) {
-    const b1 = document.createElement('button');
-    b1.textContent = '1'; b1.onclick = () => { currentPage = 1; renderHistoryPage(); };
-    el.appendChild(b1);
-    if (startP > 2) { const dots = document.createElement('span'); dots.className = 'page-info'; dots.textContent = '…'; el.appendChild(dots); }
-  }
-
-  for (let p = startP; p <= endP; p++) {
+  for (let p = 1; p <= totalPages; p++) {
     const btn = document.createElement('button');
     btn.textContent = p;
     btn.className = p === currentPage ? 'active' : '';
@@ -444,16 +430,8 @@ function renderPagination(totalPages, total) {
     el.appendChild(btn);
   }
 
-  // Always show last page if not in range
-  if (endP < totalPages) {
-    if (endP < totalPages - 1) { const dots = document.createElement('span'); dots.className = 'page-info'; dots.textContent = '…'; el.appendChild(dots); }
-    const bN = document.createElement('button');
-    bN.textContent = totalPages; bN.onclick = () => { currentPage = totalPages; renderHistoryPage(); };
-    el.appendChild(bN);
-  }
-
   const next = document.createElement('button');
-  next.textContent = '›';
+  next.textContent = '下一页 ›';
   next.disabled = currentPage >= totalPages;
   next.onclick = () => { currentPage++; renderHistoryPage(); };
   el.appendChild(next);
