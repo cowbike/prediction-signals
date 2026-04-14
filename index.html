@@ -477,13 +477,19 @@ function renderPagination(totalPages, total) {
   }
   el.innerHTML = '';
 
+  const WINDOW = 10;
+  // Calculate window: show 10 pages centered around currentPage
+  let start = Math.max(1, currentPage - Math.floor(WINDOW / 2));
+  let end = Math.min(totalPages, start + WINDOW - 1);
+  if (end - start < WINDOW - 1) start = Math.max(1, end - WINDOW + 1);
+
   const prev = document.createElement('button');
   prev.textContent = '‹ 上一页';
   prev.disabled = currentPage <= 1;
   prev.onclick = () => { currentPage--; renderHistoryPage(); };
   el.appendChild(prev);
 
-  for (let p = 1; p <= totalPages; p++) {
+  for (let p = start; p <= end; p++) {
     const btn = document.createElement('button');
     btn.textContent = p;
     btn.className = p === currentPage ? 'active' : '';
@@ -496,6 +502,12 @@ function renderPagination(totalPages, total) {
   next.disabled = currentPage >= totalPages;
   next.onclick = () => { currentPage++; renderHistoryPage(); };
   el.appendChild(next);
+
+  // Summary line
+  const info = document.createElement('div');
+  info.style.cssText = 'text-align:center;color:var(--dim);font-size:11px;margin-top:6px;';
+  info.textContent = `共${totalPages}页，第${start}-${end}页`;
+  el.appendChild(info);
 }
 
 function renderTracking(t) {
