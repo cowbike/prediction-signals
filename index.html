@@ -348,7 +348,7 @@ function renderSignal(sig) {
   betEl.textContent = betIcon;
   betEl.className = 'signal-direction ' + dirClass(betDir);
 
-  document.getElementById('signal-epoch').textContent = `期号${sig.epoch} · 信心 ${Math.round(sig.confidence)}`;
+  document.getElementById('signal-epoch').textContent = `期号#${sig.epoch} · 信心 ${Math.round(sig.confidence)}`;
 
   const total = sig.pool_total || 0;
   const bullPct = total > 0 ? (sig.pool_bull / total * 100) : 50;
