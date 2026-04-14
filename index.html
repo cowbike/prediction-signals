@@ -440,13 +440,49 @@ function renderPagination(totalPages, total) {
   }
   el.innerHTML = '';
 
+  // Current group (0-based): group 0 = pages 1-10, group 1 = pages 11-20, etc.
+  const groupSize = 10;
+  const currentGroup = Math.floor((currentPage - 1) / groupSize);
+  const totalGroups = Math.ceil(totalPages / groupSize);
+  const groupStart = currentGroup * groupSize + 1;
+  const groupEnd = Math.min(groupStart + groupSize - 1, totalPages);
+
   const prev = document.createElement('button');
   prev.textContent = '‹ 上一页';
   prev.disabled = currentPage <= 1;
   prev.onclick = () => { currentPage--; renderHistoryPage(); };
   el.appendChild(prev);
 
-  for (let p = 1; p <= totalPages; p++) {
+  // Show group tabs if more than 1 group
+  if (totalGroups > 1) {
+    for (let g = 0; g < totalGroups; g++) {
+      const gStart = g * groupSize + 1;
+      const gEnd = Math.min(gStart + groupSize - 1, totalPages);
+      const btn = document.createElement('button');
+      btn.textContent = gStart + '-' + gEnd;
+      btn.style.fontSize = '10px';
+      btn.style.minWidth = '40px';
+      if (g === currentGroup) {
+        btn.className = 'active';
+        btn.style.background = 'var(--blue)';
+        btn.style.borderColor = 'var(--blue)';
+        btn.style.color = '#fff';
+      }
+      btn.onclick = ((grp) => () => {
+        currentPage = grp * groupSize + 1;
+        renderHistoryPage();
+      })(g);
+      el.appendChild(btn);
+    }
+    // Separator
+    const sep = document.createElement('span');
+    sep.className = 'page-info';
+    sep.textContent = '|';
+    el.appendChild(sep);
+  }
+
+  // Show individual pages within current group
+  for (let p = groupStart; p <= groupEnd; p++) {
     const btn = document.createElement('button');
     btn.textContent = p;
     btn.className = p === currentPage ? 'active' : '';
