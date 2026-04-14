@@ -3,7 +3,7 @@
 Read prediction_monitor.log + prediction_tracking.json,
 write signals.json, git commit + push to GitHub.
 """
-import json, os, re, subprocess, sys, time
+import json, os, re, subprocess, sys, time, urllib.request
 from pathlib import Path
 from datetime import datetime, timedelta
 
@@ -307,6 +307,20 @@ def update_tracking_results():
     print(f"[{datetime.now().strftime('%H:%M:%S')}] Updated tracking: {wins}W/{losses}L")
 
 
+def fetch_bnb_price():
+    """Fetch BNB/USDT price from Binance."""
+    try:
+        req = urllib.request.Request(
+            'https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT',
+            headers={'User-Agent': 'Mozilla/5.0'}
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read())
+            return round(float(data['price']), 2)
+    except:
+        return None
+
+
 def git_push():
     """Commit and push to GitHub."""
     repo_dir = str(Path(__file__).parent)
@@ -365,6 +379,7 @@ def main():
         "current_ts": int(time.time()),
         "history": history,
         "tracking": tracking,
+        "bnb_price": fetch_bnb_price(),
         "updated": datetime.now().isoformat(),
     }
     
