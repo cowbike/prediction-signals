@@ -10,6 +10,11 @@
     --text: #e6edf3; --dim: #8b949e; --green: #3fb950;
     --red: #f85149; --yellow: #d29922; --blue: #58a6ff;
   }
+  body.light {
+    --bg: #f6f8fa; --card: #ffffff; --border: #d0d7de;
+    --text: #24292f; --dim: #57606a; --green: #1a7f37;
+    --red: #cf222e; --yellow: #9a6700; --blue: #0969da;
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--text); font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace; min-height: 100vh; }
 
@@ -37,6 +42,12 @@
   .status-bar .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
   .dot-live { background: var(--green); animation: pulse 2s infinite; }
   .dot-stale { background: var(--red); }
+  .theme-toggle {
+    background: none; border: 1px solid var(--border); color: var(--dim);
+    border-radius: 6px; padding: 2px 8px; cursor: pointer; font-size: 14px;
+    font-family: inherit; transition: all 0.2s;
+  }
+  .theme-toggle:hover { border-color: var(--blue); color: var(--blue); }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
   @keyframes flash { 0% { box-shadow: 0 0 0 0 rgba(88,166,255,0.5); } 100% { box-shadow: 0 0 0 0 transparent; } }
   .flash-update { animation: flash 1s ease-out; }
@@ -228,6 +239,7 @@
 <div class="status-bar">
   <span><span class="dot dot-live" id="live-dot"></span><span id="live-text">连接中...</span></span>
   <span id="update-time">--</span>
+  <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">🌙</button>
 </div>
 
 <div class="wallet-section">
@@ -293,6 +305,19 @@ const DATA_URL = './signals.json';
 const REFRESH_MS = 10000;
 let refreshCount = 0;
 let lastEpoch = 0;
+
+// Theme toggle
+function toggleTheme() {
+  document.body.classList.toggle('light');
+  const isLight = document.body.classList.contains('light');
+  document.getElementById('theme-toggle').textContent = isLight ? '☀️' : '🌙';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+// Restore theme on load
+if (localStorage.getItem('theme') === 'light') {
+  document.body.classList.add('light');
+  document.getElementById('theme-toggle').textContent = '☀️';
+}
 
 function dotClass(d) {
   return d === 'BULL' ? 'dot-bull' : d === 'BEAR' ? 'dot-bear' : 'dot-neutral';
