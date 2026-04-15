@@ -621,35 +621,35 @@ function renderTracking(t) {
     html += `</div></div>`;
   }
 
-  // Day-of-week distribution
-  const dowNames = ['周日','周一','周二','周三','周四','周五','周六'];
-  const dow = {};
+  // Hourly signal accuracy (时段胜率)
+  const hourlyWin = {}; // {hour: {w: n, l: n}}
   for (const h of hist) {
     if (!h.result || !h.direction || h.direction === 'SKIP' || h.result === 'TIE') continue;
-    if (!h.time_full) continue;
+    const tStr = h.time || '';
+    if (!tStr) continue;
     try {
-      const ts = new Date(h.time_full);
-      const d = ts.getDay();
-      const dk = String(d);
-      if (!dow[dk]) dow[dk] = {w: 0, l: 0};
-      if (h.direction === h.result) dow[dk].w++;
-      else dow[dk].l++;
+      const hour = parseInt(tStr.split(':')[0]);
+      if (isNaN(hour)) continue;
+      const hk = String(hour);
+      if (!hourlyWin[hk]) hourlyWin[hk] = {w: 0, l: 0};
+      if (h.direction === h.result) hourlyWin[hk].w++;
+      else hourlyWin[hk].l++;
     } catch(e) {}
   }
-  if (Object.keys(dow).length > 0) {
-    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">📅 星期胜率</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
-    for (let d = 1; d <= 7; d++) {
-      const ds = String(d % 7);
-      const dw = dow[ds] ? dow[ds].w : 0;
-      const dl = dow[ds] ? dow[ds].l : 0;
-      const dt = dw + dl;
-      if (dt === 0) continue;
-      const dwr = (dw / dt * 100).toFixed(0);
-      const color = dwr >= 55 ? '#4caf50' : dwr <= 45 ? '#f44336' : '#888';
+  if (Object.keys(hourlyWin).length > 0) {
+    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">🎯 时段胜率 (HKT) · 信号准确率</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
+    for (let h = 0; h < 24; h++) {
+      const hs = String(h);
+      const hw = hourlyWin[hs] ? hourlyWin[hs].w : 0;
+      const hl = hourlyWin[hs] ? hourlyWin[hs].l : 0;
+      const ht = hw + hl;
+      if (ht === 0) continue;
+      const hwr = (hw / ht * 100).toFixed(0);
+      const color = hwr >= 55 ? '#4caf50' : hwr <= 45 ? '#f44336' : '#888';
       html += `<div style="text-align:center;padding:4px 6px;background:${color}22;border-radius:4px;border:1px solid ${color}44;min-width:52px;">
-        <div style="font-size:11px;color:#aaa;">${dowNames[d%7]}</div>
-        <div style="font-weight:bold;color:${color};">${dwr}%</div>
-        <div style="font-size:10px;color:#777;">${dw}W/${dl}L</div>
+        <div style="font-size:11px;color:#aaa;">${String(h).padStart(2,'0')}:00</div>
+        <div style="font-weight:bold;color:${color};">${hwr}%</div>
+        <div style="font-size:10px;color:#777;">${hw}W/${hl}L</div>
       </div>`;
     }
     html += `</div></div>`;
