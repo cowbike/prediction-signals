@@ -628,7 +628,7 @@ function renderTracking(t) {
     } catch(e) {}
   }
   if (Object.keys(hourlyWin).length > 0) {
-    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">🎯 时段胜率 (HKT) · 信号准确率</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
+    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">🎯 时段胜率 (HKT)</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
     for (let h = 0; h < 24; h++) {
       const hs = String(h);
       const hw = hourlyWin[hs] ? hourlyWin[hs].w : 0;
