@@ -281,7 +281,7 @@
     <span style="color:var(--red)">BEAR</span>
   </div>
   <div class="pool-bar" style="font-size:11px; color:var(--dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis">
-    <span id="signal-epoch">--</span>│池<span id="pool-total">0.00</span>BNB│B:<span id="odds-bull">--</span>x R:<span id="odds-bear">--</span>x
+    池<span id="pool-total">0.00</span>BNB │ B:<span id="odds-bull">--</span>x R:<span id="odds-bear">--</span>x
   </div>
   <div class="trend-bar" id="trend-bar">⚠️ <span id="trend-text"></span></div>
   <div class="signals-grid" id="signals-grid"></div>
@@ -347,8 +347,6 @@ function renderSignal(sig) {
   dirEl.className = 'signal-direction ' + dirClass(sig.direction);
 
   document.getElementById('signal-epoch-display').textContent = '#' + sig.epoch;
-
-  document.getElementById('signal-epoch').textContent = `期号#${sig.epoch} · 信心 ${Math.round(sig.confidence)}`;
 
   const total = sig.pool_total || 0;
   const bullPct = total > 0 ? (sig.pool_bull / total * 100) : 50;
