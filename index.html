@@ -240,7 +240,7 @@
 
 <div class="header">
   <h1><span style="-webkit-text-fill-color:initial">🎰</span> 宋的BNB百家不乐</h1>
-  <div class="sub">自动信号下注 · 每5分钟一轮</div>
+  <div class="sub">🔔 自动信号下注 · ⏱️ 每5分钟一轮</div>
   <div class="sub" style="margin-top:6px"><a href="https://docs.pancakeswap.finance/play/prediction" style="color:var(--blue);text-decoration:none" target="_blank">📖 BNB百家乐Wiki</a> &nbsp;|&nbsp; <a href="https://github.com/HKUDS/Vibe-Trading" style="color:var(--blue);text-decoration:none" target="_blank">🎓 港大 Vibe-Trading</a></div>
 </div>
 
@@ -252,13 +252,15 @@
 </div>
 
 <div class="wallet-section">
-  <div class="btn-row" style="justify-content:center">
+  <div class="btn-row">
     <button class="btn btn-wallet" id="btn-wallet" onclick="connectWallet()">🔗 连接钱包</button>
+    <button class="btn btn-bet" id="btn-bet" onclick="toggleAutoBet()" disabled>🤖 自动下注</button>
   </div>
   <div class="wallet-info" id="wallet-info">
     <span><span class="wallet-addr" id="wallet-addr"></span></span>
     <span>BNB: <span class="wallet-bnb" id="wallet-bnb">--</span></span>
   </div>
+  <div class="bet-status" id="bet-status"></div>
 </div>
 
 <div class="signal-card" id="signal-card">
@@ -269,7 +271,7 @@
     </div>
     <div style="text-align:right">
       <div class="epoch-pulse" id="signal-epoch-display">--</div>
-      <div style="font-size:12px;color:var(--dim)">进行中</div>
+      <div style="font-size:14px;color:var(--yellow)" id="global-countdown">⏳ --</div>
     </div>
   </div>
   <div class="pool-bar">
@@ -657,9 +659,9 @@ async function fetchData() {
     window._signalData = data;
     document.getElementById('live-dot').className = 'dot dot-live';
     document.getElementById('live-text').textContent = '实时';
-    // clock ticks every second via setInterval below
     renderSignal(data.current);
     renderHistory(data.history);
+    startGlobalCountdown(data);
     renderTracking(data.tracking);
     updateBnbPrice(data);
   } catch (e) {
@@ -780,6 +782,29 @@ function showBetStatus(type, msg) {
 
 function hideBetStatus() {
   document.getElementById('bet-status').className = 'bet-status';
+}
+
+let globalCountdownTimer;
+function startGlobalCountdown(data) {
+  if (globalCountdownTimer) clearInterval(globalCountdownTimer);
+  if (!data || !data.lock_ts) return;
+  globalCountdownTimer = setInterval(() => {
+    const d = window._signalData;
+    if (!d || !d.lock_ts) return;
+    const now = Math.floor(Date.now() / 1000);
+    const remaining = d.lock_ts - now;
+    const el = document.getElementById('global-countdown');
+    if (!el) return;
+    if (remaining > 0) {
+      const m = Math.floor(remaining / 60);
+      const s = remaining % 60;
+      el.textContent = '⏳ ' + m + ':' + String(s).padStart(2, '0') + ' 锁定';
+      el.style.color = remaining < 30 ? '#f44336' : remaining < 60 ? '#d29922' : 'var(--yellow)';
+    } else {
+      el.textContent = '🔒 已锁定';
+      el.style.color = '#f44336';
+    }
+  }, 1000);
 }
 
 function startBetCountdown() {
