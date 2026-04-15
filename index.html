@@ -70,6 +70,14 @@
     font-size: 14px; padding: 4px 12px; border-radius: 20px;
     background: rgba(255,255,255,0.06); color: var(--dim);
   }
+  .epoch-pulse {
+    font-size: 32px; font-weight: 800; color: var(--blue);
+    animation: epochPulse 2s ease-in-out infinite;
+  }
+  @keyframes epochPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
 
   .pool-bar {
     padding: 12px 20px; display: flex; align-items: center; gap: 8px;
@@ -244,15 +252,13 @@
 </div>
 
 <div class="wallet-section">
-  <div class="btn-row">
+  <div class="btn-row" style="justify-content:center">
     <button class="btn btn-wallet" id="btn-wallet" onclick="connectWallet()">🔗 连接钱包</button>
-    <button class="btn btn-bet" id="btn-bet" onclick="toggleAutoBet()" disabled>🔄 策略下注</button>
   </div>
   <div class="wallet-info" id="wallet-info">
     <span><span class="wallet-addr" id="wallet-addr"></span></span>
     <span>BNB: <span class="wallet-bnb" id="wallet-bnb">--</span></span>
   </div>
-  <div class="bet-status" id="bet-status"></div>
 </div>
 
 <div class="signal-card" id="signal-card">
@@ -262,8 +268,8 @@
       <div style="font-size:12px;color:var(--dim);margin-top:2px">信号方向</div>
     </div>
     <div style="text-align:right">
-      <div class="signal-direction skip" id="bet-dir">--</div>
-      <div style="font-size:12px;color:var(--yellow)">⬇ 策略下注</div>
+      <div class="epoch-pulse" id="signal-epoch-display">--</div>
+      <div style="font-size:12px;color:var(--dim)">进行中</div>
     </div>
   </div>
   <div class="pool-bar">
@@ -282,13 +288,11 @@
 </div>
 
 <div class="history">
-  <h3>📜 近期策略下注记录</h3>
+  <h3>📜 近期信号记录</h3>
   <table>
     <thead><tr>
       <th class="col-epoch">期号</th>
       <th class="col-dir">信号</th>
-      <th class="col-arrow">→</th>
-      <th class="col-dir" style="color:var(--yellow)">下注</th>
       <th class="col-arrow"></th>
       <th class="col-actual">实际</th>
       <th class="col-conf" style="text-align:right">信心</th>
@@ -342,12 +346,7 @@ function renderSignal(sig) {
   dirEl.textContent = icon;
   dirEl.className = 'signal-direction ' + dirClass(sig.direction);
 
-  // Bet direction = same as signal (follow strategy)
-  const betDir = sig.direction === 'BULL' ? 'BULL' : sig.direction === 'BEAR' ? 'BEAR' : 'SKIP';
-  const betEl = document.getElementById('bet-dir');
-  const betIcon = betDir === 'BULL' ? '🟢 BULL' : betDir === 'BEAR' ? '🔴 BEAR' : '⚪ SKIP';
-  betEl.textContent = betIcon;
-  betEl.className = 'signal-direction ' + dirClass(betDir);
+  document.getElementById('signal-epoch-display').textContent = '#' + sig.epoch;
 
   document.getElementById('signal-epoch').textContent = `期号#${sig.epoch} · 信心 ${Math.round(sig.confidence)}`;
 
@@ -431,16 +430,12 @@ function renderHistoryPage() {
   for (const h of pageItems) {
     const actualDir = h.result || '--';
     const predCls = h.direction === 'BULL' ? 'bull' : h.direction === 'BEAR' ? 'bear' : '';
-    // Bet direction = same as signal (follow strategy)
-    const betDir = h.direction === 'BULL' ? 'BULL' : h.direction === 'BEAR' ? 'BEAR' : '--';
-    const betCls = betDir === 'BULL' ? 'bull' : betDir === 'BEAR' ? 'bear' : '';
     const actCls = actualDir === 'BULL' ? 'bull' : actualDir === 'BEAR' ? 'bear' : '';
-    // Outcome based on reverse bet
     let outcome = '⏳';
     if (h.result && h.direction && h.direction !== 'SKIP') {
       if (h.result === 'TIE') {
         outcome = '➖';
-      } else if (betDir === actualDir) {
+      } else if (h.direction === actualDir) {
         outcome = '✅';
       } else {
         outcome = '❌';
@@ -456,9 +451,7 @@ function renderHistoryPage() {
     const tr = document.createElement('tr');
     tr.innerHTML = '<td class="col-epoch">#' + h.epoch + '</td>' +
       '<td class="col-dir ' + predCls + '">' + (h.direction || '--') + trendTag + '</td>' +
-      '<td class="col-arrow">🔄</td>' +
-      '<td class="col-dir ' + betCls + '" style="opacity:0.8">' + betDir + '</td>' +
-      '<td class="col-arrow">→</td>' +
+      '<td class="col-arrow"></td>' +
       '<td class="col-actual ' + actCls + '">' + actualDir + '</td>' +
       '<td class="col-conf">' + (h.confidence ? Math.round(h.confidence) : '--') + '</td>' +
       '<td class="col-result">' + outcome + '</td>' +
