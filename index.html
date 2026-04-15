@@ -587,35 +587,35 @@ function renderTracking(t) {
     html += `<div class="stat-card"><div class="label">⏱️ 24h胜率 (${w24total}轮)</div><div class="value ${parseFloat(w24wr)>=50?'green':'red'}">${w24wr}%</div></div>`;
   }
 
-  // Hourly win rate distribution from history
-  const hourly = {}; // {hour: {w: n, l: n}}
+  // Hourly BULL rate distribution from history
+  const hourly = {}; // {hour: {bull: n, bear: n}}
   for (const h of hist) {
-    if (!h.result || !h.direction || h.direction === 'SKIP' || h.result === 'TIE') continue;
+    if (!h.result || h.result === 'TIE') continue;
     const tStr = h.time || '';
     if (!tStr) continue;
     try {
       const hour = parseInt(tStr.split(':')[0]);
       if (isNaN(hour)) continue;
       const hk = String(hour);
-      if (!hourly[hk]) hourly[hk] = {w: 0, l: 0};
-      if (h.direction === h.result) hourly[hk].w++;
-      else hourly[hk].l++;
+      if (!hourly[hk]) hourly[hk] = {bull: 0, bear: 0};
+      if (h.result === 'BULL') hourly[hk].bull++;
+      else if (h.result === 'BEAR') hourly[hk].bear++;
     } catch(e) {}
   }
   if (Object.keys(hourly).length > 0) {
-    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">⏰ 时段胜率 (HKT)</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
+    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">⏰ 时段BULL率 (HKT)</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
     for (let h = 0; h < 24; h++) {
       const hs = String(h);
-      const hw = hourly[hs] ? hourly[hs].w : 0;
-      const hl = hourly[hs] ? hourly[hs].l : 0;
-      const ht = hw + hl;
+      const hb = hourly[hs] ? hourly[hs].bull : 0;
+      const hr = hourly[hs] ? hourly[hs].bear : 0;
+      const ht = hb + hr;
       if (ht === 0) continue;
-      const hwr = (hw / ht * 100).toFixed(0);
-      const color = hwr >= 55 ? '#4caf50' : hwr <= 45 ? '#f44336' : '#888';
+      const hbr = (hb / ht * 100).toFixed(0);
+      const color = hbr >= 55 ? '#4caf50' : hbr <= 45 ? '#f44336' : '#888';
       html += `<div style="text-align:center;padding:4px 6px;background:${color}22;border-radius:4px;border:1px solid ${color}44;min-width:52px;">
         <div style="font-size:11px;color:#aaa;">${String(h).padStart(2,'0')}:00</div>
-        <div style="font-weight:bold;color:${color};">${hwr}%</div>
-        <div style="font-size:10px;color:#777;">${hw}W/${hl}L</div>
+        <div style="font-weight:bold;color:${color};">${hbr}%</div>
+        <div style="font-size:10px;color:#777;">${hb}B/${hr}R</div>
       </div>`;
     }
     html += `</div></div>`;
