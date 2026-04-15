@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 472896,
+    "epoch": 472897,
     "direction": "BEAR",
-    "confidence": 52.0,
-    "pool_total": 0.3,
-    "pool_bull": 0.17,
-    "pool_bear": 0.13,
+    "confidence": 55.0,
+    "pool_total": 0.38,
+    "pool_bull": 0.06,
+    "pool_bear": 0.33,
     "signals": [
       {
         "name": "Time",
@@ -17,13 +17,13 @@
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:56.5%(1.8x) R:43.5%(2.3x)"
+        "info": "B:14.8%(6.8x) R:85.2%(1.2x) ⚠️ trap(BEAR极端失衡)"
       },
       {
         "name": "Mom",
-        "direction": null,
-        "score": 0,
-        "info": "$617.81 RSI:40 EMA:+0.07% flat"
+        "direction": "BULL",
+        "score": 16,
+        "info": "$617.25 RSI:28 EMA:-0.03% OS"
       },
       {
         "name": "Liq",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": "📉 连跌3根($-2.37)",
-    "time": "22:41:23"
+    "trend": "📉 连跌3根($-2.80)",
+    "time": "22:46:30"
   },
-  "lock_ts": 1776264141,
-  "current_ts": 1776264398,
+  "lock_ts": 1776264446,
+  "current_ts": 1776264458,
   "history": [
     {
       "epoch": 472031,
@@ -8051,6 +8051,16 @@
       "time": "22:41:23",
       "time_full": "2026-04-15 22:41:23",
       "trend": "📉 连跌3根($-2.37)",
+      "outcome": "WIN",
+      "result": "BEAR"
+    },
+    {
+      "epoch": 472897,
+      "direction": "BEAR",
+      "confidence": 55.0,
+      "time": "22:46:30",
+      "time_full": "2026-04-15 22:46:30",
+      "trend": "📉 连跌3根($-2.80)",
       "outcome": null
     }
   ],
@@ -8060,11 +8070,11 @@
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 49.5,
-    "total_24h": 800,
+    "win_rate_24h": 49.6,
+    "total_24h": 801,
     "hourly_wins": {
       "21": 16,
-      "22": 14,
+      "22": 15,
       "23": 24,
       "0": 12,
       "1": 18,
@@ -8114,9 +8124,9 @@
       "19": 14,
       "20": 15
     },
-    "tracking_win_rate_24h": 49.5,
-    "tracking_total_24h": 800
+    "tracking_win_rate_24h": 49.6,
+    "tracking_total_24h": 801
   },
-  "bnb_price": 617.24,
-  "updated": "2026-04-15T22:46:38.216641"
+  "bnb_price": 617.28,
+  "updated": "2026-04-15T22:47:38.544278"
 }
