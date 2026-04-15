@@ -525,8 +525,8 @@ function renderTracking(t) {
   const sigTotal = sigWins + sigLosses;
   const sigWr = sigTotal > 0 ? (sigWins / sigTotal * 100).toFixed(1) : '0.0';
 
-  // Recent 20
-  const recent20 = hist.slice(-20);
+  // Recent 20 (hist is newest-first after reverse)
+  const recent20 = hist.slice(0, 20);
   let r20w = 0, r20l = 0;
   for (const h of recent20) {
     if (!h.result || !h.direction || h.direction === 'SKIP' || h.result === 'TIE') continue;
