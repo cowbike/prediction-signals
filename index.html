@@ -789,7 +789,7 @@ function startGlobalCountdown() {
   if (globalCountdownTimer) clearInterval(globalCountdownTimer);
   globalCountdownTimer = setInterval(() => {
     const now = Math.floor(Date.now() / 1000);
-    const elapsed = now % 300;
+    const elapsed = (now + 40) % 300;
     const remaining = 300 - elapsed;
     const el = document.getElementById('global-countdown');
     if (!el) return;
