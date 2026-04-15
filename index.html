@@ -661,7 +661,7 @@ async function fetchData() {
     document.getElementById('live-text').textContent = '实时';
     renderSignal(data.current);
     renderHistory(data.history);
-    startGlobalCountdown(data);
+    startGlobalCountdown();
     renderTracking(data.tracking);
     updateBnbPrice(data);
   } catch (e) {
@@ -785,25 +785,18 @@ function hideBetStatus() {
 }
 
 let globalCountdownTimer;
-function startGlobalCountdown(data) {
+function startGlobalCountdown() {
   if (globalCountdownTimer) clearInterval(globalCountdownTimer);
-  if (!data || !data.lock_ts) return;
   globalCountdownTimer = setInterval(() => {
-    const d = window._signalData;
-    if (!d || !d.lock_ts) return;
     const now = Math.floor(Date.now() / 1000);
-    const remaining = d.lock_ts - now;
+    const elapsed = now % 300;
+    const remaining = 300 - elapsed;
     const el = document.getElementById('global-countdown');
     if (!el) return;
-    if (remaining > 0) {
-      const m = Math.floor(remaining / 60);
-      const s = remaining % 60;
-      el.textContent = '⏳ ' + m + ':' + String(s).padStart(2, '0') + ' 锁定';
-      el.style.color = remaining < 30 ? '#f44336' : remaining < 60 ? '#d29922' : 'var(--yellow)';
-    } else {
-      el.textContent = '🔒 已锁定';
-      el.style.color = '#f44336';
-    }
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    el.textContent = '⏳ ' + m + ':' + String(s).padStart(2, '0') + ' 锁定';
+    el.style.color = remaining < 30 ? '#f44336' : remaining < 60 ? '#d29922' : 'var(--yellow)';
   }, 1000);
 }
 
