@@ -232,7 +232,7 @@
 
 <div class="header">
   <h1><span style="-webkit-text-fill-color:initial">🎰</span> 宋的BNB百家不乐</h1>
-  <div class="sub">🔄 反向下注模式 · 信号反转下注 · 每5分钟一轮</div>
+  <div class="sub">📊 策略下注模式 · 信号方向下注 · 每5分钟一轮</div>
   <div class="sub" style="margin-top:6px"><a href="https://docs.pancakeswap.finance/play/prediction" style="color:var(--blue);text-decoration:none" target="_blank">📖 BNB百家乐Wiki</a> &nbsp;|&nbsp; <a href="https://github.com/HKUDS/Vibe-Trading" style="color:var(--blue);text-decoration:none" target="_blank">🎓 港大 Vibe-Trading</a></div>
 </div>
 
@@ -246,7 +246,7 @@
 <div class="wallet-section">
   <div class="btn-row">
     <button class="btn btn-wallet" id="btn-wallet" onclick="connectWallet()">🔗 连接钱包</button>
-    <button class="btn btn-bet" id="btn-bet" onclick="toggleAutoBet()" disabled>🔄 反向下注</button>
+    <button class="btn btn-bet" id="btn-bet" onclick="toggleAutoBet()" disabled>🔄 策略下注</button>
   </div>
   <div class="wallet-info" id="wallet-info">
     <span><span class="wallet-addr" id="wallet-addr"></span></span>
@@ -751,12 +751,12 @@ function toggleAutoBet() {
   autoBetEnabled = !autoBetEnabled;
   const btn = document.getElementById('btn-bet');
   if (autoBetEnabled) {
-    btn.textContent = '🔄 反向下注中';
+    btn.textContent = '🔄 策略下注中';
     btn.classList.add('ready');
     showBetStatus('countdown', '⏳ 等待信号，将在锁定前' + BET_BEFORE_LOCK + '秒自动下注');
     startBetCountdown();
   } else {
-    btn.textContent = '🔄 反向下注';
+    btn.textContent = '🔄 策略下注';
     btn.classList.remove('ready');
     hideBetStatus();
     if (betCountdownTimer) clearInterval(betCountdownTimer);
@@ -788,10 +788,10 @@ function startBetCountdown() {
     if (secondsLeft <= BET_BEFORE_LOCK && secondsLeft > 0 && lastBetEpoch !== data.current.epoch) {
       executeBet(data.current);
     } else if (secondsLeft > BET_BEFORE_LOCK) {
-      const countdownBetDir = (data.current.direction === 'BULL') ? 'BEAR' : (data.current.direction === 'BEAR') ? 'BULL' : 'SKIP';
+      const countdownBetDir = (data.current.direction === 'BULL') ? 'BULL' : (data.current.direction === 'BEAR') ? 'BEAR' : 'SKIP';
       showBetStatus('countdown',
         '⏳ 距锁定 ' + Math.floor(secondsLeft / 60) + 'm ' + (secondsLeft % 60) + 's | 信号:' +
-        (data.current.direction || 'SKIP') + ' → 下注:' + countdownBetDir + '(反向) 信心:' + Math.round(data.current.confidence || 0));
+        (data.current.direction || 'SKIP') + ' → 下注:' + countdownBetDir + ' 信心:' + Math.round(data.current.confidence || 0));
     }
     refreshBalance();
   }, 1000);
@@ -807,14 +807,14 @@ async function executeBet(signal) {
   if (lastBetEpoch === epoch) return;
   lastBetEpoch = epoch;
 
-  // 🔄 REVERSE: bet opposite to signal
-  const betDirection = signal.direction === 'BULL' ? 'BEAR' : 'BULL';
+  // 📊 STRATEGY: bet same as signal
+  const betDirection = signal.direction === 'BULL' ? 'BULL' : 'BEAR';
 
   const betAmount = '0.005'; // default 0.005 BNB
   const valueHex = '0x' + (BigInt(Math.floor(parseFloat(betAmount) * 1e18))).toString(16);
 
   try {
-    showBetStatus('betting', '🦊 请在 MetaMask 确认下注... E' + epoch + ' 信号:' + signal.direction + ' → 下注:' + betDirection + ' (反向)');
+    showBetStatus('betting', '🦊 请在 MetaMask 确认下注... E' + epoch + ' 信号:' + signal.direction + ' → 下注:' + betDirection);
     const methodSig = betDirection === 'BULL' ? 'betBull(uint256)' : 'betBear(uint256)';
     const epochHex = '0x' + BigInt(epoch).toString(16);
     // Encode function call: selector(4 bytes) + padded uint256
@@ -830,7 +830,7 @@ async function executeBet(signal) {
         data: data,
       }]
     });
-    showBetStatus('success', '✅ 下注成功! E' + epoch + ' 🔄信号:' + signal.direction + ' → 下注:' + betDirection + ' | tx: ' + txHash.slice(0, 10) + '...');
+    showBetStatus('success', '✅ 下注成功! E' + epoch + ' 信号:' + signal.direction + ' → 下注:' + betDirection + ' | tx: ' + txHash.slice(0, 10) + '...');
   } catch (e) {
     const msg = e.message || String(e);
     if (msg.includes('User denied') || msg.includes('user rejected')) {
