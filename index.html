@@ -263,7 +263,7 @@
     </div>
     <div style="text-align:right">
       <div class="signal-direction skip" id="bet-dir">--</div>
-      <div style="font-size:12px;color:var(--yellow)">⬇ 反向下注</div>
+      <div style="font-size:12px;color:var(--yellow)">⬇ 策略下注</div>
     </div>
   </div>
   <div class="pool-bar">
@@ -282,7 +282,7 @@
 </div>
 
 <div class="history">
-  <h3>📜 近期反向下注记录</h3>
+  <h3>📜 近期策略下注记录</h3>
   <table>
     <thead><tr>
       <th class="col-epoch">期号</th>
@@ -301,7 +301,7 @@
 </div>
 
 <div class="tracking">
-  <h3>📊 反向胜率统计</h3>
+  <h3>📊 策略胜率统计</h3>
   <div class="tracking-stats" id="tracking-stats"></div>
 </div>
 
@@ -342,8 +342,8 @@ function renderSignal(sig) {
   dirEl.textContent = icon;
   dirEl.className = 'signal-direction ' + dirClass(sig.direction);
 
-  // Bet direction = reverse of signal
-  const betDir = sig.direction === 'BULL' ? 'BEAR' : sig.direction === 'BEAR' ? 'BULL' : 'SKIP';
+  // Bet direction = same as signal (follow strategy)
+  const betDir = sig.direction === 'BULL' ? 'BULL' : sig.direction === 'BEAR' ? 'BEAR' : 'SKIP';
   const betEl = document.getElementById('bet-dir');
   const betIcon = betDir === 'BULL' ? '🟢 BULL' : betDir === 'BEAR' ? '🔴 BEAR' : '⚪ SKIP';
   betEl.textContent = betIcon;
@@ -384,7 +384,7 @@ function renderSignal(sig) {
 
   const icons = { Time: '⏰', Pool: '🏊', Mom: '📈', Liq: '💥', FR: '💰' };
   const subs = { Pool: '赔率偏差', FR: '资金费率', Mom: 'RSI+EMA', Liq: '多空比', Time: '时段偏差' };
-  const weights = { Pool: '40%', FR: '20%', Mom: '15%', Liq: '15%', Time: '10%' };
+  const weights = { Time: '30%', Pool: '20%', Mom: '20%', Liq: '20%', FR: '10%' };
   for (const s of sig.signals || []) {
     const row = document.createElement('div');
     row.className = 'signal-row';
@@ -431,8 +431,8 @@ function renderHistoryPage() {
   for (const h of pageItems) {
     const actualDir = h.result || '--';
     const predCls = h.direction === 'BULL' ? 'bull' : h.direction === 'BEAR' ? 'bear' : '';
-    // Bet direction = reverse of signal
-    const betDir = h.direction === 'BULL' ? 'BEAR' : h.direction === 'BEAR' ? 'BULL' : '--';
+    // Bet direction = same as signal (follow strategy)
+    const betDir = h.direction === 'BULL' ? 'BULL' : h.direction === 'BEAR' ? 'BEAR' : '--';
     const betCls = betDir === 'BULL' ? 'bull' : betDir === 'BEAR' ? 'bear' : '';
     const actCls = actualDir === 'BULL' ? 'bull' : actualDir === 'BEAR' ? 'bear' : '';
     // Outcome based on reverse bet
@@ -515,30 +515,28 @@ function renderTracking(t) {
   const el = document.getElementById('tracking-stats');
   const hist = currentHistory || [];
 
-  // Calculate reverse bet win rate from history
-  let revWins = 0, revLosses = 0;
+  // Overall strategy win rate: signal direction vs actual result
+  let sigWins = 0, sigLosses = 0;
   for (const h of hist) {
     if (!h.result || !h.direction || h.direction === 'SKIP' || h.result === 'TIE') continue;
-    const betDir = h.direction === 'BULL' ? 'BEAR' : 'BULL';
-    if (betDir === h.result) revWins++;
-    else revLosses++;
+    if (h.direction === h.result) sigWins++;
+    else sigLosses++;
   }
-  const revTotal = revWins + revLosses;
-  const revWr = revTotal > 0 ? (revWins / revTotal * 100).toFixed(1) : '0.0';
+  const sigTotal = sigWins + sigLosses;
+  const sigWr = sigTotal > 0 ? (sigWins / sigTotal * 100).toFixed(1) : '0.0';
 
-  // Recent 20 from history (reverse)
+  // Recent 20
   const recent20 = hist.slice(-20);
   let r20w = 0, r20l = 0;
   for (const h of recent20) {
     if (!h.result || !h.direction || h.direction === 'SKIP' || h.result === 'TIE') continue;
-    const betDir = h.direction === 'BULL' ? 'BEAR' : 'BULL';
-    if (betDir === h.result) r20w++;
+    if (h.direction === h.result) r20w++;
     else r20l++;
   }
   const r20total = r20w + r20l;
   const r20wr = r20total > 0 ? (r20w / r20total * 100).toFixed(1) : '0.0';
 
-  // 24h reverse win rate
+  // 24h win rate
   const now = new Date();
   const cutoff24 = new Date(now - 24*60*60*1000);
   let w24w = 0, w24l = 0;
@@ -550,23 +548,29 @@ function renderTracking(t) {
         if (ts < cutoff24) continue;
       } catch(e) { continue; }
     } else { continue; }
-    const betDir = h.direction === 'BULL' ? 'BEAR' : 'BULL';
-    if (betDir === h.result) w24w++;
+    if (h.direction === h.result) w24w++;
     else w24l++;
   }
   const w24total = w24w + w24l;
   const w24wr = w24total > 0 ? (w24w / w24total * 100).toFixed(1) : '0.0';
 
+  // Use tracking file totals as primary source (more reliable)
+  const tWins = (t && t.wins) || 0;
+  const tLosses = (t && t.losses) || 0;
+  const tTotal = tWins + tLosses;
+  const tWr = tTotal > 0 ? (tWins / tTotal * 100).toFixed(1) : sigWr;
+
   let html = `
-    <div class="stat-card"><div class="label">反向胜率</div><div class="value ${parseFloat(revWr)>=50?'green':'red'}">${revWr}%</div></div>
-    <div class="stat-card"><div class="label">近20轮反向</div><div class="value ${parseFloat(r20wr)>=50?'green':'red'}">${r20wr}%</div></div>
-    <div class="stat-card"><div class="label">反向 胜/负</div><div class="value">${revWins} / ${revLosses}</div></div>
+    <div class="stat-card"><div class="label">📊 全部轮胜率 (${tTotal}轮)</div><div class="value ${parseFloat(tWr)>=50?'green':'red'}">${tWr}%</div></div>
+    <div class="stat-card"><div class="label">🏆 近20轮胜率 (${r20total}轮)</div><div class="value ${parseFloat(r20wr)>=50?'green':'red'}">${r20wr}%</div></div>
+    <div class="stat-card"><div class="label">📋 总计 胜/负</div><div class="value">${tWins} / ${tLosses}</div></div>
   `;
   if (w24total > 0) {
-    html += `<div class="stat-card"><div class="label">24h反向 (${w24total}轮)</div><div class="value ${parseFloat(w24wr)>=50?'green':'red'}">${w24wr}%</div></div>`;
+    html += `<div class="stat-card"><div class="label">⏱️ 24h胜率 (${w24total}轮)</div><div class="value ${parseFloat(w24wr)>=50?'green':'red'}">${w24wr}%</div></div>`;
   }
-  // Hourly reverse win rate distribution from history
-  const hourlyRev = {}; // {hour: {w: n, l: n}}
+
+  // Hourly win rate distribution from history
+  const hourly = {}; // {hour: {w: n, l: n}}
   for (const h of hist) {
     if (!h.result || !h.direction || h.direction === 'SKIP' || h.result === 'TIE') continue;
     const tStr = h.time || '';
@@ -575,18 +579,17 @@ function renderTracking(t) {
       const hour = parseInt(tStr.split(':')[0]);
       if (isNaN(hour)) continue;
       const hk = String(hour);
-      if (!hourlyRev[hk]) hourlyRev[hk] = {w: 0, l: 0};
-      const betDir = h.direction === 'BULL' ? 'BEAR' : 'BULL';
-      if (betDir === h.result) hourlyRev[hk].w++;
-      else hourlyRev[hk].l++;
+      if (!hourly[hk]) hourly[hk] = {w: 0, l: 0};
+      if (h.direction === h.result) hourly[hk].w++;
+      else hourly[hk].l++;
     } catch(e) {}
   }
-  if (Object.keys(hourlyRev).length > 0) {
-    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">⏰ 反向小时胜率 (HKT)</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
+  if (Object.keys(hourly).length > 0) {
+    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">⏰ 时段胜率 (HKT)</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
     for (let h = 0; h < 24; h++) {
       const hs = String(h);
-      const hw = hourlyRev[hs] ? hourlyRev[hs].w : 0;
-      const hl = hourlyRev[hs] ? hourlyRev[hs].l : 0;
+      const hw = hourly[hs] ? hourly[hs].w : 0;
+      const hl = hourly[hs] ? hourly[hs].l : 0;
       const ht = hw + hl;
       if (ht === 0) continue;
       const hwr = (hw / ht * 100).toFixed(0);
@@ -595,6 +598,40 @@ function renderTracking(t) {
         <div style="font-size:11px;color:#aaa;">${String(h).padStart(2,'0')}:00</div>
         <div style="font-weight:bold;color:${color};">${hwr}%</div>
         <div style="font-size:10px;color:#777;">${hw}W/${hl}L</div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  // Day-of-week distribution
+  const dowNames = ['周日','周一','周二','周三','周四','周五','周六'];
+  const dow = {};
+  for (const h of hist) {
+    if (!h.result || !h.direction || h.direction === 'SKIP' || h.result === 'TIE') continue;
+    if (!h.time_full) continue;
+    try {
+      const ts = new Date(h.time_full);
+      const d = ts.getDay();
+      const dk = String(d);
+      if (!dow[dk]) dow[dk] = {w: 0, l: 0};
+      if (h.direction === h.result) dow[dk].w++;
+      else dow[dk].l++;
+    } catch(e) {}
+  }
+  if (Object.keys(dow).length > 0) {
+    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">📅 星期胜率</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
+    for (let d = 1; d <= 7; d++) {
+      const ds = String(d % 7);
+      const dw = dow[ds] ? dow[ds].w : 0;
+      const dl = dow[ds] ? dow[ds].l : 0;
+      const dt = dw + dl;
+      if (dt === 0) continue;
+      const dwr = (dw / dt * 100).toFixed(0);
+      const color = dwr >= 55 ? '#4caf50' : dwr <= 45 ? '#f44336' : '#888';
+      html += `<div style="text-align:center;padding:4px 6px;background:${color}22;border-radius:4px;border:1px solid ${color}44;min-width:52px;">
+        <div style="font-size:11px;color:#aaa;">${dowNames[d%7]}</div>
+        <div style="font-weight:bold;color:${color};">${dwr}%</div>
+        <div style="font-size:10px;color:#777;">${dw}W/${dl}L</div>
       </div>`;
     }
     html += `</div></div>`;
