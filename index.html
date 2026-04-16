@@ -267,7 +267,7 @@
   <div class="signal-header">
     <div>
       <div class="signal-direction skip" id="signal-dir">等待数据...</div>
-      <div style="font-size:12px;color:var(--dim);margin-top:2px">信号方向</div>
+      <div style="font-size:12px;color:var(--dim);margin-top:2px">信号方向 · 信心</div>
     </div>
     <div style="text-align:right">
       <div class="epoch-pulse" id="signal-epoch-display">--</div>
@@ -344,8 +344,10 @@ function dirClass(d) {
 function renderSignal(sig) {
   if (!sig) return;
   const dirEl = document.getElementById('signal-dir');
+  const conf = sig.confidence ? Math.round(sig.confidence) : 0;
+  const confHtml = conf > 0 ? ' <span style="font-size:0.7em;background:rgba(255,255,255,0.12);padding:2px 8px;border-radius:12px;margin-left:4px;vertical-align:middle">' + conf + '</span>' : '';
   const icon = sig.direction === 'BULL' ? '🟢 BULL' : sig.direction === 'BEAR' ? '🔴 BEAR' : '⚪ SKIP';
-  dirEl.textContent = icon;
+  dirEl.innerHTML = icon + confHtml;
   dirEl.className = 'signal-direction ' + dirClass(sig.direction);
 
   document.getElementById('signal-epoch-display').textContent = '#' + sig.epoch;
