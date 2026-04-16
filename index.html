@@ -549,6 +549,12 @@ function renderTracking(t) {
   const w24total = w24w + w24l;
   const w24wr = w24total > 0 ? (w24w / w24total * 100).toFixed(1) : '0.0';
 
+  // Count cumulative SKIP rounds
+  let skipCount = 0;
+  for (const h of hist) {
+    if (h.direction === 'SKIP') skipCount++;
+  }
+
   // Use tracking file totals as primary source (more reliable)
   const tWins = (t && t.wins) || 0;
   const tLosses = (t && t.losses) || 0;
@@ -578,9 +584,7 @@ function renderTracking(t) {
     <div class="stat-card"><div class="label">🔥 最大连胜</div><div class="value green">${maxWinStreak}轮</div></div>
     <div class="stat-card"><div class="label">💔 最大连败</div><div class="value red">${maxLossStreak}轮</div></div>
   `;
-  if (w24total > 0) {
-    html += `<div class="stat-card"><div class="label">⏱️ 24h胜率 (${w24total}轮)</div><div class="value ${parseFloat(w24wr)>=50?'green':'red'}">${w24wr}%</div></div>`;
-  }
+  html += `<div class="stat-card"><div class="label">⚪ 累计跳过</div><div class="value" style="color:var(--dim)">${skipCount}局</div></div>`;
 
   // Hourly BULL rate distribution from history
   const hourly = {}; // {hour: {bull: n, bear: n}}
