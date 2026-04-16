@@ -785,18 +785,92 @@ function hideBetStatus() {
 }
 
 let globalCountdownTimer;
+let _chainLockTs = 0;   // lock_ts from on-chain (live)
+let _chainFetchedAt = 0; // when we last fetched
+const CHAIN_RPC = 'https://bsc-dataseed1.binance.org';
+const CHAIN_CONTRACT = '0x18B2A687610328590Bc8F2e5fEdDe3b582A49cdA';
+const CHAIN_REFRESH_MS = 45000; // re-fetch every 45s
+
+async function fetchChainLockTs() {
+  try {
+    // 1. Get current epoch
+    const callRpc = async (data) => {
+      const resp = await fetch(CHAIN_RPC, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({jsonrpc:'2.0', method:'eth_call', params:[{to:CHAIN_CONTRACT, data}, 'latest'], id:1})
+      });
+      const j = await resp.json();
+      return j.result;
+    };
+    const epochHex = await callRpc('0x76671808');
+    if (!epochHex || epochHex === '0x') return;
+    const epoch = parseInt(epochHex, 16);
+
+    // 2. Get round data → lock_ts is the 3rd uint256 field (offset 128 hex chars)
+    const epochPadded = epoch.toString(16).padStart(64, '0');
+    const roundHex = await callRpc('0x8c65c81f' + epochPadded);
+    if (!roundHex || roundHex.length < 2 + 64*3) return;
+    // startTs = field[1], lockTs = field[2]
+    const lockTs = parseInt(roundHex.slice(2 + 128, 2 + 192), 16);
+
+    if (lockTs > 0) {
+      _chainLockTs = lockTs;
+      _chainFetchedAt = Math.floor(Date.now() / 1000);
+      console.log('[chain] epoch=' + epoch + ' lockTs=' + lockTs + ' (' + new Date(lockTs*1000).toISOString() + ')');
+    }
+  } catch(e) {
+    console.warn('[chain] fetch failed:', e);
+  }
+}
+
 function startGlobalCountdown() {
   if (globalCountdownTimer) clearInterval(globalCountdownTimer);
+  // Initial fetch + periodic refresh
+  fetchChainLockTs();
+  setInterval(fetchChainLockTs, CHAIN_REFRESH_MS);
+
   globalCountdownTimer = setInterval(() => {
     const now = Math.floor(Date.now() / 1000);
-    const elapsed = (now - 45) % 300;
-    const remaining = 300 - elapsed;
     const el = document.getElementById('global-countdown');
     if (!el) return;
-    const m = Math.floor(remaining / 60);
-    const s = remaining % 60;
-    el.textContent = '⏳ ' + m + ':' + String(s).padStart(2, '0') + ' 锁定';
-    el.style.color = remaining < 30 ? '#f44336' : remaining < 60 ? '#d29922' : 'var(--yellow)';
+
+    let lockTs = _chainLockTs;
+
+    // If we have a valid lock_ts from chain, use it
+    if (lockTs > 0) {
+      // Advance to current cycle if lock_ts has passed
+      while (now >= lockTs) {
+        lockTs += 300;
+      }
+      const remaining = lockTs - now;
+      const m = Math.floor(remaining / 60);
+      const s = remaining % 60;
+      const inBetting = remaining <= 300;
+      const label = inBetting ? '锁定' : '开仓';
+      el.textContent = '⏳ ' + m + ':' + String(s).padStart(2, '0') + ' ' + label;
+      el.style.color = remaining < 30 ? '#f44336' : remaining < 60 ? '#d29922' : 'var(--yellow)';
+    } else {
+      // Fallback: approximate from signals.json lock_ts (may be stale)
+      const sigLockTs = (window._signalData && window._signalData.lock_ts) || 0;
+      if (sigLockTs > 0) {
+        let lt = sigLockTs;
+        while (now >= lt) lt += 300;
+        const remaining = lt - now;
+        const m = Math.floor(remaining / 60);
+        const s = remaining % 60;
+        el.textContent = '⏳ ~' + m + ':' + String(s).padStart(2, '0') + ' 锁定';
+        el.style.color = 'var(--dim)';
+      } else {
+        // Last resort: old modulo fallback
+        const elapsed = now % 300;
+        const remaining = 300 - elapsed;
+        const m = Math.floor(remaining / 60);
+        const s = remaining % 60;
+        el.textContent = '⏳ ~' + m + ':' + String(s).padStart(2, '0') + ' 锁定';
+        el.style.color = 'var(--dim)';
+      }
+    }
   }, 1000);
 }
 
