@@ -384,6 +384,7 @@ def main():
                 existing["history"] = history
                 existing["tracking"] = tracking
                 existing["bnb_price"] = fetch_bnb_price()
+                existing["hourly_stats"] = existing.get("hourly_stats", {})
                 existing["updated"] = datetime.now().isoformat()
                 OUTPUT_FILE.write_text(json.dumps(existing, ensure_ascii=False, indent=2))
                 print(f"  Kept daemon signal E{existing_epoch} (cron had E{new_epoch})")
@@ -400,6 +401,7 @@ def main():
         "current_ts": int(time.time()),
         "history": history,
         "tracking": tracking,
+        "hourly_stats": {},
         "bnb_price": fetch_bnb_price(),
         "updated": datetime.now().isoformat(),
     }
