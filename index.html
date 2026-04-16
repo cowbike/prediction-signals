@@ -515,19 +515,20 @@ function renderPagination(totalPages, total) {
 
 function renderHourlyLive() {
   const hist = currentHistory || [];
-  // Get current HKT hour
+  // Get current HKT date+hour
   const now = new Date();
   const hktOffset = 8 * 60;
   const hktNow = new Date(now.getTime() + (hktOffset + now.getTimezoneOffset()) * 60000);
+  const todayStr = hktNow.toISOString().slice(0, 10); // "2026-04-16"
   const currentHour = hktNow.getHours();
+  const hourPrefix = todayStr + ' ' + String(currentHour).padStart(2, '0'); // "2026-04-16 23"
 
-  // Count only this hour's rounds (resets every hour)
+  // Count only TODAY's current hour rounds (max 12 per hour)
   let bull = 0, bear = 0, skip = 0;
   for (const h of hist) {
-    // history time is HKT "HH:MM:SS"
-    if (!h.time) continue;
-    const hHour = parseInt(h.time);
-    if (hHour !== currentHour) continue;
+    // Use time_full to match both date and hour
+    if (!h.time_full) continue;
+    if (!h.time_full.startsWith(hourPrefix)) continue;
 
     if (h.direction === 'BULL') bull++;
     else if (h.direction === 'BEAR') bear++;
@@ -546,7 +547,7 @@ function renderHourlyLive() {
   const bearPct = betTotal > 0 ? (bear / betTotal * 100).toFixed(0) : '--';
 
   el.innerHTML = `
-    <div class="stat-card"><div class="label">🕐 ${String(currentHour).padStart(2,'0')}:00 - ${String(currentHour).padStart(2,'0')}:59 (HKT)</div><div class="value">${total}轮</div></div>
+    <div class="stat-card"><div class="label">🕐 ${String(currentHour).padStart(2,'0')}:00 - ${String(currentHour).padStart(2,'0')}:59 (HKT)</div><div class="value">${total}/12轮</div></div>
     <div class="stat-card"><div class="label">🟢 BULL</div><div class="value green">${bull}次${betTotal > 0 ? ' (' + bullPct + '%)' : ''}</div></div>
     <div class="stat-card"><div class="label">🔴 BEAR</div><div class="value red">${bear}次${betTotal > 0 ? ' (' + bearPct + '%)' : ''}</div></div>
     <div class="stat-card"><div class="label">⚪ SKIP</div><div class="value" style="color:var(--dim)">${skip}次</div></div>
