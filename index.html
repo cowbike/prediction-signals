@@ -517,22 +517,16 @@ function renderHourlyLive() {
   const hist = currentHistory || [];
   // Get current HKT hour
   const now = new Date();
-  const hktOffset = 8 * 60; // HKT = UTC+8
+  const hktOffset = 8 * 60;
   const hktNow = new Date(now.getTime() + (hktOffset + now.getTimezoneOffset()) * 60000);
   const currentHour = hktNow.getHours();
 
+  // Count only this hour's rounds (resets every hour)
   let bull = 0, bear = 0, skip = 0;
   for (const h of hist) {
-    // Match current hour — history time is in HKT "HH:MM:SS"
-    let hHour = -1;
-    if (h.time) {
-      hHour = parseInt(h.time);
-    } else if (h.time_full) {
-      try {
-        const d = new Date(h.time_full);
-        hHour = (d.getUTCHours() + 8) % 24;
-      } catch(e) {}
-    }
+    // history time is HKT "HH:MM:SS"
+    if (!h.time) continue;
+    const hHour = parseInt(h.time);
     if (hHour !== currentHour) continue;
 
     if (h.direction === 'BULL') bull++;
@@ -540,23 +534,21 @@ function renderHourlyLive() {
     else if (h.direction === 'SKIP') skip++;
   }
 
-  const total = bull + bear;
+  const total = bull + bear + skip;
   const section = document.getElementById('hourly-live-section');
   const el = document.getElementById('hourly-live-stats');
 
-  if (total === 0 && skip === 0) {
-    section.style.display = 'none';
-    return;
-  }
+  // Always show (even at 0) so user sees the counter reset each hour
   section.style.display = '';
 
-  const bullPct = total > 0 ? (bull / total * 100).toFixed(0) : 0;
-  const bearPct = total > 0 ? (bear / total * 100).toFixed(0) : 0;
+  const betTotal = bull + bear;
+  const bullPct = betTotal > 0 ? (bull / betTotal * 100).toFixed(0) : '--';
+  const bearPct = betTotal > 0 ? (bear / betTotal * 100).toFixed(0) : '--';
 
   el.innerHTML = `
-    <div class="stat-card"><div class="label">🕐 ${currentHour}:00 - ${currentHour}:59 (HKT)</div><div class="value">${bull + bear + skip}轮</div></div>
-    <div class="stat-card"><div class="label">🟢 BULL</div><div class="value green">${bull}次 (${bullPct}%)</div></div>
-    <div class="stat-card"><div class="label">🔴 BEAR</div><div class="value red">${bear}次 (${bearPct}%)</div></div>
+    <div class="stat-card"><div class="label">🕐 ${String(currentHour).padStart(2,'0')}:00 - ${String(currentHour).padStart(2,'0')}:59 (HKT)</div><div class="value">${total}轮</div></div>
+    <div class="stat-card"><div class="label">🟢 BULL</div><div class="value green">${bull}次${betTotal > 0 ? ' (' + bullPct + '%)' : ''}</div></div>
+    <div class="stat-card"><div class="label">🔴 BEAR</div><div class="value red">${bear}次${betTotal > 0 ? ' (' + bearPct + '%)' : ''}</div></div>
     <div class="stat-card"><div class="label">⚪ SKIP</div><div class="value" style="color:var(--dim)">${skip}次</div></div>
   `;
 }
