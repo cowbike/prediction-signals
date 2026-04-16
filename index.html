@@ -793,7 +793,6 @@ const CHAIN_REFRESH_MS = 45000; // re-fetch every 45s
 
 async function fetchChainLockTs() {
   try {
-    // 1. Get current epoch
     const callRpc = async (data) => {
       const resp = await fetch(CHAIN_RPC, {
         method: 'POST',
@@ -801,26 +800,39 @@ async function fetchChainLockTs() {
         body: JSON.stringify({jsonrpc:'2.0', method:'eth_call', params:[{to:CHAIN_CONTRACT, data}, 'latest'], id:1})
       });
       const j = await resp.json();
+      if (!j.result || j.result === '0x') return null;
       return j.result;
     };
-    const epochHex = await callRpc('0x76671808');
-    if (!epochHex || epochHex === '0x') return;
-    const epoch = parseInt(epochHex, 16);
 
-    // 2. Get round data → lock_ts is the 3rd uint256 field (offset 128 hex chars)
+    // 1. Get current epoch
+    const epochHex = await callRpc('0x76671808');
+    if (!epochHex) { console.warn('[chain] epoch fetch returned null'); return; }
+    const epoch = parseInt(epochHex, 16);
+    if (!epoch || isNaN(epoch)) { console.warn('[chain] bad epoch:', epochHex); return; }
+
+    // 2. Get round data (returns ABI-encoded Round struct)
+    // Struct: epoch, startTimestamp, lockTimestamp, closeTimestamp, ...
+    // Each uint256 = 32 bytes = 64 hex chars
     const epochPadded = epoch.toString(16).padStart(64, '0');
     const roundHex = await callRpc('0x8c65c81f' + epochPadded);
-    if (!roundHex || roundHex.length < 2 + 64*3) return;
-    // startTs = field[1], lockTs = field[2]
-    const lockTs = parseInt(roundHex.slice(2 + 128, 2 + 192), 16);
+    if (!roundHex) { console.warn('[chain] round fetch returned null'); return; }
+    // Strip 0x, then each 64-char chunk is one uint256 field
+    const hex = roundHex.startsWith('0x') ? roundHex.slice(2) : roundHex;
+    if (hex.length < 64 * 3) { console.warn('[chain] roundHex too short:', hex.length); return; }
+    // Fields: [0]=epoch, [1]=startTs, [2]=lockTs, [3]=closeTs
+    const lockTs = parseInt(hex.substring(128, 192), 16);
 
-    if (lockTs > 0) {
+    if (lockTs > 1e9) {
       _chainLockTs = lockTs;
       _chainFetchedAt = Math.floor(Date.now() / 1000);
-      console.log('[chain] epoch=' + epoch + ' lockTs=' + lockTs + ' (' + new Date(lockTs*1000).toISOString() + ')');
+      console.log('[chain] ✅ epoch=' + epoch + ' lockTs=' + lockTs +
+        ' (' + new Date(lockTs*1000).toISOString().slice(11,19) + ' UTC)' +
+        ' remaining=' + (lockTs - Math.floor(Date.now()/1000)) + 's');
+    } else {
+      console.warn('[chain] invalid lockTs:', lockTs, 'hex:', hex.substring(128, 192));
     }
   } catch(e) {
-    console.warn('[chain] fetch failed:', e);
+    console.warn('[chain] fetch failed:', e.message || e);
   }
 }
 
