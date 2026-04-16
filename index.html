@@ -517,10 +517,10 @@ function renderHourlyLive() {
   const hist = currentHistory || [];
   // Get current HKT date+hour
   const now = new Date();
-  const hktOffset = 8 * 60;
-  const hktNow = new Date(now.getTime() + (hktOffset + now.getTimezoneOffset()) * 60000);
-  const todayStr = hktNow.toISOString().slice(0, 10); // "2026-04-16"
-  const currentHour = hktNow.getHours();
+  const HKT_MS = 8 * 60 * 60 * 1000;
+  const hktNow = new Date(now.getTime() + HKT_MS);
+  const todayStr = hktNow.toISOString().slice(0, 10); // "2026-04-17"
+  const currentHour = parseInt(hktNow.toISOString().slice(11, 13)); // HKT hour from UTC+8
   const hourPrefix = todayStr + ' ' + String(currentHour).padStart(2, '0'); // "2026-04-16 23"
 
   // Count only TODAY's current hour rounds (max 12 per hour)
