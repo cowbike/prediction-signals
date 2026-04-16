@@ -306,6 +306,11 @@
   <div id="pagination"></div>
 </div>
 
+<div class="tracking" id="hourly-live-section" style="display:none">
+  <h3>🕐 当前小时区间</h3>
+  <div class="tracking-stats" id="hourly-live-stats"></div>
+</div>
+
 <div class="tracking">
   <h3>📊 策略胜率统计</h3>
   <div class="tracking-stats" id="tracking-stats"></div>
@@ -508,6 +513,54 @@ function renderPagination(totalPages, total) {
   el.appendChild(info);
 }
 
+function renderHourlyLive() {
+  const hist = currentHistory || [];
+  // Get current HKT hour
+  const now = new Date();
+  const hktOffset = 8 * 60; // HKT = UTC+8
+  const hktNow = new Date(now.getTime() + (hktOffset + now.getTimezoneOffset()) * 60000);
+  const currentHour = hktNow.getHours();
+
+  let bull = 0, bear = 0, skip = 0;
+  for (const h of hist) {
+    // Match current hour — history time is in HKT "HH:MM:SS"
+    let hHour = -1;
+    if (h.time) {
+      hHour = parseInt(h.time);
+    } else if (h.time_full) {
+      try {
+        const d = new Date(h.time_full);
+        hHour = (d.getUTCHours() + 8) % 24;
+      } catch(e) {}
+    }
+    if (hHour !== currentHour) continue;
+
+    if (h.direction === 'BULL') bull++;
+    else if (h.direction === 'BEAR') bear++;
+    else if (h.direction === 'SKIP') skip++;
+  }
+
+  const total = bull + bear;
+  const section = document.getElementById('hourly-live-section');
+  const el = document.getElementById('hourly-live-stats');
+
+  if (total === 0 && skip === 0) {
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = '';
+
+  const bullPct = total > 0 ? (bull / total * 100).toFixed(0) : 0;
+  const bearPct = total > 0 ? (bear / total * 100).toFixed(0) : 0;
+
+  el.innerHTML = `
+    <div class="stat-card"><div class="label">🕐 ${currentHour}:00 - ${currentHour}:59 (HKT)</div><div class="value">${bull + bear + skip}轮</div></div>
+    <div class="stat-card"><div class="label">🟢 BULL</div><div class="value green">${bull}次 (${bullPct}%)</div></div>
+    <div class="stat-card"><div class="label">🔴 BEAR</div><div class="value red">${bear}次 (${bearPct}%)</div></div>
+    <div class="stat-card"><div class="label">⚪ SKIP</div><div class="value" style="color:var(--dim)">${skip}次</div></div>
+  `;
+}
+
 function renderTracking(t) {
   const el = document.getElementById('tracking-stats');
   const hist = currentHistory || [];
@@ -671,6 +724,7 @@ async function fetchData() {
     renderHistory(data.history);
     startGlobalCountdown();
     renderTracking(data.tracking);
+    renderHourlyLive();
     updateBnbPrice(data);
   } catch (e) {
     document.getElementById('live-dot').className = 'dot dot-stale';
