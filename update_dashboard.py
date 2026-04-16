@@ -110,7 +110,7 @@ def parse_history():
             continue
         epoch = int(m.group(1))
 
-        m = re.search(r"Signal:\s*(🟢|🔴)?(BULL|BEAR)\s*\(信心:(\d+\.?\d*)\)", text)
+        m = re.search(r"Signal:\s*(🟢|🔴|⚪)?(BULL|BEAR|SKIP)\s*\(信心:(\d+\.?\d*)\)", text)
         if not m:
             i -= 1
             continue
@@ -169,12 +169,13 @@ def parse_history():
     except:
         pass
 
-    # Fallback: check on-chain for entries missing result
+    # On-chain fallback: fetch results for entries still missing result (limit to 50)
     try:
         sys.path.insert(0, str(HOME))
         from prediction_monitor import get_round
+        checked = 0
         for h in history:
-            if h.get("result"):
+            if h.get("result") or checked >= 200:
                 continue
             rd = get_round(h["epoch"])
             if not rd or rd.get("close_p", 0) == 0 or rd.get("lock_p", 0) == 0:
@@ -187,6 +188,7 @@ def parse_history():
                 h["outcome"] = "TIE"
             else:
                 h["outcome"] = "LOSS"
+            checked += 1
     except Exception as e:
         print(f"On-chain check error: {e}")
 
@@ -371,6 +373,25 @@ def main():
         except Exception as e:
             print(f"  lock_ts fetch error: {e}")
 
+    # Don't overwrite daemon's live signal if it's newer
+    if OUTPUT_FILE.exists():
+        try:
+            existing = json.loads(OUTPUT_FILE.read_text())
+            existing_epoch = existing.get("current", {}).get("epoch", 0)
+            new_epoch = (current or {}).get("epoch", 0)
+            if existing_epoch > new_epoch:
+                # Daemon has newer signal — keep it, only update tracking/history
+                existing["history"] = history
+                existing["tracking"] = tracking
+                existing["bnb_price"] = fetch_bnb_price()
+                existing["updated"] = datetime.now().isoformat()
+                OUTPUT_FILE.write_text(json.dumps(existing, ensure_ascii=False, indent=2))
+                print(f"  Kept daemon signal E{existing_epoch} (cron had E{new_epoch})")
+                git_push()
+                return
+        except:
+            pass
+
     data = {
         "current": current or {"epoch": 0, "direction": "SKIP", "confidence": 0,
                                 "pool_total": 0, "pool_bull": 0, "pool_bear": 0,
@@ -382,7 +403,7 @@ def main():
         "bnb_price": fetch_bnb_price(),
         "updated": datetime.now().isoformat(),
     }
-    
+
     OUTPUT_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2))
     git_push()
 

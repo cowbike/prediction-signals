@@ -448,6 +448,8 @@ function renderHistoryPage() {
       outcome = '❌';
     } else if (h.outcome === 'TIE') {
       outcome = '➖';
+    } else if (h.outcome && h.outcome.includes('SKIP')) {
+      outcome = '⏭️';
     }
     const trendTag = h.trend ? ' <span style="font-size:10px;color:var(--yellow)" title="' + h.trend + '">⚠️</span>' : '';
     const tr = document.createElement('tr');
