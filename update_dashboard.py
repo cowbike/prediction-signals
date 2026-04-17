@@ -124,10 +124,15 @@ def parse_history():
         time_full = None
         if alert_time:
             try:
-                # Find the log line timestamp (format: "HH:MM:SS")
-                # Use today's date as approximation
                 today = datetime.now().strftime("%Y-%m-%d")
-                time_full = f"{today} {alert_time}"
+                alert_hour = int(alert_time.split(":")[0])
+                current_hour = datetime.now().hour
+                # Cross-midnight fix: if current hour is early (0-2) and alert is late (22-23), it's yesterday
+                if current_hour < 3 and alert_hour >= 22:
+                    yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+                    time_full = f"{yesterday} {alert_time}"
+                else:
+                    time_full = f"{today} {alert_time}"
             except:
                 pass
 
@@ -193,6 +198,81 @@ def parse_history():
         print(f"On-chain check error: {e}")
 
     return history[-MAX_HISTORY:]
+
+def compute_hourly_stats(history):
+    """Compute current hour interval stats from history for the dashboard hourly-live section."""
+    now = datetime.now()
+    hkt_offset = timedelta(hours=8)
+    hkt_now = now + hkt_offset
+    current_hour = hkt_now.hour
+    
+    # Find the latest hour that has data (may be current or previous)
+    latest_hour = None
+    for h in reversed(history):
+        t_str = h.get("time", "")
+        if not t_str:
+            continue
+        try:
+            hour = int(t_str.split(":")[0])
+            # Verify same day
+            t_full = h.get("time_full")
+            if t_full:
+                ts = datetime.fromisoformat(t_full)
+                ts_hkt = ts + hkt_offset
+                if ts_hkt.date() != hkt_now.date():
+                    continue
+            latest_hour = hour
+            break
+        except:
+            continue
+    
+    if latest_hour is None:
+        return {"hour": current_hour, "bull": 0, "bear": 0, "skip": 0, "total": 0}
+    
+    bull = 0
+    bear = 0
+    skip = 0
+    total = 0
+    
+    for h in history:
+        t_str = h.get("time", "")
+        if not t_str:
+            continue
+        try:
+            hour = int(t_str.split(":")[0])
+            if hour != latest_hour:
+                continue
+        except:
+            continue
+        
+        # Verify same day
+        t_full = h.get("time_full")
+        if t_full:
+            try:
+                ts = datetime.fromisoformat(t_full)
+                ts_hkt = ts + hkt_offset
+                if ts_hkt.date() != hkt_now.date():
+                    continue
+            except:
+                continue
+        
+        total += 1
+        direction = h.get("direction", "")
+        if direction == "BULL":
+            bull += 1
+        elif direction == "BEAR":
+            bear += 1
+        elif direction == "SKIP":
+            skip += 1
+    
+    return {
+        "hour": latest_hour,
+        "bull": bull,
+        "bear": bear,
+        "skip": skip,
+        "total": total,
+    }
+
 
 def load_tracking(history=None):
     """Load tracking stats, enriched with 24h and hourly stats from history."""
@@ -373,6 +453,9 @@ def main():
         except Exception as e:
             print(f"  lock_ts fetch error: {e}")
 
+    # Compute hourly stats from history
+    hourly_stats = compute_hourly_stats(history)
+
     # Don't overwrite daemon's live signal if it's newer
     if OUTPUT_FILE.exists():
         try:
@@ -384,7 +467,7 @@ def main():
                 existing["history"] = history
                 existing["tracking"] = tracking
                 existing["bnb_price"] = fetch_bnb_price()
-                existing["hourly_stats"] = existing.get("hourly_stats", {})
+                existing["hourly_stats"] = hourly_stats
                 existing["updated"] = datetime.now().isoformat()
                 OUTPUT_FILE.write_text(json.dumps(existing, ensure_ascii=False, indent=2))
                 print(f"  Kept daemon signal E{existing_epoch} (cron had E{new_epoch})")
@@ -401,7 +484,7 @@ def main():
         "current_ts": int(time.time()),
         "history": history,
         "tracking": tracking,
-        "hourly_stats": {},
+        "hourly_stats": hourly_stats,
         "bnb_price": fetch_bnb_price(),
         "updated": datetime.now().isoformat(),
     }

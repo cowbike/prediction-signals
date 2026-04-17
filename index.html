@@ -521,11 +521,7 @@ function renderHourlyLive() {
   const bear = hs.bear || 0;
   const skip = hs.skip || 0;
   const total = hs.total || 0;
-
-  const now = new Date();
-  const HKT_MS = 8 * 60 * 60 * 1000;
-  const hktNow = new Date(now.getTime() + HKT_MS);
-  const currentHour = parseInt(hktNow.toISOString().slice(11, 13));
+  const displayHour = hs.hour != null ? hs.hour : -1;
 
   const section = document.getElementById('hourly-live-section');
   const el = document.getElementById('hourly-live-stats');
@@ -537,7 +533,7 @@ function renderHourlyLive() {
   const bearPct = betTotal > 0 ? (bear / betTotal * 100).toFixed(0) : '--';
 
   el.innerHTML = `
-    <div class="stat-card"><div class="label">🕐 ${String(currentHour).padStart(2,'0')}:00 - ${String(currentHour).padStart(2,'0')}:59 (HKT)</div><div class="value">${total}/12轮</div></div>
+    <div class="stat-card"><div class="label">🕐 ${String(displayHour).padStart(2,'0')}:00 - ${String(displayHour).padStart(2,'0')}:59 (HKT)</div><div class="value">${total}/12轮</div></div>
     <div class="stat-card"><div class="label">🟢 BULL</div><div class="value green">${bull}次${betTotal > 0 ? ' (' + bullPct + '%)' : ''}</div></div>
     <div class="stat-card"><div class="label">🔴 BEAR</div><div class="value red">${bear}次${betTotal > 0 ? ' (' + bearPct + '%)' : ''}</div></div>
     <div class="stat-card"><div class="label">⚪ SKIP</div><div class="value" style="color:var(--dim)">${skip}次</div></div>
