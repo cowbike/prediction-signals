@@ -306,11 +306,6 @@
   <div id="pagination"></div>
 </div>
 
-<div class="tracking" id="hourly-live-section" style="display:none">
-  <h3>🕐 当前小时区间</h3>
-  <div class="tracking-stats" id="hourly-live-stats"></div>
-</div>
-
 <div class="tracking">
   <h3>📊 策略胜率统计</h3>
   <div class="tracking-stats" id="tracking-stats"></div>
@@ -513,33 +508,6 @@ function renderPagination(totalPages, total) {
   el.appendChild(info);
 }
 
-function renderHourlyLive() {
-  // Use pre-computed hourly_stats from backend (no more history filtering)
-  const data = window._signalData;
-  const hs = (data && data.hourly_stats) || {};
-  const bull = hs.bull || 0;
-  const bear = hs.bear || 0;
-  const skip = hs.skip || 0;
-  const total = hs.total || 0;
-  const displayHour = hs.hour != null ? hs.hour : -1;
-
-  const section = document.getElementById('hourly-live-section');
-  const el = document.getElementById('hourly-live-stats');
-
-  section.style.display = '';
-
-  const betTotal = bull + bear;
-  const bullPct = betTotal > 0 ? (bull / betTotal * 100).toFixed(0) : '--';
-  const bearPct = betTotal > 0 ? (bear / betTotal * 100).toFixed(0) : '--';
-
-  el.innerHTML = `
-    <div class="stat-card"><div class="label">🕐 ${String(displayHour).padStart(2,'0')}:00 - ${String(displayHour).padStart(2,'0')}:59 (HKT)</div><div class="value">${total}/12轮</div></div>
-    <div class="stat-card"><div class="label">🟢 BULL</div><div class="value green">${bull}次${betTotal > 0 ? ' (' + bullPct + '%)' : ''}</div></div>
-    <div class="stat-card"><div class="label">🔴 BEAR</div><div class="value red">${bear}次${betTotal > 0 ? ' (' + bearPct + '%)' : ''}</div></div>
-    <div class="stat-card"><div class="label">⚪ SKIP</div><div class="value" style="color:var(--dim)">${skip}次</div></div>
-  `;
-}
-
 function renderTracking(t) {
   const el = document.getElementById('tracking-stats');
   const hist = currentHistory || [];
@@ -703,7 +671,6 @@ async function fetchData() {
     renderHistory(data.history);
     startGlobalCountdown();
     renderTracking(data.tracking);
-    renderHourlyLive();
     updateBnbPrice(data);
   } catch (e) {
     document.getElementById('live-dot').className = 'dot dot-stale';
