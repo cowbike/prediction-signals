@@ -604,18 +604,20 @@ function renderTracking(t) {
     } catch(e) {}
   }
   if (Object.keys(hourly).length > 0) {
-    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">⏰ 时段BULL率 (HKT)</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
+    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">⏰ 时段偏差 (HKT, 基准50%)</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
     for (let h = 0; h < 24; h++) {
       const hs = String(h);
       const hb = hourly[hs] ? hourly[hs].bull : 0;
       const hr = hourly[hs] ? hourly[hs].bear : 0;
       const ht = hb + hr;
       if (ht === 0) continue;
-      const hbr = (hb / ht * 100).toFixed(0);
-      const color = hbr >= 55 ? '#4caf50' : hbr <= 45 ? '#f44336' : '#888';
+      const hbr = (hb / ht * 100);
+      const dev = hbr - 50;
+      const devStr = dev >= 0 ? `+${dev.toFixed(1)}` : dev.toFixed(1);
+      const color = dev >= 5 ? '#4caf50' : dev <= -5 ? '#f44336' : '#888';
       html += `<div style="text-align:center;padding:4px 6px;background:${color}22;border-radius:4px;border:1px solid ${color}44;min-width:52px;">
         <div style="font-size:11px;color:#aaa;">${String(h).padStart(2,'0')}:00</div>
-        <div style="font-weight:bold;color:${color};">${hbr}%</div>
+        <div style="font-weight:bold;color:${color};">${devStr}%</div>
         <div style="font-size:10px;color:#777;">${hb}B/${hr}R</div>
       </div>`;
     }
