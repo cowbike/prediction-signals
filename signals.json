@@ -1,48 +1,48 @@
 {
   "current": {
     "epoch": 474387,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 1.5494,
-    "pool_bull": 1.4091,
-    "pool_bear": 0.1402,
+    "direction": "BEAR",
+    "confidence": 35.0,
+    "pool_total": 1.59,
+    "pool_bull": 1.43,
+    "pool_bear": 0.16,
     "signals": [
       {
         "name": "Time",
-        "direction": null,
-        "score": 0,
-        "info": "waiting"
+        "direction": "BEAR",
+        "score": 13,
+        "info": "5h Tue BEAR:51.3%"
       },
       {
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:90.9%(1.1x) R:9.1%(11.0x)"
+        "info": "B:90.2%(1.1x) R:9.8%(10.2x) ⚠️ trap(BULL极端失衡)"
       },
       {
         "name": "Mom",
-        "direction": null,
-        "score": 0,
-        "info": "waiting"
+        "direction": "BULL",
+        "score": 87,
+        "info": "$629.94 RSI:17 EMA:-0.09% OS"
       },
       {
         "name": "Liq",
-        "direction": null,
-        "score": 0,
-        "info": "waiting"
+        "direction": "BEAR",
+        "score": 76,
+        "info": "LS:2.52 long-squeeze"
       },
       {
         "name": "FR",
         "direction": null,
         "score": 0,
-        "info": "waiting"
+        "info": "FR:+0.0019% neutral"
       }
     ],
     "trend": null,
-    "time": "05:34:00"
+    "time": "05:38:16"
   },
   "lock_ts": 1776721136,
-  "current_ts": 1776721080,
+  "current_ts": 1776721099,
   "history": [
     {
       "epoch": 473765,
@@ -6072,6 +6072,15 @@
       "time_full": "2026-04-21 05:33:20",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 474387,
+      "direction": "BEAR",
+      "confidence": 35.0,
+      "time": "05:38:16",
+      "time_full": "2026-04-21 05:38:16",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -6140,10 +6149,10 @@
   "hourly_stats": {
     "hour": 5,
     "bull": 24,
-    "bear": 5,
+    "bear": 6,
     "skip": 2,
-    "total": 31
+    "total": 32
   },
-  "bnb_price": 630.01,
-  "updated": "2026-04-21T05:38:03.581888"
+  "bnb_price": 629.94,
+  "updated": "2026-04-21T05:38:19.871218"
 }
