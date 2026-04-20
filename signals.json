@@ -3,97 +3,47 @@
     "epoch": 474357,
     "direction": "SKIP",
     "confidence": 0,
-    "pool_total": 0.684,
-    "pool_bull": 0.4087,
-    "pool_bear": 0.2752,
+    "pool_total": 1.02,
+    "pool_bull": 0,
+    "pool_bear": 0,
     "signals": [
       {
         "name": "Time",
         "direction": null,
         "score": 0,
-        "info": "waiting"
+        "info": "3h Tue neutral"
       },
       {
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:59.8%(1.7x) R:40.2%(2.5x)"
+        "info": "B:43.1%(2.3x) R:56.9%(1.8x)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "waiting"
+        "info": "$630.79 RSI:62 EMA:+0.10% flat"
       },
       {
         "name": "Liq",
-        "direction": null,
-        "score": 0,
-        "info": "waiting"
+        "direction": "BEAR",
+        "score": 77,
+        "info": "LS:2.54 long-squeeze"
       },
       {
         "name": "FR",
         "direction": null,
         "score": 0,
-        "info": "waiting"
+        "info": "FR:+0.0019% neutral"
       }
     ],
     "trend": null,
-    "time": "03:01:00"
+    "time": "03:05:55"
   },
   "lock_ts": 1776711956,
-  "current_ts": 1776711902,
+  "current_ts": 1776711963,
   "history": [
-    {
-      "epoch": 473717,
-      "direction": "BULL",
-      "confidence": 31.0,
-      "time": "20:39:32",
-      "time_full": "2026-04-21 20:39:32",
-      "trend": "📉 连跌3根($-0.79)",
-      "outcome": "WIN",
-      "result": "BULL"
-    },
-    {
-      "epoch": 473718,
-      "direction": "BULL",
-      "confidence": 31.0,
-      "time": "20:44:42",
-      "time_full": "2026-04-21 20:44:42",
-      "trend": "📉 连跌3根($-1.49)",
-      "outcome": "WIN",
-      "result": "BULL"
-    },
-    {
-      "epoch": 473719,
-      "direction": "BEAR",
-      "confidence": 20.0,
-      "time": "20:49:55",
-      "time_full": "2026-04-21 20:49:55",
-      "trend": null,
-      "outcome": "LOSS",
-      "result": "BULL"
-    },
-    {
-      "epoch": 473720,
-      "direction": "BEAR",
-      "confidence": 30.0,
-      "time": "20:54:55",
-      "time_full": "2026-04-21 20:54:55",
-      "trend": null,
-      "outcome": "LOSS",
-      "result": "BULL"
-    },
-    {
-      "epoch": 473721,
-      "direction": "BEAR",
-      "confidence": 33.0,
-      "time": "21:00:15",
-      "time_full": "2026-04-21 21:00:15",
-      "trend": "📈 连涨3根(+$1.55)",
-      "outcome": "LOSS",
-      "result": "BULL"
-    },
     {
       "epoch": 473722,
       "direction": "BEAR",
@@ -6251,6 +6201,16 @@
       "time": "03:00:18",
       "time_full": "2026-04-21 03:00:18",
       "trend": null,
+      "outcome": "WIN",
+      "result": "BEAR"
+    },
+    {
+      "epoch": 474357,
+      "direction": "SKIP",
+      "confidence": 15.0,
+      "time": "03:05:55",
+      "time_full": "2026-04-21 03:05:55",
+      "trend": null,
       "outcome": null
     }
   ],
@@ -6260,16 +6220,15 @@
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 43.4,
-    "total_24h": 620,
+    "win_rate_24h": 43.5,
+    "total_24h": 616,
     "hourly_wins": {
-      "20": 5,
       "21": 12,
       "22": 14,
       "23": 15,
       "1": 14,
       "2": 11,
-      "3": 13,
+      "3": 14,
       "4": 7,
       "5": 12,
       "6": 10,
@@ -6286,11 +6245,11 @@
       "17": 12,
       "18": 9,
       "19": 11,
-      "0": 11
+      "0": 11,
+      "20": 3
     },
     "hourly_losses": {
-      "20": 11,
-      "21": 23,
+      "21": 22,
       "22": 20,
       "23": 21,
       "0": 24,
@@ -6312,18 +6271,19 @@
       "16": 13,
       "17": 11,
       "18": 14,
-      "19": 7
+      "19": 7,
+      "20": 9
     },
-    "tracking_win_rate_24h": 43.4,
-    "tracking_total_24h": 620
+    "tracking_win_rate_24h": 43.5,
+    "tracking_total_24h": 616
   },
   "hourly_stats": {
     "hour": 3,
     "bull": 0,
     "bear": 25,
-    "skip": 0,
-    "total": 25
+    "skip": 1,
+    "total": 26
   },
-  "bnb_price": 630.9,
-  "updated": "2026-04-21T03:05:03.147357"
+  "bnb_price": 630.8,
+  "updated": "2026-04-21T03:06:04.105998"
 }
