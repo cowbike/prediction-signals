@@ -588,41 +588,26 @@ function renderTracking(t) {
   `;
   html += `<div class="stat-card"><div class="label">⚪ 累计跳过</div><div class="value" style="color:var(--dim)">${skipCount}局</div></div>`;
 
-  // Hourly BULL rate distribution from history
-  const hourly = {}; // {hour: {bull: n, bear: n}}
-  for (const h of hist) {
-    if (!h.result || h.result === 'TIE') continue;
-    const tStr = h.time || '';
-    if (!tStr) continue;
-    try {
-      const hour = parseInt(tStr.split(':')[0]);
-      if (isNaN(hour)) continue;
-      const hk = String(hour);
-      if (!hourly[hk]) hourly[hk] = {bull: 0, bear: 0};
-      if (h.result === 'BULL') hourly[hk].bull++;
-      else if (h.result === 'BEAR') hourly[hk].bear++;
-    } catch(e) {}
+  // 时段偏差：基于5000局历史统计（2026-04-20，~208样本/小时）
+  const TIME_BIAS_HKT = {
+    0:51.9,1:50.2,2:48.1,3:51.9,4:52.8,5:47.4,6:50.5,7:42.9,
+    8:49.5,9:49.8,10:49.5,11:49.5,12:50.5,13:48.0,14:49.0,
+    15:47.5,16:51.2,17:51.2,18:48.6,19:51.4,20:45.8,21:48.8,
+    22:55.2,23:52.8
+  };
+  html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">⏰ 时段偏差 (HKT, 基准50%, 5000局统计)</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
+  for (let h = 0; h < 24; h++) {
+    const bullPct = TIME_BIAS_HKT[h];
+    const dev = bullPct - 50;
+    const devStr = dev >= 0 ? `+${dev.toFixed(1)}` : dev.toFixed(1);
+    const color = dev >= 5 ? '#4caf50' : dev <= -5 ? '#f44336' : '#888';
+    html += `<div style="text-align:center;padding:4px 6px;background:${color}22;border-radius:4px;border:1px solid ${color}44;min-width:52px;">
+      <div style="font-size:11px;color:#aaa;">${String(h).padStart(2,'0')}:00</div>
+      <div style="font-weight:bold;color:${color};">${devStr}%</div>
+      <div style="font-size:10px;color:#777;">${bullPct.toFixed(1)}%</div>
+    </div>`;
   }
-  if (Object.keys(hourly).length > 0) {
-    html += `<div class="stat-card" style="flex-basis:100%;max-width:100%;"><div class="label">⏰ 时段偏差 (HKT, 基准50%)</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">`;
-    for (let h = 0; h < 24; h++) {
-      const hs = String(h);
-      const hb = hourly[hs] ? hourly[hs].bull : 0;
-      const hr = hourly[hs] ? hourly[hs].bear : 0;
-      const ht = hb + hr;
-      if (ht === 0) continue;
-      const hbr = (hb / ht * 100);
-      const dev = hbr - 50;
-      const devStr = dev >= 0 ? `+${dev.toFixed(1)}` : dev.toFixed(1);
-      const color = dev >= 5 ? '#4caf50' : dev <= -5 ? '#f44336' : '#888';
-      html += `<div style="text-align:center;padding:4px 6px;background:${color}22;border-radius:4px;border:1px solid ${color}44;min-width:52px;">
-        <div style="font-size:11px;color:#aaa;">${String(h).padStart(2,'0')}:00</div>
-        <div style="font-weight:bold;color:${color};">${devStr}%</div>
-        <div style="font-size:10px;color:#777;">${hb}B/${hr}R</div>
-      </div>`;
-    }
-    html += `</div></div>`;
-  }
+  html += `</div></div>`;
 
   // Hourly signal accuracy (时段胜率)
   const hourlyWin = {}; // {hour: {w: n, l: n}}
