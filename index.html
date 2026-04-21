@@ -129,6 +129,11 @@
   }
   .btn-bear:hover { background: rgba(248,81,73,0.18); }
   .btn-bear.active { background: var(--red); color: #fff; }
+  .btn-reverse {
+    background: rgba(88,166,255,0.08); color: var(--blue); border-color: var(--blue);
+  }
+  .btn-reverse:hover { background: rgba(88,166,255,0.18); }
+  .btn-reverse.active { background: var(--blue); color: #fff; }
   .btn-auto { }
   .btn-claim {
     background: rgba(210,153,34,0.1); color: var(--yellow); border-color: var(--yellow);
@@ -297,6 +302,11 @@
     <div class="btn-row" style="margin-bottom:6px">
       <button class="btn btn-bull btn-auto" data-dir="BULL" data-amt="0.01" onclick="setAutoBet(this)">🐂 买涨 0.01</button>
       <button class="btn btn-bear btn-auto" data-dir="BEAR" data-amt="0.01" onclick="setAutoBet(this)">🐻 买跌 0.01</button>
+    </div>
+    <div style="font-size:12px;color:var(--dim);margin:10px 0 6px;padding:0 2px;">🔄 反向下注（信号BULL→下BEAR，信号BEAR→下BULL）</div>
+    <div class="btn-row" style="margin-bottom:6px">
+      <button class="btn btn-reverse btn-auto" data-dir="REVERSE" data-amt="0.003" onclick="setAutoBet(this)">🔄 反向 0.003</button>
+      <button class="btn btn-reverse btn-auto" data-dir="REVERSE" data-amt="0.005" onclick="setAutoBet(this)">🔄 反向 0.005</button>
     </div>
     <div class="btn-row" style="margin-top:10px">
       <button class="btn btn-claim" id="btn-claim" onclick="claimWinnings()" disabled>💰 提取盈利</button>
@@ -989,7 +999,7 @@ function startBetCountdown() {
     if (secondsLeft <= BET_BEFORE_LOCK && secondsLeft > 0 && lastBetEpoch !== data.current.epoch) {
       executeAutoBet(data.current);
     } else if (secondsLeft > BET_BEFORE_LOCK) {
-      const modeText = autoBetDir === 'BULL' ? '🐂买涨' : '🐻买跌';
+      const modeText = autoBetDir === 'REVERSE' ? '🔄反向下注' : (autoBetDir === 'BULL' ? '🐂买涨' : '🐻买跌');
       showBetStatus('countdown',
         '⏳ 距锁定 ' + Math.floor(secondsLeft / 60) + 'm ' + (secondsLeft % 60) + 's | 自动:' +
         modeText + ' ' + autoBetAmt + 'BNB | 信号:' + (data.current.direction || 'SKIP'));
@@ -1004,14 +1014,29 @@ async function executeAutoBet(signal) {
   if (lastBetEpoch === epoch) return;
   lastBetEpoch = epoch;
 
-  // Auto-bet uses fixed direction (user-selected), ignores signal
-  const betDirection = autoBetDir;
+  // Determine bet direction
+  let betDirection;
+  if (autoBetDir === 'REVERSE') {
+    // Reverse: signal BULL → bet BEAR, signal BEAR → bet BULL
+    if (signal.direction === 'BULL') betDirection = 'BEAR';
+    else if (signal.direction === 'BEAR') betDirection = 'BULL';
+    else {
+      showBetStatus('error', '⚠️ 信号 SKIP，反向下注跳过');
+      lastBetEpoch = 0;
+      return;
+    }
+  } else {
+    betDirection = autoBetDir;
+  }
+
   const betAmount = autoBetAmt;
   const valueHex = '0x' + (BigInt(Math.floor(betAmount * 1e18))).toString(16);
 
   try {
-    const modeText = betDirection === 'BULL' ? '买涨' : '买跌';
-    showBetStatus('betting', '🦊 请在 MetaMask 确认下注... E' + epoch + ' ' + modeText + ' ' + betAmount + 'BNB');
+    const modeText = autoBetDir === 'REVERSE'
+      ? '🔄反向:' + (signal.direction === 'BULL' ? '下BEAR' : '下BULL')
+      : (betDirection === 'BULL' ? '买涨' : '买跌');
+    showBetStatus('betting', '🦊 请在 MetaMask 确认... E' + epoch + ' 信号' + (signal.direction||'?') + ' → ' + modeText + ' ' + betAmount + 'BNB');
     const methodSig = betDirection === 'BULL' ? 'betBull(uint256)' : 'betBear(uint256)';
     const epochHex = '0x' + BigInt(epoch).toString(16);
     const fnHash = getSelector(methodSig);
@@ -1026,7 +1051,7 @@ async function executeAutoBet(signal) {
         data: data,
       }]
     });
-    showBetStatus('success', '✅ 下注成功! E' + epoch + ' ' + modeText + ' ' + betAmount + 'BNB | tx: ' + txHash.slice(0, 10) + '...');
+    showBetStatus('success', '✅ 下注成功! E' + epoch + ' 信号' + signal.direction + ' → ' + betDirection + ' ' + betAmount + 'BNB | tx: ' + txHash.slice(0, 10) + '...');
   } catch (e) {
     const msg = e.message || String(e);
     if (msg.includes('User denied') || msg.includes('user rejected')) {
