@@ -427,9 +427,9 @@ function renderSignal(sig) {
   hdr.innerHTML = '<span class="h-icon"></span><span class="h-name">指标</span><span class="h-dot"></span><span class="h-score">分值</span><span class="h-weight">权重</span><span class="h-detail">实时数据</span>';
   grid.appendChild(hdr);
 
-  const icons = { Time: '⏰', Pool: '🏊', Mom: '📈', Liq: '💥', FR: '💰' };
+  const icons = { Pool: '🏊', Time: '⏰', Mom: '📈', Liq: '💥', FR: '💰' };
   const subs = { Pool: '赔率偏差', FR: '资金费率', Mom: 'RSI+EMA', Liq: '多空比', Time: '时段偏差' };
-  const weights = { Time: '30%', Pool: '20%', Mom: '20%', Liq: '20%', FR: '10%' };
+  const weights = { Pool: '35%', Time: '20%', Mom: '20%', Liq: '20%', FR: '5%' };
   for (const s of sig.signals || []) {
     const row = document.createElement('div');
     row.className = 'signal-row';
