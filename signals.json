@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474558,
-    "direction": "BEAR",
-    "confidence": 28.0,
-    "pool_total": 0.2,
-    "pool_bull": 0.08,
-    "pool_bear": 0.11,
+    "epoch": 474559,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": "BEAR",
         "score": 21,
         "info": "20h Tue BEAR:52.1%"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:42.3%(2.4x) R:57.7%(1.7x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "20:11:00"
+    "time": "20:11:48"
   },
-  "lock_ts": 1776773498,
-  "current_ts": 1776773464,
+  "lock_ts": 1776773804,
+  "current_ts": 1776773508,
   "history": [
     {
       "epoch": 474039,
@@ -5211,7 +5211,8 @@
       "time": "20:05:53",
       "time_full": "2026-04-21 20:05:53",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BULL"
     },
     {
       "epoch": 474558,
@@ -5225,12 +5226,12 @@
   ],
   "tracking": {
     "wins": 1001,
-    "losses": 1236,
+    "losses": 1237,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 39.3,
-    "total_24h": 516,
+    "total_24h": 517,
     "hourly_wins": {
       "0": 11,
       "1": 8,
@@ -5278,13 +5279,13 @@
       "17": 13,
       "18": 14,
       "19": 13,
-      "20": 9,
+      "20": 10,
       "21": 10,
       "22": 6,
       "23": 5
     },
     "tracking_win_rate_24h": 39.3,
-    "tracking_total_24h": 516
+    "tracking_total_24h": 517
   },
   "hourly_stats": {
     "hour": 20,
@@ -5293,6 +5294,6 @@
     "skip": 0,
     "total": 15
   },
-  "bnb_price": 633.96,
-  "updated": "2026-04-21T20:11:04.176924"
+  "bnb_price": 633.59,
+  "updated": "2026-04-21T20:12:04.208764"
 }
