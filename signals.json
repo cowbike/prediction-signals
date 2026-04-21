@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474624,
-    "direction": "BEAR",
-    "confidence": 35.0,
-    "pool_total": 0.86,
-    "pool_bull": 0.28,
-    "pool_bear": 0.57,
+    "epoch": 474625,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "1h Wed neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": "BULL",
-        "score": 35,
-        "info": "B:33.1%(3.0x) R:66.9%(1.5x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "01:48:04"
+    "time": "01:48:54"
   },
-  "lock_ts": 1776793724,
-  "current_ts": 1776793687,
+  "lock_ts": 1776794030,
+  "current_ts": 1776793734,
   "history": [
     {
       "epoch": 474125,
@@ -4911,7 +4911,8 @@
       "time": "01:42:58",
       "time_full": "2026-04-22 01:42:58",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BEAR"
     },
     {
       "epoch": 474624,
@@ -4925,12 +4926,12 @@
   ],
   "tracking": {
     "wins": 1019,
-    "losses": 1274,
+    "losses": 1275,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 37.4,
-    "total_24h": 486,
+    "total_24h": 487,
     "hourly_wins": {
       "7": 6,
       "8": 8,
@@ -4976,7 +4977,7 @@
       "22": 12,
       "23": 12,
       "0": 15,
-      "1": 14,
+      "1": 15,
       "2": 8,
       "3": 10,
       "4": 8,
@@ -4984,7 +4985,7 @@
       "6": 7
     },
     "tracking_win_rate_24h": 37.4,
-    "tracking_total_24h": 486
+    "tracking_total_24h": 487
   },
   "hourly_stats": {
     "hour": 1,
@@ -4993,6 +4994,6 @@
     "skip": 2,
     "total": 22
   },
-  "bnb_price": 630.71,
-  "updated": "2026-04-22T01:48:07.942199"
+  "bnb_price": 630.63,
+  "updated": "2026-04-22T01:49:03.996489"
 }
