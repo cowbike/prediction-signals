@@ -964,21 +964,29 @@ async function signAndSendTx(betDirection, epoch, amountBnb) {
   if (!privateKey) return null;
   await loadEthers();
 
-  const fnSig = betDirection === 'BULL' ? 'e8e39d94' : '6d6c9860';
+  const fnSig = betDirection === 'BULL' ? '57fb096f' : 'aa6b873a';
   const epochHex = BigInt(epoch).toString(16).padStart(64, '0');
   const callData = '0x' + fnSig + epochHex;
 
-  const provider = new window.ethers.JsonRpcProvider(CHAIN_RPC, 56);
+  const provider = new window.ethers.JsonRpcProvider(CHAIN_RPC, { chainId: 56, name: 'bnb' });
   const wallet = new window.ethers.Wallet(privateKey, provider);
+
+  // Get current gas price and add 10% buffer for BSC
+  const feeData = await provider.getFeeData();
+  const gasPrice = feeData.gasPrice ? (feeData.gasPrice * 110n / 100n) : 3000000000n;
 
   const tx = {
     to: PREDICTION_ADDR,
     value: BigInt(Math.floor(amountBnb * 1e18)),
     data: callData,
     gasLimit: 300000,
+    gasPrice: gasPrice,
+    chainId: 56,
   };
 
+  console.log('[auto-bet] sending tx:', { to: tx.to, value: tx.value.toString(), gasPrice: gasPrice.toString(), epoch, betDirection });
   const resp = await wallet.sendTransaction(tx);
+  console.log('[auto-bet] tx hash:', resp.hash);
   return resp.hash;
 }
 
@@ -1147,7 +1155,14 @@ async function executeAutoBet(signal) {
     if (privateKey) {
       // ── Private key mode: auto-sign, no popup ──
       showBetStatus('betting', '⚡ 自动签名中... E' + epoch + ' 信号' + (signal.direction||'?') + ' → ' + modeText + ' ' + betAmount + 'BNB');
-      txHash = await signAndSendTx(betDirection, epoch, betAmount);
+      try {
+        txHash = await signAndSendTx(betDirection, epoch, betAmount);
+      } catch (signErr) {
+        console.error('[auto-bet] signAndSendTx error:', signErr);
+        showBetStatus('error', '❌ 签名失败: ' + (signErr.message || signErr).slice(0, 80));
+        lastBetEpoch = 0;
+        return;
+      }
     } else {
       // ── MetaMask mode: popup confirmation ──
       if (!walletAddress || !window.ethereum) return;
@@ -1267,8 +1282,8 @@ async function claimWinnings() {
 // Pre-computed keccak256 function selectors for PancakeSwap V2 Prediction
 function getSelector(method) {
   const selectors = {
-    'betBull(uint256)': 'e8e39d94',
-    'betBear(uint256)': '6d6c9860',
+    'betBull(uint256)': '57fb096f',
+    'betBear(uint256)': 'aa6b873a',
   };
   return '0x' + (selectors[method] || '00000000');
 }
