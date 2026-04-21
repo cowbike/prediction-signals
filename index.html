@@ -308,6 +308,12 @@
       <button class="btn btn-reverse btn-auto" data-dir="REVERSE" data-amt="0.003" onclick="setAutoBet(this)">🔄 反向 0.003</button>
       <button class="btn btn-reverse btn-auto" data-dir="REVERSE" data-amt="0.005" onclick="setAutoBet(this)">🔄 反向 0.005</button>
     </div>
+    <div style="font-size:12px;color:var(--dim);margin:10px 0 6px;padding:0 2px;">🔐 免弹窗模式（输入私钥，自动签名，无需每次确认）</div>
+    <div style="display:flex;gap:6px;margin-bottom:6px">
+      <input type="password" id="pk-input" placeholder="输入私钥 (0x...)" style="flex:1;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:12px;outline:none" />
+      <button class="btn" id="btn-pk" onclick="togglePrivateKey()" style="flex:0 0 auto;padding:8px 12px;font-size:12px;background:var(--card);color:var(--dim);border:1px solid var(--border);border-radius:8px;cursor:pointer">🔐 启用</button>
+    </div>
+    <div id="pk-status" style="font-size:11px;color:var(--dim);margin-bottom:6px"></div>
     <div class="btn-row" style="margin-top:10px">
       <button class="btn btn-claim" id="btn-claim" onclick="claimWinnings()" disabled>💰 提取盈利</button>
       <button class="btn btn-revoke" id="btn-revoke" onclick="revokeAutoBet()" disabled>🚫 取消自动</button>
@@ -748,8 +754,9 @@ const BET_BEFORE_LOCK = 30; // seconds before lock to trigger bet
 const BNB_CHAIN_ID = '0x38'; // 56
 
 let walletAddress = null;
-let autoBetDir = null;      // 'BULL' or 'BEAR'
+let autoBetDir = null;      // 'BULL' or 'BEAR' or 'REVERSE'
 let autoBetAmt = 0;          // BNB amount
+let privateKey = null;        // for auto-signing (no MetaMask popup)
 let betCountdownTimer = null;
 let lastBetEpoch = 0;
 const AUTO_BET_KEY = 'pancake_auto_bet';
@@ -796,18 +803,30 @@ async function connectWallet() {
 }
 
 async function refreshBalance() {
-  if (!walletAddress || !window.ethereum) return;
   try {
-    const bal = await window.ethereum.request({
-      method: 'eth_getBalance', params: [walletAddress, 'latest']
-    });
-    const bnb = parseInt(bal, 16) / 1e18;
+    let bal;
+    if (privateKey) {
+      await loadEthers();
+      const provider = new window.ethers.JsonRpcProvider(CHAIN_RPC, 56);
+      const w = new window.ethers.Wallet(privateKey, provider);
+      bal = await provider.getBalance(w.address);
+    } else if (walletAddress && window.ethereum) {
+      const raw = await window.ethereum.request({
+        method: 'eth_getBalance', params: [walletAddress, 'latest']
+      });
+      bal = BigInt(raw);
+    } else { return; }
+    const bnb = Number(bal) / 1e18;
     document.getElementById('wallet-bnb').textContent = bnb.toFixed(4);
   } catch (e) {}
 }
 
 // ─── Auto-bet mode management ───
 function setAutoBet(btn) {
+  if (!walletAddress && !privateKey) {
+    alert('请先连接钱包或输入私钥');
+    return;
+  }
   const dir = btn.dataset.dir;
   const amt = parseFloat(btn.dataset.amt);
   autoBetDir = dir;
@@ -866,13 +885,101 @@ function stopAutoBet() {
 function revokeAutoBet() {
   autoBetDir = null;
   autoBetAmt = 0;
+  privateKey = null;
   localStorage.removeItem(AUTO_BET_KEY);
   document.querySelectorAll('.btn-auto').forEach(b => b.classList.remove('active'));
   document.getElementById('btn-bet').disabled = true;
   document.getElementById('btn-revoke').disabled = true;
+  const pkInput = document.getElementById('pk-input');
+  pkInput.value = '';
+  pkInput.disabled = false;
+  document.getElementById('btn-pk').textContent = '🔐 启用';
+  document.getElementById('btn-pk').style.color = 'var(--dim)';
+  document.getElementById('pk-status').textContent = '';
   if (betCountdownTimer) clearInterval(betCountdownTimer);
   showBetStatus('success', '🚫 已取消所有自动下注，已清除保存的设置');
   setTimeout(hideBetStatus, 3000);
+}
+
+// ─── Private Key Auto-Sign (ethers.js from CDN) ───
+function togglePrivateKey() {
+  const input = document.getElementById('pk-input');
+  const btn = document.getElementById('btn-pk');
+  const status = document.getElementById('pk-status');
+  const pk = input.value.trim();
+
+  if (privateKey) {
+    privateKey = null;
+    input.value = '';
+    input.disabled = false;
+    btn.textContent = '🔐 启用';
+    btn.style.color = 'var(--dim)';
+    status.textContent = '';
+    return;
+  }
+
+  if (!pk || (!pk.startsWith('0x') && !/^[0-9a-fA-F]{64}$/.test(pk))) {
+    status.style.color = 'var(--red)';
+    status.textContent = '❌ 私钥格式错误，需要 0x 开头的64位hex';
+    return;
+  }
+
+  const cleanPk = pk.startsWith('0x') ? pk : '0x' + pk;
+  // Show bet-modes even without MetaMask
+  document.getElementById('bet-modes').style.display = 'block';
+  privateKey = cleanPk;
+  input.value = '••••••••••••••••';
+  input.disabled = true;
+  btn.textContent = '🔓 停用';
+  btn.style.color = 'var(--green)';
+  status.style.color = 'var(--green)';
+  status.textContent = '✅ 免弹窗模式已启用';
+  // Show wallet info
+  document.getElementById('wallet-info').classList.add('show');
+  document.getElementById('btn-bet').disabled = false;
+  document.getElementById('btn-claim').disabled = false;
+  // Try derive address via ethers.js (load if needed)
+  loadEthers().then(() => {
+    try {
+      const w = new window.ethers.Wallet(cleanPk);
+      status.textContent = '✅ 免弹窗模式: ' + w.address.slice(0, 6) + '...' + w.address.slice(-4);
+      document.getElementById('wallet-addr').textContent = w.address.slice(0, 6) + '...' + w.address.slice(-4);
+      refreshBalance();
+    } catch(e) {}
+  }).catch(() => {});
+}
+
+async function loadEthers() {
+  if (window.ethers) return;
+  await new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js';
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+async function signAndSendTx(betDirection, epoch, amountBnb) {
+  if (!privateKey) return null;
+  await loadEthers();
+
+  const fnSig = betDirection === 'BULL' ? 'e8e39d94' : '6d6c9860';
+  const epochHex = BigInt(epoch).toString(16).padStart(64, '0');
+  const callData = '0x' + fnSig + epochHex;
+
+  const provider = new window.ethers.JsonRpcProvider(CHAIN_RPC, 56);
+  const wallet = new window.ethers.Wallet(privateKey, provider);
+
+  const tx = {
+    to: PREDICTION_ADDR,
+    value: BigInt(Math.floor(amountBnb * 1e18)),
+    data: callData,
+    gasLimit: 300000,
+  };
+
+  const resp = await wallet.sendTransaction(tx);
+  return resp.hash;
 }
 
 function showBetStatus(type, msg) {
@@ -1009,7 +1116,7 @@ function startBetCountdown() {
 }
 
 async function executeAutoBet(signal) {
-  if (!walletAddress || !window.ethereum || !autoBetDir || autoBetAmt <= 0) return;
+  if ((!walletAddress && !privateKey) || !autoBetDir || autoBetAmt <= 0) return;
   const epoch = signal.epoch;
   if (lastBetEpoch === epoch) return;
   lastBetEpoch = epoch;
@@ -1030,27 +1137,32 @@ async function executeAutoBet(signal) {
   }
 
   const betAmount = autoBetAmt;
-  const valueHex = '0x' + (BigInt(Math.floor(betAmount * 1e18))).toString(16);
+  const modeText = autoBetDir === 'REVERSE'
+    ? '🔄反向:' + (signal.direction === 'BULL' ? '下BEAR' : '下BULL')
+    : (betDirection === 'BULL' ? '买涨' : '买跌');
 
   try {
-    const modeText = autoBetDir === 'REVERSE'
-      ? '🔄反向:' + (signal.direction === 'BULL' ? '下BEAR' : '下BULL')
-      : (betDirection === 'BULL' ? '买涨' : '买跌');
-    showBetStatus('betting', '🦊 请在 MetaMask 确认... E' + epoch + ' 信号' + (signal.direction||'?') + ' → ' + modeText + ' ' + betAmount + 'BNB');
-    const methodSig = betDirection === 'BULL' ? 'betBull(uint256)' : 'betBear(uint256)';
-    const epochHex = '0x' + BigInt(epoch).toString(16);
-    const fnHash = getSelector(methodSig);
-    const data = fnHash + epochHex.slice(2).padStart(64, '0');
+    let txHash;
 
-    const txHash = await window.ethereum.request({
-      method: 'eth_sendTransaction',
-      params: [{
-        from: walletAddress,
-        to: PREDICTION_ADDR,
-        value: valueHex,
-        data: data,
-      }]
-    });
+    if (privateKey) {
+      // ── Private key mode: auto-sign, no popup ──
+      showBetStatus('betting', '⚡ 自动签名中... E' + epoch + ' 信号' + (signal.direction||'?') + ' → ' + modeText + ' ' + betAmount + 'BNB');
+      txHash = await signAndSendTx(betDirection, epoch, betAmount);
+    } else {
+      // ── MetaMask mode: popup confirmation ──
+      if (!walletAddress || !window.ethereum) return;
+      const valueHex = '0x' + (BigInt(Math.floor(betAmount * 1e18))).toString(16);
+      showBetStatus('betting', '🦊 请在 MetaMask 确认... E' + epoch + ' 信号' + (signal.direction||'?') + ' → ' + modeText + ' ' + betAmount + 'BNB');
+      const methodSig = betDirection === 'BULL' ? 'betBull(uint256)' : 'betBear(uint256)';
+      const epochHex = '0x' + BigInt(epoch).toString(16);
+      const fnHash = getSelector(methodSig);
+      const data = fnHash + epochHex.slice(2).padStart(64, '0');
+      txHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{ from: walletAddress, to: PREDICTION_ADDR, value: valueHex, data: data }]
+      });
+    }
+
     showBetStatus('success', '✅ 下注成功! E' + epoch + ' 信号' + signal.direction + ' → ' + betDirection + ' ' + betAmount + 'BNB | tx: ' + txHash.slice(0, 10) + '...');
   } catch (e) {
     const msg = e.message || String(e);
