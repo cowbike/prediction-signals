@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474609,
-    "direction": "BEAR",
-    "confidence": 47.0,
-    "pool_total": 0.99,
-    "pool_bull": 0.77,
-    "pool_bear": 0.23,
+    "epoch": 474610,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.2,
+    "pool_bull": 0.0,
+    "pool_bear": 0.2,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:0.0%(0.0x) R:100.0%(1.0x)"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "0h Wed neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 95,
-        "info": "B:77.3%(1.3x) R:22.7%(4.4x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "00:31:50"
+    "time": "00:32:18"
   },
-  "lock_ts": 1776789128,
-  "current_ts": 1776789123,
+  "lock_ts": 1776789434,
+  "current_ts": 1776789182,
   "history": [
     {
       "epoch": 474099,
@@ -5021,7 +5021,8 @@
       "time": "00:26:58",
       "time_full": "2026-04-22 00:26:58",
       "trend": "📉 连跌3根($-1.06)",
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BEAR"
     },
     {
       "epoch": 474609,
@@ -5035,12 +5036,12 @@
   ],
   "tracking": {
     "wins": 1014,
-    "losses": 1264,
+    "losses": 1265,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 38.2,
-    "total_24h": 497,
+    "total_24h": 498,
     "hourly_wins": {
       "5": 9,
       "6": 11,
@@ -5087,14 +5088,14 @@
       "21": 20,
       "22": 12,
       "23": 12,
-      "0": 10,
+      "0": 11,
       "1": 9,
       "2": 8,
       "3": 10,
       "4": 8
     },
     "tracking_win_rate_24h": 38.2,
-    "tracking_total_24h": 497
+    "tracking_total_24h": 498
   },
   "hourly_stats": {
     "hour": 0,
@@ -5103,6 +5104,6 @@
     "skip": 4,
     "total": 19
   },
-  "bnb_price": 632.35,
-  "updated": "2026-04-22T00:32:03.489576"
+  "bnb_price": 632.63,
+  "updated": "2026-04-22T00:33:04.157256"
 }
