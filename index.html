@@ -807,7 +807,7 @@ async function refreshBalance() {
     let bal;
     if (privateKey) {
       await loadEthers();
-      const provider = new window.ethers.JsonRpcProvider(CHAIN_RPC, 56);
+      const provider = new window.ethers.JsonRpcProvider('https://1rpc.io/bnb', 56, { staticNetwork: true });
       const w = new window.ethers.Wallet(privateKey, provider);
       bal = await provider.getBalance(w.address);
     } else if (walletAddress && window.ethereum) {
@@ -818,7 +818,7 @@ async function refreshBalance() {
     } else { return; }
     const bnb = Number(bal) / 1e18;
     document.getElementById('wallet-bnb').textContent = bnb.toFixed(4);
-  } catch (e) {}
+  } catch (e) { console.warn('refreshBalance error:', e); }
 }
 
 // ─── Auto-bet mode management ───
@@ -961,18 +961,34 @@ async function loadEthers() {
 }
 
 async function signAndSendTx(betDirection, epoch, amountBnb) {
-  if (!privateKey) return null;
+  if (!privateKey) throw new Error('私钥未设置');
   await loadEthers();
+  if (!window.ethers) throw new Error('ethers.js 加载失败');
 
   const fnSig = betDirection === 'BULL' ? '57fb096f' : 'aa6b873a';
   const epochHex = BigInt(epoch).toString(16).padStart(64, '0');
   const callData = '0x' + fnSig + epochHex;
 
-  const provider = new window.ethers.JsonRpcProvider(CHAIN_RPC);
-  const wallet = new window.ethers.Wallet(privateKey, provider);
+  // Use 1rpc.io which supports CORS for ethers.js
+  const CORS_RPC = 'https://1rpc.io/bnb';
+  const provider = new window.ethers.JsonRpcProvider(CORS_RPC, 56, { staticNetwork: true });
 
-  // BSC gas: 0.05 gwei typical, use 0.1 gwei for safety
-  const gasPrice = 100000000n; // 0.1 gwei in wei
+  // Verify provider connected
+  const net = await provider.getNetwork();
+  console.log('[auto-bet] connected to chain:', net.chainId);
+
+  const wallet = new window.ethers.Wallet(privateKey, provider);
+  console.log('[auto-bet] wallet address:', wallet.address);
+
+  // Check balance
+  const balance = await provider.getBalance(wallet.address);
+  console.log('[auto-bet] balance:', window.ethers.formatEther(balance), 'BNB');
+  if (balance < window.ethers.parseEther(String(amountBnb + 0.0001))) {
+    throw new Error('BNB 余额不足: ' + window.ethers.formatEther(balance));
+  }
+
+  // BSC gas: 0.1 gwei
+  const gasPrice = 100000000n;
 
   const tx = {
     to: PREDICTION_ADDR,
@@ -982,7 +998,7 @@ async function signAndSendTx(betDirection, epoch, amountBnb) {
     gasPrice: gasPrice,
   };
 
-  console.log('[auto-bet] sending tx:', betDirection, 'epoch', epoch, 'value', amountBnb, 'BNB');
+  console.log('[auto-bet] sending tx:', betDirection, 'epoch', epoch, amountBnb, 'BNB');
   const resp = await wallet.sendTransaction(tx);
   console.log('[auto-bet] tx hash:', resp.hash);
   return resp.hash;
@@ -1157,7 +1173,9 @@ async function executeAutoBet(signal) {
         txHash = await signAndSendTx(betDirection, epoch, betAmount);
       } catch (signErr) {
         console.error('[auto-bet] signAndSendTx error:', signErr);
-        showBetStatus('error', '❌ 签名失败: ' + (signErr.message || signErr).slice(0, 80));
+        const errMsg = (signErr.message || signErr || 'unknown').toString().slice(0, 120);
+        const errCode = signErr.code || signErr.reason || '';
+        showBetStatus('error', '❌ 签名失败: ' + errMsg + (errCode ? ' [' + errCode + ']' : ''));
         lastBetEpoch = 0;
         return;
       }
