@@ -968,23 +968,21 @@ async function signAndSendTx(betDirection, epoch, amountBnb) {
   const epochHex = BigInt(epoch).toString(16).padStart(64, '0');
   const callData = '0x' + fnSig + epochHex;
 
-  const provider = new window.ethers.JsonRpcProvider(CHAIN_RPC, { chainId: 56, name: 'bnb' });
+  const provider = new window.ethers.JsonRpcProvider(CHAIN_RPC);
   const wallet = new window.ethers.Wallet(privateKey, provider);
 
-  // Get current gas price and add 10% buffer for BSC
-  const feeData = await provider.getFeeData();
-  const gasPrice = feeData.gasPrice ? (feeData.gasPrice * 110n / 100n) : 3000000000n;
+  // BSC gas: 0.05 gwei typical, use 0.1 gwei for safety
+  const gasPrice = 100000000n; // 0.1 gwei in wei
 
   const tx = {
     to: PREDICTION_ADDR,
-    value: BigInt(Math.floor(amountBnb * 1e18)),
+    value: window.ethers.parseEther(String(amountBnb)),
     data: callData,
     gasLimit: 300000,
     gasPrice: gasPrice,
-    chainId: 56,
   };
 
-  console.log('[auto-bet] sending tx:', { to: tx.to, value: tx.value.toString(), gasPrice: gasPrice.toString(), epoch, betDirection });
+  console.log('[auto-bet] sending tx:', betDirection, 'epoch', epoch, 'value', amountBnb, 'BNB');
   const resp = await wallet.sendTransaction(tx);
   console.log('[auto-bet] tx hash:', resp.hash);
   return resp.hash;
