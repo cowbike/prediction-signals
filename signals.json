@@ -3,16 +3,10 @@
     "epoch": 474642,
     "direction": "SKIP",
     "confidence": 0,
-    "pool_total": 0.1032,
-    "pool_bull": 0.0946,
-    "pool_bear": 0.0086,
+    "pool_total": 0.28,
+    "pool_bull": 0,
+    "pool_bear": 0,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:91.7%(1.1x) R:8.3%(12.0x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,16 +14,22 @@
         "info": "3h Wed neutral"
       },
       {
-        "name": "Mom",
+        "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "$630.14 RSI:55 EMA:+0.07% flat"
+        "info": "B:88.5%(1.1x) R:11.5%(8.7x) ⚠️ trap(BULL极端失衡)"
+      },
+      {
+        "name": "Mom",
+        "direction": "BEAR",
+        "score": 4,
+        "info": "$630.13 RSI:71 EMA:+0.09% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 69,
-        "info": "LS:2.38 long-squeeze"
+        "info": "LS:2.39 long-squeeze"
       },
       {
         "name": "FR",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": null,
-    "time": "03:15:37"
+    "trend": "📉 连跌3根($-1.00)",
+    "time": "03:20:02"
   },
   "lock_ts": 1776799232,
-  "current_ts": 1776799113,
+  "current_ts": 1776799204,
   "history": [
     {
       "epoch": 474149,
@@ -4852,6 +4852,15 @@
       "time_full": "2026-04-22 03:14:59",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 474642,
+      "direction": "SKIP",
+      "confidence": 15.0,
+      "time": "03:20:02",
+      "time_full": "2026-04-22 03:20:02",
+      "trend": "📉 连跌3根($-1.00)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4921,9 +4930,9 @@
     "hour": 3,
     "bull": 2,
     "bear": 10,
-    "skip": 4,
-    "total": 16
+    "skip": 5,
+    "total": 17
   },
-  "bnb_price": 630.27,
-  "updated": "2026-04-22T03:19:03.318218"
+  "bnb_price": 630.13,
+  "updated": "2026-04-22T03:20:04.533202"
 }
