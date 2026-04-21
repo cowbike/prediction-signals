@@ -996,47 +996,45 @@ async function signAndSendTx(betDirection, epoch, amountBnb) {
   const epochHex = BigInt(epoch).toString(16).padStart(64, '0');
   const callData = '0x' + fnSig + epochHex;
 
-  // Multiple CORS-friendly RPCs, try in order
   const RPC_LIST = [
-    'https://1rpc.io/bnb',
     'https://bsc-dataseed.binance.org/',
     'https://bsc-dataseed1.binance.org/',
     'https://bsc-dataseed2.binance.org/',
     'https://bsc-dataseed3.binance.org/',
+    'https://1rpc.io/bnb',
   ];
 
-  let provider, lastErr;
-  for (const rpc of RPC_LIST) {
-    try {
-      provider = new window.ethers.JsonRpcProvider(rpc, 56, { staticNetwork: true });
-      await provider.getNetwork(); // test connection
-      console.log('[auto-bet] using RPC:', rpc);
-      break;
-    } catch (e) {
-      lastErr = e;
-      console.warn('[auto-bet] RPC failed:', rpc, e.message);
+  // Try each RPC, retry up to 3 times total
+  let lastErr;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    for (const rpc of RPC_LIST) {
+      try {
+        const provider = new window.ethers.JsonRpcProvider(rpc, 56, { staticNetwork: true, batchMaxCount: 1 });
+        const wallet = new window.ethers.Wallet(privateKey, provider);
+
+        const tx = {
+          to: PREDICTION_ADDR,
+          value: window.ethers.parseEther(String(amountBnb)),
+          data: callData,
+          gasLimit: 300000,
+          gasPrice: 100000000n,
+        };
+
+        console.log('[auto-bet] attempt', attempt + 1, 'rpc:', rpc);
+        const resp = await Promise.race([
+          wallet.sendTransaction(tx),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('timeout 15s')), 15000))
+        ]);
+        console.log('[auto-bet] tx hash:', resp.hash);
+        return resp.hash;
+      } catch (e) {
+        lastErr = e;
+        console.warn('[auto-bet] failed:', rpc, e.message?.slice(0, 60));
+      }
     }
+    if (attempt < 2) await new Promise(r => setTimeout(r, 2000)); // wait 2s before retry
   }
-  if (!provider) throw new Error('所有 RPC 节点不可用: ' + (lastErr?.message || ''));
-
-  const wallet = new window.ethers.Wallet(privateKey, provider);
-  console.log('[auto-bet] wallet:', wallet.address);
-
-  // BSC gas: 0.1 gwei
-  const gasPrice = 100000000n;
-
-  const tx = {
-    to: PREDICTION_ADDR,
-    value: window.ethers.parseEther(String(amountBnb)),
-    data: callData,
-    gasLimit: 300000,
-    gasPrice: gasPrice,
-  };
-
-  console.log('[auto-bet] sending:', betDirection, 'epoch', epoch, amountBnb, 'BNB');
-  const resp = await wallet.sendTransaction(tx);
-  console.log('[auto-bet] tx hash:', resp.hash);
-  return resp.hash;
+  throw new Error('所有 RPC 重试失败: ' + (lastErr?.message?.slice(0, 80) || 'unknown'));
 }
 
 function showBetStatus(type, msg) {
