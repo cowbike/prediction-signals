@@ -1208,10 +1208,20 @@ async function executeAutoBet(signal) {
 
 // ─── Claim Winnings ───
 async function claimWinnings() {
-  if (!walletAddress || !window.ethereum) return;
+  if (!walletAddress && !privateKey) return;
   const btn = document.getElementById('btn-claim');
   btn.disabled = true;
   btn.textContent = '⏳ 扫描中...';
+
+  // Get wallet address
+  let addr;
+  if (privateKey) {
+    await loadEthers();
+    const w = new window.ethers.Wallet(privateKey);
+    addr = w.address;
+  } else {
+    addr = walletAddress;
+  }
 
   try {
     const callRpc = async (data) => {
@@ -1231,12 +1241,12 @@ async function claimWinnings() {
 
     // 2. Check last 200 epochs for claimable rounds
     const claimableEpochs = [];
-    const addrPadded = walletAddress.slice(2).toLowerCase().padStart(64, '0');
+    const addrPadded = addr.slice(2).toLowerCase().padStart(64, '0');
 
+    btn.textContent = '⏳ 扫描 200 轮...';
     for (let e = Math.max(1, currentEpoch - 200); e < currentEpoch; e++) {
-      const sel = '0x31ec1';
-      // claimable(uint256,address) selector = 0x31ec1e46
-      const claimSel = '0x31ec1e46';
+      // claimable(uint256,address) = 0xa0c7f71c
+      const claimSel = '0xa0c7f71c';
       const eHex = BigInt(e).toString(16).padStart(64, '0');
       const callData = claimSel + eHex + addrPadded;
 
@@ -1247,7 +1257,7 @@ async function claimWinnings() {
         }
       } catch (err) {}
 
-      // Rate limit: small delay between calls
+      // Rate limit
       if (e % 10 === 0) await new Promise(r => setTimeout(r, 100));
     }
 
@@ -1258,29 +1268,38 @@ async function claimWinnings() {
       return;
     }
 
-    showBetStatus('betting', '💰 找到 ' + claimableEpochs.length + ' 局可提取盈利，请在 MetaMask 确认...');
+    showBetStatus('betting', '💰 找到 ' + claimableEpochs.length + ' 局可提取盈利...');
 
-    // 3. Encode claim(uint256[] calldata epochs)
-    const claimSelector = '0x0096a506'; // claim(uint256[])
+    // 3. Encode claim(uint256[] calldata epochs) = 0x6ba4c138
+    const claimSelector = '0x6ba4c138';
     let encoded = claimSelector;
-    // offset to array (0x20)
     encoded += '0000000000000000000000000000000000000000000000000000000000000020';
-    // array length
     encoded += BigInt(claimableEpochs.length).toString(16).padStart(64, '0');
-    // array elements
     for (const ep of claimableEpochs) {
       encoded += BigInt(ep).toString(16).padStart(64, '0');
     }
 
-    const txHash = await window.ethereum.request({
-      method: 'eth_sendTransaction',
-      params: [{
-        from: walletAddress,
+    let txHash;
+    if (privateKey) {
+      // Private key mode: sign and send directly
+      const provider = new window.ethers.JsonRpcProvider('https://1rpc.io/bnb', 56, { staticNetwork: true });
+      const wallet = new window.ethers.Wallet(privateKey, provider);
+      const tx = {
         to: PREDICTION_ADDR,
-        value: '0x0',
+        value: 0,
         data: '0x' + encoded,
-      }]
-    });
+        gasLimit: 500000,
+        gasPrice: 100000000n,
+      };
+      const resp = await wallet.sendTransaction(tx);
+      txHash = resp.hash;
+    } else {
+      // MetaMask mode
+      txHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{ from: walletAddress, to: PREDICTION_ADDR, value: '0x0', data: '0x' + encoded }]
+      });
+    }
 
     showBetStatus('success', '✅ 提取成功! ' + claimableEpochs.length + ' 局盈利 | tx: ' + txHash.slice(0, 10) + '...');
   } catch (e) {
@@ -1288,7 +1307,7 @@ async function claimWinnings() {
     if (msg.includes('User denied') || msg.includes('user rejected')) {
       showBetStatus('error', '❌ 用户取消了交易');
     } else {
-      showBetStatus('error', '❌ 提取失败: ' + msg.slice(0, 80));
+      showBetStatus('error', '❌ 提取失败: ' + msg.slice(0, 120));
     }
   }
   btn.textContent = '💰 提取盈利';
