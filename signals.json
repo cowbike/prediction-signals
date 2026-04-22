@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474790,
+    "epoch": 474791,
     "direction": "SKIP",
     "confidence": 0,
-    "pool_total": 1.07,
-    "pool_bull": 0,
-    "pool_bear": 51.2,
+    "pool_total": 0.0535,
+    "pool_bull": 0.0535,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:100.0%(1.0x) R:0.0%(0.0x)"
+      },
       {
         "name": "Time",
         "direction": "BEAR",
         "score": 12,
         "info": "15h Wed BEAR:51.2%"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:55.2%(1.8x) R:44.8%(2.2x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "15:55:54"
+    "time": "15:56:05"
   },
-  "lock_ts": 1776844556,
-  "current_ts": 1776844564,
+  "lock_ts": 1776844862,
+  "current_ts": 1776844620,
   "history": [
     {
       "epoch": 474368,
@@ -4141,7 +4141,8 @@
       "time": "15:50:28",
       "time_full": "2026-04-22 15:50:28",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BEAR"
     },
     {
       "epoch": 474790,
@@ -4155,12 +4156,12 @@
   ],
   "tracking": {
     "wins": 1066,
-    "losses": 1393,
+    "losses": 1394,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 31.1,
-    "total_24h": 409,
+    "win_rate_24h": 31.0,
+    "total_24h": 410,
     "hourly_wins": {
       "4": 8,
       "5": 6,
@@ -4199,7 +4200,7 @@
       "12": 19,
       "13": 15,
       "14": 15,
-      "15": 16,
+      "15": 17,
       "16": 9,
       "17": 8,
       "18": 8,
@@ -4213,8 +4214,8 @@
       "2": 9,
       "3": 8
     },
-    "tracking_win_rate_24h": 31.1,
-    "tracking_total_24h": 409
+    "tracking_win_rate_24h": 31.0,
+    "tracking_total_24h": 410
   },
   "hourly_stats": {
     "hour": 15,
@@ -4224,5 +4225,5 @@
     "total": 22
   },
   "bnb_price": 642.16,
-  "updated": "2026-04-22T15:56:04.334081"
+  "updated": "2026-04-22T15:57:03.275757"
 }
