@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 474727,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.323,
-    "pool_bull": 0.2421,
-    "pool_bear": 0.081,
+    "direction": "BEAR",
+    "confidence": 29.0,
+    "pool_total": 0.48,
+    "pool_bull": 0.24,
+    "pool_bear": 0.24,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:74.9%(1.3x) R:25.1%(4.0x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,16 +14,22 @@
         "info": "10h Wed neutral"
       },
       {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:50.8%(2.0x) R:49.2%(2.0x)"
+      },
+      {
         "name": "Mom",
         "direction": "BEAR",
-        "score": 100,
-        "info": "$637.00 RSI:94 EMA:+0.40% OB"
+        "score": 79,
+        "info": "$636.87 RSI:82 EMA:+0.50% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 65,
-        "info": "LS:2.31 long-squeeze"
+        "info": "LS:2.30 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "10:29:12"
+    "time": "10:33:29"
   },
   "lock_ts": 1776825248,
-  "current_ts": 1776825182,
+  "current_ts": 1776825212,
   "history": [
     {
       "epoch": 474279,
@@ -4402,6 +4402,15 @@
       "time_full": "2026-04-22 10:28:22",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 474727,
+      "direction": "BEAR",
+      "confidence": 29.0,
+      "time": "10:33:29",
+      "time_full": "2026-04-22 10:33:29",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4470,10 +4479,10 @@
   "hourly_stats": {
     "hour": 10,
     "bull": 5,
-    "bear": 13,
+    "bear": 14,
     "skip": 0,
-    "total": 18
+    "total": 19
   },
-  "bnb_price": 636.81,
-  "updated": "2026-04-22T10:33:03.023585"
+  "bnb_price": 636.87,
+  "updated": "2026-04-22T10:33:32.141193"
 }
