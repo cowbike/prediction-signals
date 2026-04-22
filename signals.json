@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474810,
+    "epoch": 474811,
     "direction": "SKIP",
     "confidence": 0,
-    "pool_total": 1.0,
-    "pool_bull": 0,
-    "pool_bear": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "17h Wed neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:40.7%(2.5x) R:59.3%(1.7x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "17:37:54"
+    "time": "17:38:10"
   },
-  "lock_ts": 1776850676,
-  "current_ts": 1776850684,
+  "lock_ts": 1776850982,
+  "current_ts": 1776850712,
   "history": [
     {
       "epoch": 474395,
@@ -4071,7 +4071,8 @@
       "time": "17:32:11",
       "time_full": "2026-04-22 17:32:11",
       "trend": null,
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BEAR"
     },
     {
       "epoch": 474810,
@@ -4084,13 +4085,13 @@
     }
   ],
   "tracking": {
-    "wins": 1072,
+    "wins": 1073,
     "losses": 1407,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 30.8,
-    "total_24h": 402,
+    "win_rate_24h": 31.0,
+    "total_24h": 403,
     "hourly_wins": {
       "6": 9,
       "7": 8,
@@ -4103,7 +4104,7 @@
       "14": 9,
       "15": 4,
       "16": 7,
-      "17": 4,
+      "17": 5,
       "18": 4,
       "19": 3,
       "20": 2,
@@ -4143,8 +4144,8 @@
       "4": 8,
       "5": 10
     },
-    "tracking_win_rate_24h": 30.8,
-    "tracking_total_24h": 402
+    "tracking_win_rate_24h": 31.0,
+    "tracking_total_24h": 403
   },
   "hourly_stats": {
     "hour": 17,
@@ -4153,6 +4154,6 @@
     "skip": 5,
     "total": 18
   },
-  "bnb_price": 642.57,
-  "updated": "2026-04-22T17:38:04.283343"
+  "bnb_price": 642.83,
+  "updated": "2026-04-22T17:39:03.340656"
 }
