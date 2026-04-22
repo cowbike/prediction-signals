@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 474766,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.4584,
-    "pool_bull": 0.4238,
-    "pool_bear": 0.0346,
+    "direction": "BEAR",
+    "confidence": 29.0,
+    "pool_total": 0.47,
+    "pool_bull": 0.44,
+    "pool_bear": 0.03,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:92.4%(1.1x) R:7.6%(13.2x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,16 +14,22 @@
         "info": "13h Wed neutral"
       },
       {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:92.7%(1.1x) R:7.3%(13.6x) ⚠️ trap(BULL极端失衡)"
+      },
+      {
         "name": "Mom",
         "direction": "BEAR",
-        "score": 100,
-        "info": "$644.62 RSI:88 EMA:+0.40% OB"
+        "score": 90,
+        "info": "$644.86 RSI:83 EMA:+0.42% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 54,
-        "info": "LS:2.09 long-squeeze"
+        "info": "LS:2.08 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "13:48:17"
+    "time": "13:52:28"
   },
   "lock_ts": 1776837188,
-  "current_ts": 1776837121,
+  "current_ts": 1776837152,
   "history": [
     {
       "epoch": 474330,
@@ -4282,6 +4282,15 @@
       "time_full": "2026-04-22 13:47:23",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 474766,
+      "direction": "BEAR",
+      "confidence": 29.0,
+      "time": "13:52:28",
+      "time_full": "2026-04-22 13:52:28",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4350,10 +4359,10 @@
   "hourly_stats": {
     "hour": 13,
     "bull": 0,
-    "bear": 19,
+    "bear": 20,
     "skip": 3,
-    "total": 22
+    "total": 23
   },
-  "bnb_price": 644.65,
-  "updated": "2026-04-22T13:52:03.511918"
+  "bnb_price": 644.74,
+  "updated": "2026-04-22T13:52:32.214869"
 }
