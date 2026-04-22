@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474881,
-    "direction": "BEAR",
-    "confidence": 26.0,
-    "pool_total": 0.35,
-    "pool_bull": 0.24,
-    "pool_bear": 0.11,
+    "epoch": 474882,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": "BULL",
         "score": 14,
         "info": "23h Wed BULL:51.4%"
-      },
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 67,
-        "info": "B:69.2%(1.4x) R:30.8%(3.2x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "23:39:35"
+    "time": "23:40:24"
   },
-  "lock_ts": 1776872414,
-  "current_ts": 1776872403,
+  "lock_ts": 1776872720,
+  "current_ts": 1776872462,
   "history": [
     {
       "epoch": 474489,
@@ -3841,7 +3841,8 @@
       "time": "23:34:33",
       "time_full": "2026-04-22 23:34:33",
       "trend": "📈 连涨3根(+$0.27)",
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BULL"
     },
     {
       "epoch": 474881,
@@ -3854,13 +3855,13 @@
     }
   ],
   "tracking": {
-    "wins": 1086,
+    "wins": 1087,
     "losses": 1464,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 28.2,
-    "total_24h": 379,
+    "win_rate_24h": 28.4,
+    "total_24h": 380,
     "hourly_wins": {
       "14": 8,
       "15": 4,
@@ -3871,7 +3872,7 @@
       "20": 4,
       "21": 5,
       "22": 10,
-      "23": 4,
+      "23": 5,
       "0": 3,
       "1": 4,
       "2": 2,
@@ -3913,8 +3914,8 @@
       "12": 9,
       "13": 8
     },
-    "tracking_win_rate_24h": 28.2,
-    "tracking_total_24h": 379
+    "tracking_win_rate_24h": 28.4,
+    "tracking_total_24h": 380
   },
   "hourly_stats": {
     "hour": 23,
@@ -3924,5 +3925,5 @@
     "total": 19
   },
   "bnb_price": 650.0,
-  "updated": "2026-04-22T23:40:03.624675"
+  "updated": "2026-04-22T23:41:03.709482"
 }
