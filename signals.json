@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474957,
-    "direction": "BEAR",
-    "confidence": 34.0,
-    "pool_total": 0.96,
-    "pool_bull": 0.74,
-    "pool_bear": 0.22,
+    "epoch": 474958,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0469,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0469,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:0.0%(0.0x) R:100.0%(1.0x)"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "6h Thu neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 96,
-        "info": "B:76.9%(1.3x) R:23.1%(4.3x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "06:07:58"
+    "time": "06:08:12"
   },
-  "lock_ts": 1776895682,
-  "current_ts": 1776895683,
+  "lock_ts": 1776895988,
+  "current_ts": 1776895742,
   "history": [
     {
       "epoch": 474610,
@@ -3511,7 +3511,8 @@
       "time": "06:02:55",
       "time_full": "2026-04-23 06:02:55",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BULL"
     },
     {
       "epoch": 474957,
@@ -3525,12 +3526,12 @@
   ],
   "tracking": {
     "wins": 1102,
-    "losses": 1524,
+    "losses": 1525,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 25.4,
-    "total_24h": 346,
+    "total_24h": 347,
     "hourly_wins": {
       "0": 7,
       "1": 6,
@@ -3563,7 +3564,7 @@
       "3": 18,
       "4": 17,
       "5": 20,
-      "6": 7,
+      "6": 8,
       "7": 6,
       "8": 10,
       "9": 9,
@@ -3583,7 +3584,7 @@
       "23": 9
     },
     "tracking_win_rate_24h": 25.4,
-    "tracking_total_24h": 346
+    "tracking_total_24h": 347
   },
   "hourly_stats": {
     "hour": 6,
@@ -3592,6 +3593,6 @@
     "skip": 3,
     "total": 14
   },
-  "bnb_price": 641.96,
-  "updated": "2026-04-23T06:08:03.863695"
+  "bnb_price": 642.15,
+  "updated": "2026-04-23T06:09:03.826037"
 }
