@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474708,
-    "direction": "BEAR",
-    "confidence": 49.0,
-    "pool_total": 1.13,
-    "pool_bull": 0.82,
-    "pool_bear": 0.31,
+    "epoch": 474709,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0083,
+    "pool_bull": 0.0083,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:100.0%(1.0x) R:0.0%(0.0x)"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "8h Wed neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 95,
-        "info": "B:72.8%(1.4x) R:27.2%(3.7x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "08:56:59"
+    "time": "08:57:24"
   },
-  "lock_ts": 1776819434,
-  "current_ts": 1776819423,
+  "lock_ts": 1776819740,
+  "current_ts": 1776819482,
   "history": [
     {
       "epoch": 474235,
@@ -4651,7 +4651,8 @@
       "time": "08:51:32",
       "time_full": "2026-04-22 08:51:32",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BULL"
     },
     {
       "epoch": 474708,
@@ -4665,12 +4666,12 @@
   ],
   "tracking": {
     "wins": 1044,
-    "losses": 1333,
+    "losses": 1334,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 34.1,
-    "total_24h": 460,
+    "total_24h": 461,
     "hourly_wins": {
       "16": 5,
       "17": 9,
@@ -4714,7 +4715,7 @@
       "5": 18,
       "6": 14,
       "7": 14,
-      "8": 16,
+      "8": 17,
       "9": 8,
       "10": 7,
       "11": 8,
@@ -4724,7 +4725,7 @@
       "15": 8
     },
     "tracking_win_rate_24h": 34.1,
-    "tracking_total_24h": 460
+    "tracking_total_24h": 461
   },
   "hourly_stats": {
     "hour": 8,
@@ -4733,6 +4734,6 @@
     "skip": 3,
     "total": 24
   },
-  "bnb_price": 632.59,
-  "updated": "2026-04-22T08:57:03.635508"
+  "bnb_price": 632.58,
+  "updated": "2026-04-22T08:58:03.312417"
 }
