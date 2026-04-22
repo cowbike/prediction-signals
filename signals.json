@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474781,
-    "direction": "BEAR",
-    "confidence": 23.0,
-    "pool_total": 0.26,
-    "pool_bull": 0.22,
-    "pool_bear": 0.04,
+    "epoch": 474782,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": "BEAR",
         "score": 12,
         "info": "15h Wed BEAR:51.2%"
-      },
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 31,
-        "info": "B:83.3%(1.2x) R:16.7%(6.0x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "15:09:34"
+    "time": "15:09:55"
   },
-  "lock_ts": 1776841784,
-  "current_ts": 1776841777,
+  "lock_ts": 1776842090,
+  "current_ts": 1776841800,
   "history": [
     {
       "epoch": 474357,
@@ -4161,7 +4161,8 @@
       "time": "15:03:53",
       "time_full": "2026-04-22 15:03:53",
       "trend": null,
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BEAR"
     },
     {
       "epoch": 474781,
@@ -4174,13 +4175,13 @@
     }
   ],
   "tracking": {
-    "wins": 1065,
+    "wins": 1066,
     "losses": 1385,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 31.1,
-    "total_24h": 411,
+    "win_rate_24h": 31.3,
+    "total_24h": 412,
     "hourly_wins": {
       "3": 6,
       "4": 8,
@@ -4194,7 +4195,7 @@
       "12": 5,
       "13": 9,
       "14": 9,
-      "15": 3,
+      "15": 4,
       "16": 3,
       "17": 2,
       "18": 4,
@@ -4233,8 +4234,8 @@
       "1": 8,
       "2": 9
     },
-    "tracking_win_rate_24h": 31.1,
-    "tracking_total_24h": 411
+    "tracking_win_rate_24h": 31.3,
+    "tracking_total_24h": 412
   },
   "hourly_stats": {
     "hour": 15,
@@ -4244,5 +4245,5 @@
     "total": 13
   },
   "bnb_price": 642.09,
-  "updated": "2026-04-22T15:09:37.603789"
+  "updated": "2026-04-22T15:10:04.267491"
 }
