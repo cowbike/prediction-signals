@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474948,
-    "direction": "BULL",
-    "confidence": 22.0,
-    "pool_total": 0.81,
-    "pool_bull": 0.26,
-    "pool_bear": 0.55,
+    "epoch": 474949,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": "BEAR",
         "score": 13,
         "info": "5h Thu BEAR:51.3%"
-      },
-      {
-        "name": "Pool",
-        "direction": "BULL",
-        "score": 55,
-        "info": "B:31.7%(3.2x) R:68.3%(1.5x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "05:22:04"
+    "time": "05:22:18"
   },
-  "lock_ts": 1776892928,
-  "current_ts": 1776892928,
+  "lock_ts": 1776893234,
+  "current_ts": 1776892982,
   "history": [
     {
       "epoch": 474602,
@@ -3501,7 +3501,8 @@
       "time": "05:17:00",
       "time_full": "2026-04-23 05:17:00",
       "trend": "📈 连涨3根(+$1.51)",
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BULL"
     },
     {
       "epoch": 474948,
@@ -3515,12 +3516,12 @@
   ],
   "tracking": {
     "wins": 1101,
-    "losses": 1516,
+    "losses": 1517,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 25.5,
-    "total_24h": 345,
+    "win_rate_24h": 25.4,
+    "total_24h": 346,
     "hourly_wins": {
       "0": 8,
       "1": 6,
@@ -3553,7 +3554,7 @@
       "2": 20,
       "3": 18,
       "4": 17,
-      "5": 12,
+      "5": 13,
       "6": 7,
       "7": 6,
       "8": 10,
@@ -3572,8 +3573,8 @@
       "21": 8,
       "22": 8
     },
-    "tracking_win_rate_24h": 25.5,
-    "tracking_total_24h": 345
+    "tracking_win_rate_24h": 25.4,
+    "tracking_total_24h": 346
   },
   "hourly_stats": {
     "hour": 5,
@@ -3583,5 +3584,5 @@
     "total": 17
   },
   "bnb_price": 642.37,
-  "updated": "2026-04-23T05:22:08.168418"
+  "updated": "2026-04-23T05:23:03.292705"
 }
