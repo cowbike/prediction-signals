@@ -1,17 +1,17 @@
 {
   "current": {
-    "epoch": 474773,
+    "epoch": 474774,
     "direction": "SKIP",
     "confidence": 0,
-    "pool_total": 0.9668,
-    "pool_bull": 0.5147,
-    "pool_bear": 0.4522,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
       {
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:53.2%(1.9x) R:46.8%(2.1x)"
+        "info": "waiting"
       },
       {
         "name": "Time",
@@ -23,12 +23,12 @@
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$643.05 RSI:32 EMA:+0.05% flat"
+        "info": "$642.65 RSI:36 EMA:+0.03% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 51,
+        "score": 10,
         "info": "LS:2.02 long-squeeze"
       },
       {
@@ -39,21 +39,11 @@
       }
     ],
     "trend": null,
-    "time": "14:23:55"
+    "time": "14:28:59"
   },
-  "lock_ts": 1776839330,
-  "current_ts": 1776839281,
+  "lock_ts": 1776839636,
+  "current_ts": 1776839339,
   "history": [
-    {
-      "epoch": 474342,
-      "direction": "BULL",
-      "confidence": 35.0,
-      "time": "01:49:10",
-      "time_full": "2026-04-22 01:49:10",
-      "trend": null,
-      "outcome": "LOSS",
-      "result": "BEAR"
-    },
     {
       "epoch": 474343,
       "direction": "SKIP",
@@ -4231,12 +4221,22 @@
       "time": "14:23:23",
       "time_full": "2026-04-22 14:23:23",
       "trend": null,
+      "outcome": "LOSS",
+      "result": "BEAR"
+    },
+    {
+      "epoch": 474773,
+      "direction": "SKIP",
+      "confidence": 10.0,
+      "time": "14:28:48",
+      "time_full": "2026-04-22 14:28:48",
+      "trend": null,
       "outcome": null
     }
   ],
   "tracking": {
     "wins": 1064,
-    "losses": 1378,
+    "losses": 1379,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
@@ -4269,7 +4269,7 @@
       "0": 3
     },
     "hourly_losses": {
-      "1": 10,
+      "1": 9,
       "2": 17,
       "3": 18,
       "4": 16,
@@ -4282,7 +4282,7 @@
       "11": 14,
       "12": 19,
       "13": 15,
-      "14": 8,
+      "14": 9,
       "15": 8,
       "16": 9,
       "17": 8,
@@ -4301,9 +4301,9 @@
     "hour": 14,
     "bull": 6,
     "bear": 10,
-    "skip": 1,
-    "total": 17
+    "skip": 2,
+    "total": 18
   },
-  "bnb_price": 642.57,
-  "updated": "2026-04-22T14:28:03.278705"
+  "bnb_price": 642.43,
+  "updated": "2026-04-22T14:29:03.637603"
 }
