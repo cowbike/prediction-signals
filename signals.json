@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474743,
-    "direction": "BEAR",
-    "confidence": 21.0,
-    "pool_total": 0.18,
-    "pool_bull": 0.15,
-    "pool_bear": 0.03,
+    "epoch": 474744,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "11h Wed neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 27,
-        "info": "B:83.6%(1.2x) R:16.4%(6.1x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "11:55:11"
+    "time": "11:56:01"
   },
-  "lock_ts": 1776830150,
-  "current_ts": 1776830114,
+  "lock_ts": 1776830456,
+  "current_ts": 1776830161,
   "history": [
     {
       "epoch": 474289,
@@ -4461,7 +4461,8 @@
       "time": "11:50:12",
       "time_full": "2026-04-22 11:50:12",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BULL"
     },
     {
       "epoch": 474743,
@@ -4475,12 +4476,12 @@
   ],
   "tracking": {
     "wins": 1055,
-    "losses": 1357,
+    "losses": 1358,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 32.4,
-    "total_24h": 441,
+    "total_24h": 442,
     "hourly_wins": {
       "21": 2,
       "22": 11,
@@ -4522,7 +4523,7 @@
       "8": 18,
       "9": 17,
       "10": 15,
-      "11": 13,
+      "11": 14,
       "12": 10,
       "13": 7,
       "14": 5,
@@ -4534,7 +4535,7 @@
       "20": 1
     },
     "tracking_win_rate_24h": 32.4,
-    "tracking_total_24h": 441
+    "tracking_total_24h": 442
   },
   "hourly_stats": {
     "hour": 11,
@@ -4544,5 +4545,5 @@
     "total": 22
   },
   "bnb_price": 639.99,
-  "updated": "2026-04-22T11:55:14.501755"
+  "updated": "2026-04-22T11:56:03.901789"
 }
