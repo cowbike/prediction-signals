@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474945,
-    "direction": "BULL",
-    "confidence": 32.0,
-    "pool_total": 0.74,
-    "pool_bull": 0.16,
-    "pool_bear": 0.58,
+    "epoch": 474946,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": "BEAR",
         "score": 13,
         "info": "5h Thu BEAR:51.3%"
-      },
-      {
-        "name": "Pool",
-        "direction": "BULL",
-        "score": 85,
-        "info": "B:21.2%(4.7x) R:78.8%(1.3x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "05:06:12"
+    "time": "05:07:00"
   },
-  "lock_ts": 1776892010,
-  "current_ts": 1776891975,
+  "lock_ts": 1776892316,
+  "current_ts": 1776892020,
   "history": [
     {
       "epoch": 474596,
@@ -3531,7 +3531,8 @@
       "time": "05:01:06",
       "time_full": "2026-04-23 05:01:06",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BULL"
     },
     {
       "epoch": 474945,
@@ -3545,12 +3546,12 @@
   ],
   "tracking": {
     "wins": 1100,
-    "losses": 1514,
+    "losses": 1515,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 26.1,
-    "total_24h": 348,
+    "total_24h": 349,
     "hourly_wins": {
       "23": 6,
       "0": 8,
@@ -3583,7 +3584,7 @@
       "2": 20,
       "3": 18,
       "4": 17,
-      "5": 10,
+      "5": 11,
       "6": 7,
       "7": 6,
       "8": 10,
@@ -3603,7 +3604,7 @@
       "22": 8
     },
     "tracking_win_rate_24h": 26.1,
-    "tracking_total_24h": 348
+    "tracking_total_24h": 349
   },
   "hourly_stats": {
     "hour": 5,
@@ -3612,6 +3613,6 @@
     "skip": 0,
     "total": 14
   },
-  "bnb_price": 641.79,
-  "updated": "2026-04-23T05:06:15.768806"
+  "bnb_price": 641.97,
+  "updated": "2026-04-23T05:07:03.666104"
 }
