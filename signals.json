@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 474753,
-    "direction": "BULL",
-    "confidence": 37.0,
-    "pool_total": 0.74,
-    "pool_bull": 0.22,
-    "pool_bear": 0.52,
+    "epoch": 474754,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "12h Wed neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": "BULL",
-        "score": 75,
-        "info": "B:30.0%(3.3x) R:70.0%(1.4x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "12:46:47"
+    "time": "12:47:00"
   },
-  "lock_ts": 1776833210,
-  "current_ts": 1776833210,
+  "lock_ts": 1776833516,
+  "current_ts": 1776833220,
   "history": [
     {
       "epoch": 474301,
@@ -4441,7 +4441,8 @@
       "time": "12:41:06",
       "time_full": "2026-04-22 12:41:06",
       "trend": "📈 连涨3根(+$1.31)",
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BEAR"
     },
     {
       "epoch": 474753,
@@ -4455,12 +4456,12 @@
   ],
   "tracking": {
     "wins": 1059,
-    "losses": 1363,
+    "losses": 1364,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 33.0,
-    "total_24h": 439,
+    "total_24h": 440,
     "hourly_wins": {
       "22": 10,
       "23": 11,
@@ -4502,7 +4503,7 @@
       "9": 17,
       "10": 15,
       "11": 14,
-      "12": 15,
+      "12": 16,
       "13": 7,
       "14": 5,
       "15": 8,
@@ -4514,7 +4515,7 @@
       "21": 10
     },
     "tracking_win_rate_24h": 33.0,
-    "tracking_total_24h": 439
+    "tracking_total_24h": 440
   },
   "hourly_stats": {
     "hour": 12,
@@ -4524,5 +4525,5 @@
     "total": 22
   },
   "bnb_price": 639.89,
-  "updated": "2026-04-22T12:46:51.046821"
+  "updated": "2026-04-22T12:47:03.780287"
 }
