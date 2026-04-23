@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 475221,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.3779,
-    "pool_bull": 0.1295,
-    "pool_bear": 0.2484,
+    "direction": "BULL",
+    "confidence": 31.0,
+    "pool_total": 0.4,
+    "pool_bull": 0.13,
+    "pool_bear": 0.27,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:34.3%(2.9x) R:65.7%(1.5x)"
-      },
       {
         "name": "Time",
         "direction": "BULL",
@@ -20,16 +14,22 @@
         "info": "4h Fri BULL:51.4%"
       },
       {
+        "name": "Pool",
+        "direction": "BULL",
+        "score": 48,
+        "info": "B:32.2%(3.1x) R:67.8%(1.5x)"
+      },
+      {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$635.70 RSI:47 EMA:+0.17% flat"
+        "info": "$636.65 RSI:59 EMA:+0.13% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 58,
-        "info": "LS:2.15 long-squeeze"
+        "info": "LS:2.16 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,21 +39,11 @@
       }
     ],
     "trend": null,
-    "time": "04:29:49"
+    "time": "04:34:13"
   },
   "lock_ts": 1776976484,
-  "current_ts": 1776976442,
+  "current_ts": 1776976456,
   "history": [
-    {
-      "epoch": 474910,
-      "direction": "SKIP",
-      "confidence": 0.0,
-      "time": "02:08:08",
-      "time_full": "2026-04-24 02:08:08",
-      "trend": null,
-      "outcome": "SKIP",
-      "result": "BULL"
-    },
     {
       "epoch": 474911,
       "direction": "BULL",
@@ -3152,6 +3142,15 @@
       "time_full": "2026-04-24 04:29:35",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 475221,
+      "direction": "BULL",
+      "confidence": 31.0,
+      "time": "04:34:13",
+      "time_full": "2026-04-24 04:34:13",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3217,11 +3216,11 @@
   },
   "hourly_stats": {
     "hour": 4,
-    "bull": 8,
+    "bull": 9,
     "bear": 8,
     "skip": 1,
-    "total": 17
+    "total": 18
   },
   "bnb_price": 636.64,
-  "updated": "2026-04-24T04:34:03.937762"
+  "updated": "2026-04-24T04:34:16.747482"
 }
