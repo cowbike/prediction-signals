@@ -1,34 +1,34 @@
 {
   "current": {
     "epoch": 474991,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.0441,
-    "pool_bull": 0.01,
-    "pool_bear": 0.0341,
+    "direction": "BULL",
+    "confidence": 32.0,
+    "pool_total": 0.25,
+    "pool_bull": 0.05,
+    "pool_bear": 0.2,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:22.7%(4.4x) R:77.3%(1.3x)"
-      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
-        "info": "8h Thu neutral"
+        "info": "9h Thu neutral"
+      },
+      {
+        "name": "Pool",
+        "direction": "BULL",
+        "score": 61,
+        "info": "B:18.8%(5.3x) R:81.2%(1.2x)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$638.03 RSI:56 EMA:+0.08% flat"
+        "info": "$638.48 RSI:55 EMA:+0.07% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 10,
+        "score": 51,
         "info": "LS:2.01 long-squeeze"
       },
       {
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "08:56:30"
+    "time": "09:00:48"
   },
   "lock_ts": 1776906086,
-  "current_ts": 1776905972,
+  "current_ts": 1776906051,
   "history": [
     {
       "epoch": 474666,
@@ -3292,6 +3292,15 @@
       "time_full": "2026-04-23 08:56:19",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 474991,
+      "direction": "BULL",
+      "confidence": 32.0,
+      "time": "09:00:48",
+      "time_full": "2026-04-23 09:00:48",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3357,12 +3366,12 @@
     "tracking_total_24h": 324
   },
   "hourly_stats": {
-    "hour": 8,
-    "bull": 3,
-    "bear": 15,
+    "hour": 9,
+    "bull": 2,
+    "bear": 5,
     "skip": 6,
-    "total": 24
+    "total": 13
   },
   "bnb_price": 638.57,
-  "updated": "2026-04-23T09:00:03.355510"
+  "updated": "2026-04-23T09:00:51.958101"
 }
