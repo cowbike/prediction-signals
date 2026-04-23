@@ -366,7 +366,11 @@ def update_tracking_results():
                 continue
             winner = "BULL" if rd["close_p"] > rd["lock_p"] else "BEAR" if rd["close_p"] < rd["lock_p"] else "TIE"
             pred["result"] = winner
-            if winner == pred.get("direction"):
+            direction = pred.get("direction", "")
+            if direction == "SKIP":
+                # SKIP 不計入勝率，只標記結果
+                pred["outcome"] = "SKIP"
+            elif winner == direction:
                 pred["outcome"] = "WIN"
             elif winner == "TIE":
                 pred["outcome"] = "TIE"
@@ -379,11 +383,13 @@ def update_tracking_results():
     if not updated:
         return
     
-    # Recompute win/loss counts
+    # Recompute win/loss counts (exclude SKIP)
     wins = sum(1 for p in preds.values() if p.get("outcome") == "WIN")
     losses = sum(1 for p in preds.values() if p.get("outcome") == "LOSS")
+    skips = sum(1 for p in preds.values() if p.get("outcome") == "SKIP")
     t["wins"] = wins
     t["losses"] = losses
+    t["skips"] = skips
     
     TRACKING_FILE.write_text(json.dumps(t, ensure_ascii=False))
     print(f"[{datetime.now().strftime('%H:%M:%S')}] Updated tracking: {wins}W/{losses}L")
