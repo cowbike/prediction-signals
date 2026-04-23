@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 475034,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.3282,
-    "pool_bull": 0.1538,
-    "pool_bear": 0.1744,
+    "direction": "BEAR",
+    "confidence": 21.0,
+    "pool_total": 0.33,
+    "pool_bull": 0.15,
+    "pool_bear": 0.17,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:46.9%(2.1x) R:53.1%(1.9x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,15 +14,21 @@
         "info": "12h Thu neutral"
       },
       {
-        "name": "Mom",
+        "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "$636.17 RSI:67 EMA:+0.09% flat"
+        "info": "B:46.9%(2.1x) R:53.1%(1.9x)"
+      },
+      {
+        "name": "Mom",
+        "direction": "BEAR",
+        "score": 51,
+        "info": "$636.21 RSI:78 EMA:+0.12% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 10,
+        "score": 51,
         "info": "LS:2.02 long-squeeze"
       },
       {
@@ -38,11 +38,11 @@
         "info": "FR:+0.0013% neutral"
       }
     ],
-    "trend": null,
-    "time": "12:35:54"
+    "trend": "📈 连涨3根(+$0.86)",
+    "time": "12:40:11"
   },
   "lock_ts": 1776919250,
-  "current_ts": 1776919200,
+  "current_ts": 1776919214,
   "history": [
     {
       "epoch": 474745,
@@ -2932,6 +2932,15 @@
       "time_full": "2026-04-23 12:35:43",
       "trend": "📈 连涨3根(+$1.13)",
       "outcome": null
+    },
+    {
+      "epoch": 475034,
+      "direction": "BEAR",
+      "confidence": 21.0,
+      "time": "12:40:11",
+      "time_full": "2026-04-23 12:40:11",
+      "trend": "📈 连涨3根(+$0.86)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -2999,10 +3008,10 @@
   "hourly_stats": {
     "hour": 12,
     "bull": 7,
-    "bear": 8,
+    "bear": 9,
     "skip": 3,
-    "total": 18
+    "total": 19
   },
-  "bnb_price": 636.2,
-  "updated": "2026-04-23T12:40:03.091367"
+  "bnb_price": 636.21,
+  "updated": "2026-04-23T12:40:14.324497"
 }
