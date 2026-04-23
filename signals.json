@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475236,
-    "direction": "BEAR",
-    "confidence": 34.0,
-    "pool_total": 0.12,
-    "pool_bull": 0.03,
-    "pool_bear": 0.09,
+    "epoch": 475237,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.05,
+    "pool_bull": 0.0,
+    "pool_bear": 0.05,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:0.0%(0.0x) R:100.0%(1.0x)"
+      },
       {
         "name": "Time",
         "direction": "BEAR",
         "score": 13,
         "info": "5h Fri BEAR:51.3%"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "no data"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "05:50:36"
+    "time": "05:51:24"
   },
-  "lock_ts": 1776981074,
-  "current_ts": 1776981064,
+  "lock_ts": 1776981380,
+  "current_ts": 1776981123,
   "history": [
     {
       "epoch": 474921,
@@ -3191,7 +3191,8 @@
       "time": "05:45:29",
       "time_full": "2026-04-24 05:45:29",
       "trend": "📈 连涨3根(+$1.11)",
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BULL"
     },
     {
       "epoch": 475236,
@@ -3205,12 +3206,12 @@
   ],
   "tracking": {
     "wins": 1174,
-    "losses": 1135,
+    "losses": 1136,
     "skips": 596,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 54.2,
-    "total_24h": 144,
+    "win_rate_24h": 53.8,
+    "total_24h": 145,
     "hourly_wins": {
       "3": 6,
       "4": 6,
@@ -3239,7 +3240,7 @@
     },
     "hourly_losses": {
       "4": 4,
-      "5": 7,
+      "5": 8,
       "6": 3,
       "7": 1,
       "8": 1,
@@ -3261,8 +3262,8 @@
       "2": 5,
       "3": 2
     },
-    "tracking_win_rate_24h": 54.2,
-    "tracking_total_24h": 144
+    "tracking_win_rate_24h": 53.8,
+    "tracking_total_24h": 145
   },
   "hourly_stats": {
     "hour": 5,
@@ -3271,6 +3272,6 @@
     "skip": 3,
     "total": 23
   },
-  "bnb_price": 638.75,
-  "updated": "2026-04-24T05:51:04.153785"
+  "bnb_price": 638.78,
+  "updated": "2026-04-24T05:52:04.054344"
 }
