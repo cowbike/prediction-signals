@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475100,
-    "direction": "BULL",
-    "confidence": 38.0,
-    "pool_total": 0.44,
-    "pool_bull": 0.37,
-    "pool_bear": 0.07,
+    "epoch": 475101,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "18h Thu neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 20,
-        "info": "B:84.0%(1.2x) R:16.0%(6.2x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "18:16:53"
+    "time": "18:17:42"
   },
-  "lock_ts": 1776939452,
-  "current_ts": 1776939424,
+  "lock_ts": 1776939758,
+  "current_ts": 1776939462,
   "history": [
     {
       "epoch": 474807,
@@ -2971,7 +2971,8 @@
       "time": "18:11:47",
       "time_full": "2026-04-23 18:11:47",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BEAR"
     },
     {
       "epoch": 475100,
@@ -2985,12 +2986,12 @@
   ],
   "tracking": {
     "wins": 1135,
-    "losses": 1096,
+    "losses": 1097,
     "skips": 538,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 53.8,
-    "total_24h": 117,
+    "win_rate_24h": 53.4,
+    "total_24h": 118,
     "hourly_wins": {
       "17": 2,
       "18": 4,
@@ -3038,10 +3039,10 @@
       "14": 3,
       "15": 1,
       "16": 1,
-      "18": 1
+      "18": 2
     },
-    "tracking_win_rate_24h": 53.8,
-    "tracking_total_24h": 117
+    "tracking_win_rate_24h": 53.4,
+    "tracking_total_24h": 118
   },
   "hourly_stats": {
     "hour": 18,
@@ -3050,6 +3051,6 @@
     "skip": 2,
     "total": 16
   },
-  "bnb_price": 631.2,
-  "updated": "2026-04-23T18:17:04.283798"
+  "bnb_price": 631.34,
+  "updated": "2026-04-23T18:18:03.327346"
 }
