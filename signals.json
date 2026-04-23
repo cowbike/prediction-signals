@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475099,
-    "direction": "BULL",
-    "confidence": 31.0,
-    "pool_total": 1.02,
-    "pool_bull": 0.12,
-    "pool_bear": 0.9,
+    "epoch": 475100,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "18h Thu neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:11.4%(8.7x) R:88.6%(1.1x) ⚠️ trap(BEAR极端失衡)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "18:11:47"
+    "time": "18:12:36"
   },
-  "lock_ts": 1776939146,
-  "current_ts": 1776939123,
+  "lock_ts": 1776939452,
+  "current_ts": 1776939156,
   "history": [
     {
       "epoch": 474807,
@@ -2961,7 +2961,8 @@
       "time": "18:06:41",
       "time_full": "2026-04-23 18:06:41",
       "trend": null,
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BEAR"
     },
     {
       "epoch": 475099,
@@ -2974,16 +2975,16 @@
     }
   ],
   "tracking": {
-    "wins": 1134,
+    "wins": 1135,
     "losses": 1096,
     "skips": 538,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 53.4,
-    "total_24h": 116,
+    "win_rate_24h": 53.8,
+    "total_24h": 117,
     "hourly_wins": {
       "17": 2,
-      "18": 3,
+      "18": 4,
       "20": 2,
       "21": 4,
       "22": 4,
@@ -3030,8 +3031,8 @@
       "16": 1,
       "18": 1
     },
-    "tracking_win_rate_24h": 53.4,
-    "tracking_total_24h": 116
+    "tracking_win_rate_24h": 53.8,
+    "tracking_total_24h": 117
   },
   "hourly_stats": {
     "hour": 18,
@@ -3040,6 +3041,6 @@
     "skip": 2,
     "total": 15
   },
-  "bnb_price": 631.48,
-  "updated": "2026-04-23T18:12:03.590535"
+  "bnb_price": 631.29,
+  "updated": "2026-04-23T18:13:03.697910"
 }
