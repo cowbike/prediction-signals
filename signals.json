@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475036,
-    "direction": "BULL",
-    "confidence": 56.0,
-    "pool_total": 0.32,
-    "pool_bull": 0.07,
-    "pool_bear": 0.25,
+    "epoch": 475037,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "12h Thu neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": "BULL",
-        "score": 95,
-        "info": "B:22.9%(4.4x) R:77.1%(1.3x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "12:50:23"
+    "time": "12:51:12"
   },
-  "lock_ts": 1776919862,
-  "current_ts": 1776919863,
+  "lock_ts": 1776920168,
+  "current_ts": 1776919921,
   "history": [
     {
       "epoch": 474747,
@@ -2931,7 +2931,8 @@
       "time": "12:45:17",
       "time_full": "2026-04-23 12:45:17",
       "trend": null,
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BEAR"
     },
     {
       "epoch": 475036,
@@ -2944,15 +2945,15 @@
     }
   ],
   "tracking": {
-    "wins": 1120,
+    "wins": 1121,
     "losses": 1585,
     "skips": 0,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 21.9,
-    "total_24h": 288,
+    "win_rate_24h": 22.1,
+    "total_24h": 289,
     "hourly_wins": {
-      "12": 4,
+      "12": 5,
       "13": 4,
       "14": 2,
       "15": 1,
@@ -3002,8 +3003,8 @@
       "10": 9,
       "11": 9
     },
-    "tracking_win_rate_24h": 21.9,
-    "tracking_total_24h": 288
+    "tracking_win_rate_24h": 22.1,
+    "tracking_total_24h": 289
   },
   "hourly_stats": {
     "hour": 12,
@@ -3012,6 +3013,6 @@
     "skip": 3,
     "total": 19
   },
-  "bnb_price": 635.81,
-  "updated": "2026-04-23T12:51:03.825649"
+  "bnb_price": 635.9,
+  "updated": "2026-04-23T12:52:04.095530"
 }
