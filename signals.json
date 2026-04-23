@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 475115,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.3935,
-    "pool_bull": 0.0042,
-    "pool_bear": 0.3893,
+    "direction": "BULL",
+    "confidence": 33.0,
+    "pool_total": 1.02,
+    "pool_bull": 0.19,
+    "pool_bear": 0.83,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:1.1%(93.7x) R:98.9%(1.0x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,15 +14,21 @@
         "info": "19h Thu neutral"
       },
       {
+        "name": "Pool",
+        "direction": "BULL",
+        "score": 61,
+        "info": "B:18.7%(5.3x) R:81.3%(1.2x)"
+      },
+      {
         "name": "Mom",
-        "direction": "BEAR",
-        "score": 72,
-        "info": "$632.78 RSI:81 EMA:+0.03% OB"
+        "direction": null,
+        "score": 0,
+        "info": "$632.35 RSI:67 EMA:+0.06% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 56,
+        "score": 57,
         "info": "LS:2.13 long-squeeze"
       },
       {
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "19:29:07"
+    "time": "19:33:47"
   },
   "lock_ts": 1776944042,
-  "current_ts": 1776943982,
+  "current_ts": 1776944031,
   "history": [
     {
       "epoch": 474826,
@@ -2932,6 +2932,15 @@
       "time_full": "2026-04-23 19:28:17",
       "trend": "📈 连涨3根(+$1.25)",
       "outcome": null
+    },
+    {
+      "epoch": 475115,
+      "direction": "BULL",
+      "confidence": 33.0,
+      "time": "19:33:47",
+      "time_full": "2026-04-23 19:33:47",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -2996,11 +3005,11 @@
   },
   "hourly_stats": {
     "hour": 19,
-    "bull": 4,
+    "bull": 5,
     "bear": 8,
     "skip": 5,
-    "total": 17
+    "total": 18
   },
-  "bnb_price": 632.5,
-  "updated": "2026-04-23T19:33:03.641413"
+  "bnb_price": 632.34,
+  "updated": "2026-04-23T19:33:51.401138"
 }
