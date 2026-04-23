@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475218,
-    "direction": "BULL",
-    "confidence": 60.0,
-    "pool_total": 0.22,
-    "pool_bull": 0.06,
-    "pool_bear": 0.16,
+    "epoch": 475219,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": "BULL",
         "score": 14,
         "info": "4h Fri BULL:51.4%"
-      },
-      {
-        "name": "Pool",
-        "direction": "BULL",
-        "score": 98,
-        "info": "B:26.4%(3.8x) R:73.6%(1.4x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "04:18:47"
+    "time": "04:19:37"
   },
-  "lock_ts": 1776975566,
-  "current_ts": 1776975543,
+  "lock_ts": 1776975872,
+  "current_ts": 1776975577,
   "history": [
     {
       "epoch": 474909,
@@ -3131,7 +3131,8 @@
       "time": "04:13:42",
       "time_full": "2026-04-24 04:13:42",
       "trend": null,
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BEAR"
     },
     {
       "epoch": 475218,
@@ -3144,17 +3145,17 @@
     }
   ],
   "tracking": {
-    "wins": 1170,
+    "wins": 1171,
     "losses": 1130,
     "skips": 587,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 54.7,
-    "total_24h": 137,
+    "win_rate_24h": 55.1,
+    "total_24h": 138,
     "hourly_wins": {
       "2": 5,
       "3": 6,
-      "4": 3,
+      "4": 4,
       "5": 2,
       "6": 4,
       "7": 3,
@@ -3201,8 +3202,8 @@
       "1": 8,
       "3": 2
     },
-    "tracking_win_rate_24h": 54.7,
-    "tracking_total_24h": 137
+    "tracking_win_rate_24h": 55.1,
+    "tracking_total_24h": 138
   },
   "hourly_stats": {
     "hour": 4,
@@ -3211,6 +3212,6 @@
     "skip": 1,
     "total": 15
   },
-  "bnb_price": 637.05,
-  "updated": "2026-04-24T04:19:03.533131"
+  "bnb_price": 637.11,
+  "updated": "2026-04-24T04:20:03.921185"
 }
