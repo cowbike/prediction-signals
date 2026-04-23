@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475220,
-    "direction": "BEAR",
-    "confidence": 48.0,
-    "pool_total": 1.31,
-    "pool_bull": 0.95,
-    "pool_bear": 0.35,
+    "epoch": 475221,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": "BULL",
         "score": 14,
         "info": "4h Fri BULL:51.4%"
-      },
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 96,
-        "info": "B:73.0%(1.4x) R:27.0%(3.7x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "04:29:35"
+    "time": "04:29:49"
   },
-  "lock_ts": 1776976178,
-  "current_ts": 1776976178,
+  "lock_ts": 1776976484,
+  "current_ts": 1776976200,
   "history": [
     {
       "epoch": 474910,
@@ -3141,7 +3141,8 @@
       "time": "04:23:53",
       "time_full": "2026-04-24 04:23:53",
       "trend": null,
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BEAR"
     },
     {
       "epoch": 475220,
@@ -3154,17 +3155,17 @@
     }
   ],
   "tracking": {
-    "wins": 1171,
+    "wins": 1172,
     "losses": 1131,
     "skips": 587,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 54.7,
-    "total_24h": 139,
+    "win_rate_24h": 55.0,
+    "total_24h": 140,
     "hourly_wins": {
       "2": 5,
       "3": 6,
-      "4": 4,
+      "4": 5,
       "5": 2,
       "6": 4,
       "7": 3,
@@ -3211,8 +3212,8 @@
       "1": 8,
       "3": 2
     },
-    "tracking_win_rate_24h": 54.7,
-    "tracking_total_24h": 139
+    "tracking_win_rate_24h": 55.0,
+    "tracking_total_24h": 140
   },
   "hourly_stats": {
     "hour": 4,
@@ -3221,6 +3222,6 @@
     "skip": 1,
     "total": 17
   },
-  "bnb_price": 635.71,
-  "updated": "2026-04-24T04:29:38.853546"
+  "bnb_price": 635.96,
+  "updated": "2026-04-24T04:30:04.113435"
 }
