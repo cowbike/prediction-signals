@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475300,
-    "direction": "BULL",
-    "confidence": 31.0,
-    "pool_total": 0.59,
-    "pool_bull": 0.08,
-    "pool_bear": 0.51,
+    "epoch": 475301,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "11h Fri neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:13.9%(7.2x) R:86.1%(1.2x) ⚠️ trap(BEAR极端失衡)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "11:17:04"
+    "time": "11:17:54"
   },
-  "lock_ts": 1777000664,
-  "current_ts": 1777000627,
+  "lock_ts": 1777000970,
+  "current_ts": 1777000674,
   "history": [
     {
       "epoch": 474973,
@@ -3311,7 +3311,8 @@
       "time": "11:12:02",
       "time_full": "2026-04-24 11:12:02",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BEAR"
     },
     {
       "epoch": 475300,
@@ -3325,12 +3326,12 @@
   ],
   "tracking": {
     "wins": 1191,
-    "losses": 1150,
+    "losses": 1151,
     "skips": 628,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 54.2,
-    "total_24h": 155,
+    "win_rate_24h": 53.8,
+    "total_24h": 156,
     "hourly_wins": {
       "7": 7,
       "8": 4,
@@ -3379,10 +3380,10 @@
       "4": 1,
       "5": 7,
       "7": 5,
-      "11": 1
+      "11": 2
     },
-    "tracking_win_rate_24h": 54.2,
-    "tracking_total_24h": 155
+    "tracking_win_rate_24h": 53.8,
+    "tracking_total_24h": 156
   },
   "hourly_stats": {
     "hour": 11,
@@ -3391,6 +3392,6 @@
     "skip": 4,
     "total": 16
   },
-  "bnb_price": 636.1,
-  "updated": "2026-04-24T11:17:07.228155"
+  "bnb_price": 636.09,
+  "updated": "2026-04-24T11:18:04.273615"
 }
