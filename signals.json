@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 475418,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.252,
-    "pool_bull": 0.0872,
-    "pool_bear": 0.1648,
+    "direction": "BEAR",
+    "confidence": 33.0,
+    "pool_total": 0.37,
+    "pool_bull": 0.15,
+    "pool_bear": 0.22,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:34.6%(2.9x) R:65.4%(1.5x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,15 +14,21 @@
         "info": "21h Fri neutral"
       },
       {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:40.5%(2.5x) R:59.5%(1.7x)"
+      },
+      {
         "name": "Mom",
         "direction": "BEAR",
         "score": 100,
-        "info": "$640.07 RSI:100 EMA:+0.12% OB"
+        "info": "$639.86 RSI:100 EMA:+0.19% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 64,
+        "score": 63,
         "info": "LS:2.27 long-squeeze"
       },
       {
@@ -38,11 +38,11 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": null,
-    "time": "21:14:42"
+    "trend": "📈 连涨3根(+$1.25)",
+    "time": "21:18:59"
   },
   "lock_ts": 1777036778,
-  "current_ts": 1777036652,
+  "current_ts": 1777036742,
   "history": [
     {
       "epoch": 475038,
@@ -3842,6 +3842,15 @@
       "time_full": "2026-04-24 21:13:54",
       "trend": "📈 连涨3根(+$2.65)",
       "outcome": null
+    },
+    {
+      "epoch": 475418,
+      "direction": "BEAR",
+      "confidence": 33.0,
+      "time": "21:18:59",
+      "time_full": "2026-04-24 21:18:59",
+      "trend": "📈 连涨3根(+$1.25)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3909,10 +3918,10 @@
   "hourly_stats": {
     "hour": 21,
     "bull": 3,
-    "bear": 8,
+    "bear": 9,
     "skip": 4,
-    "total": 15
+    "total": 16
   },
   "bnb_price": 639.86,
-  "updated": "2026-04-24T21:18:03.023349"
+  "updated": "2026-04-24T21:19:03.007240"
 }
