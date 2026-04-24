@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 475355,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.222,
-    "pool_bull": 0.1745,
-    "pool_bear": 0.0475,
+    "direction": "BEAR",
+    "confidence": 54.0,
+    "pool_total": 0.35,
+    "pool_bull": 0.27,
+    "pool_bear": 0.07,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:78.6%(1.3x) R:21.4%(4.7x)"
-      },
       {
         "name": "Time",
         "direction": "BEAR",
@@ -20,16 +14,22 @@
         "info": "15h Fri BEAR:51.2%"
       },
       {
+        "name": "Pool",
+        "direction": "BEAR",
+        "score": 86,
+        "info": "B:78.7%(1.3x) R:21.3%(4.7x)"
+      },
+      {
         "name": "Mom",
         "direction": "BULL",
-        "score": 22,
-        "info": "$634.87 RSI:27 EMA:+0.06% OS"
+        "score": 48,
+        "info": "$634.39 RSI:23 EMA:-0.01% OS"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 61,
-        "info": "LS:2.22 long-squeeze"
+        "info": "LS:2.21 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "15:53:24"
+    "time": "15:57:41"
   },
   "lock_ts": 1777017500,
-  "current_ts": 1777017396,
+  "current_ts": 1777017464,
   "history": [
     {
       "epoch": 475001,
@@ -3582,6 +3582,15 @@
       "time_full": "2026-04-24 15:53:05",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 475355,
+      "direction": "BEAR",
+      "confidence": 54.0,
+      "time": "15:57:41",
+      "time_full": "2026-04-24 15:57:41",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3648,10 +3657,10 @@
   "hourly_stats": {
     "hour": 15,
     "bull": 5,
-    "bear": 15,
+    "bear": 16,
     "skip": 3,
-    "total": 23
+    "total": 24
   },
-  "bnb_price": 634.5,
-  "updated": "2026-04-24T15:57:03.152748"
+  "bnb_price": 634.39,
+  "updated": "2026-04-24T15:57:44.398636"
 }
