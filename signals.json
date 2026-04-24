@@ -3,16 +3,10 @@
     "epoch": 475354,
     "direction": "SKIP",
     "confidence": 0,
-    "pool_total": 0.9374,
-    "pool_bull": 0.3795,
-    "pool_bear": 0.5579,
+    "pool_total": 1.46,
+    "pool_bull": 0,
+    "pool_bear": 51.2,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:40.5%(2.5x) R:59.5%(1.7x)"
-      },
       {
         "name": "Time",
         "direction": "BEAR",
@@ -20,10 +14,16 @@
         "info": "15h Fri BEAR:51.2%"
       },
       {
-        "name": "Mom",
+        "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "$635.31 RSI:31 EMA:+0.13% flat"
+        "info": "B:51.6%(1.9x) R:48.4%(2.1x)"
+      },
+      {
+        "name": "Mom",
+        "direction": "BULL",
+        "score": 22,
+        "info": "$634.87 RSI:27 EMA:+0.06% OS"
       },
       {
         "name": "Liq",
@@ -39,21 +39,11 @@
       }
     ],
     "trend": null,
-    "time": "15:48:19"
+    "time": "15:53:00"
   },
   "lock_ts": 1777017194,
-  "current_ts": 1777017123,
+  "current_ts": 1777017183,
   "history": [
-    {
-      "epoch": 475000,
-      "direction": "SKIP",
-      "confidence": 10.0,
-      "time": "09:47:19",
-      "time_full": "2026-04-24 09:47:19",
-      "trend": null,
-      "outcome": "SKIP",
-      "result": "BULL"
-    },
     {
       "epoch": 475001,
       "direction": "SKIP",
@@ -3582,6 +3572,15 @@
       "time_full": "2026-04-24 15:47:30",
       "trend": "📉 连跌3根($-1.66)",
       "outcome": null
+    },
+    {
+      "epoch": 475354,
+      "direction": "SKIP",
+      "confidence": 19.0,
+      "time": "15:53:00",
+      "time_full": "2026-04-24 15:53:00",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3649,9 +3648,9 @@
     "hour": 15,
     "bull": 4,
     "bear": 15,
-    "skip": 3,
-    "total": 22
+    "skip": 4,
+    "total": 23
   },
-  "bnb_price": 634.98,
-  "updated": "2026-04-24T15:52:03.588011"
+  "bnb_price": 634.87,
+  "updated": "2026-04-24T15:53:03.811927"
 }
