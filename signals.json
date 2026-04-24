@@ -1,29 +1,29 @@
 {
   "current": {
     "epoch": 475356,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.2746,
-    "pool_bull": 0.2613,
-    "pool_bear": 0.0133,
+    "direction": "BEAR",
+    "confidence": 24.0,
+    "pool_total": 1.07,
+    "pool_bull": 1.01,
+    "pool_bear": 0.06,
     "signals": [
+      {
+        "name": "Time",
+        "direction": null,
+        "score": 0,
+        "info": "16h Fri neutral"
+      },
       {
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:95.2%(1.1x) R:4.8%(20.7x)"
-      },
-      {
-        "name": "Time",
-        "direction": "BEAR",
-        "score": 12,
-        "info": "15h Fri BEAR:51.2%"
+        "info": "B:94.4%(1.1x) R:5.6%(17.7x) ⚠️ trap(BULL极端失衡)"
       },
       {
         "name": "Mom",
         "direction": "BULL",
-        "score": 48,
-        "info": "$634.39 RSI:23 EMA:-0.01% OS"
+        "score": 59,
+        "info": "$635.40 RSI:21 EMA:-0.03% OS"
       },
       {
         "name": "Liq",
@@ -35,25 +35,15 @@
         "name": "FR",
         "direction": null,
         "score": 0,
-        "info": "FR:+0.0033% neutral"
+        "info": "FR:+0.0000% neutral"
       }
     ],
     "trend": null,
-    "time": "15:58:30"
+    "time": "16:02:47"
   },
   "lock_ts": 1777017806,
-  "current_ts": 1777017691,
+  "current_ts": 1777017770,
   "history": [
-    {
-      "epoch": 475001,
-      "direction": "SKIP",
-      "confidence": 10.0,
-      "time": "09:52:24",
-      "time_full": "2026-04-24 09:52:24",
-      "trend": "📈 连涨3根(+$1.40)",
-      "outcome": "SKIP",
-      "result": "BEAR"
-    },
     {
       "epoch": 475002,
       "direction": "BEAR",
@@ -3592,6 +3582,15 @@
       "time_full": "2026-04-24 15:57:41",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 475356,
+      "direction": "BEAR",
+      "confidence": 24.0,
+      "time": "16:02:47",
+      "time_full": "2026-04-24 16:02:47",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3656,12 +3655,12 @@
     "tracking_total_24h": 183
   },
   "hourly_stats": {
-    "hour": 23,
-    "bull": 3,
-    "bear": 8,
-    "skip": 1,
+    "hour": 16,
+    "bull": 6,
+    "bear": 6,
+    "skip": 0,
     "total": 12
   },
-  "bnb_price": 635.13,
-  "updated": "2026-04-24T16:02:03.879066"
+  "bnb_price": 635.4,
+  "updated": "2026-04-24T16:02:50.973348"
 }
