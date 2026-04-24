@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 475463,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.6369,
-    "pool_bull": 0.11,
-    "pool_bear": 0.527,
+    "direction": "BULL",
+    "confidence": 44.0,
+    "pool_total": 0.94,
+    "pool_bull": 0.21,
+    "pool_bear": 0.74,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:17.3%(5.8x) R:82.7%(1.2x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,15 +14,21 @@
         "info": "1h Sat neutral"
       },
       {
+        "name": "Pool",
+        "direction": "BULL",
+        "score": 91,
+        "info": "B:22.1%(4.5x) R:77.9%(1.3x)"
+      },
+      {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$637.87 RSI:53 EMA:-0.13% flat"
+        "info": "$637.83 RSI:45 EMA:-0.11% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 61,
+        "score": 62,
         "info": "LS:2.23 long-squeeze"
       },
       {
@@ -38,11 +38,11 @@
         "info": "FR:+0.0073% neutral"
       }
     ],
-    "trend": null,
-    "time": "01:04:14"
+    "trend": "📈 连涨3根(+$1.17)",
+    "time": "01:08:30"
   },
   "lock_ts": 1777050548,
-  "current_ts": 1777050483,
+  "current_ts": 1777050513,
   "history": [
     {
       "epoch": 475070,
@@ -3972,6 +3972,15 @@
       "time_full": "2026-04-25 01:03:24",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 475463,
+      "direction": "BULL",
+      "confidence": 44.0,
+      "time": "01:08:30",
+      "time_full": "2026-04-25 01:08:30",
+      "trend": "📈 连涨3根(+$1.17)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4037,11 +4046,11 @@
   },
   "hourly_stats": {
     "hour": 1,
-    "bull": 6,
+    "bull": 7,
     "bear": 6,
     "skip": 0,
-    "total": 12
+    "total": 13
   },
-  "bnb_price": 637.78,
-  "updated": "2026-04-25T01:08:03.583463"
+  "bnb_price": 637.82,
+  "updated": "2026-04-25T01:08:33.168853"
 }
