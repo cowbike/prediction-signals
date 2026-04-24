@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475306,
-    "direction": "BEAR",
-    "confidence": 20.0,
-    "pool_total": 0.08,
-    "pool_bull": 0.07,
-    "pool_bear": 0.01,
+    "epoch": 475307,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "11h Fri neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "no data"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "11:47:50"
+    "time": "11:48:36"
   },
-  "lock_ts": 1777002506,
-  "current_ts": 1777002483,
+  "lock_ts": 1777002812,
+  "current_ts": 1777002516,
   "history": [
     {
       "epoch": 474975,
@@ -3351,7 +3351,8 @@
       "time": "11:42:39",
       "time_full": "2026-04-24 11:42:39",
       "trend": null,
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BULL"
     },
     {
       "epoch": 475306,
@@ -3364,19 +3365,19 @@
     }
   ],
   "tracking": {
-    "wins": 1193,
+    "wins": 1194,
     "losses": 1153,
     "skips": 629,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 53.8,
-    "total_24h": 160,
+    "win_rate_24h": 54.0,
+    "total_24h": 161,
     "hourly_wins": {
       "7": 7,
       "8": 4,
       "9": 7,
       "10": 5,
-      "11": 5,
+      "11": 6,
       "12": 4,
       "13": 3,
       "14": 1,
@@ -3421,8 +3422,8 @@
       "7": 5,
       "11": 4
     },
-    "tracking_win_rate_24h": 53.8,
-    "tracking_total_24h": 160
+    "tracking_win_rate_24h": 54.0,
+    "tracking_total_24h": 161
   },
   "hourly_stats": {
     "hour": 11,
@@ -3431,6 +3432,6 @@
     "skip": 4,
     "total": 22
   },
-  "bnb_price": 634.52,
-  "updated": "2026-04-24T11:48:03.540226"
+  "bnb_price": 634.96,
+  "updated": "2026-04-24T11:49:03.454562"
 }
