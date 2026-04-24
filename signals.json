@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475264,
-    "direction": "BEAR",
-    "confidence": 43.0,
-    "pool_total": 0.51,
-    "pool_bull": 0.4,
-    "pool_bear": 0.11,
+    "epoch": 475265,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "8h Fri neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 92,
-        "info": "B:77.9%(1.3x) R:22.1%(4.5x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "08:13:57"
+    "time": "08:14:12"
   },
-  "lock_ts": 1776989642,
-  "current_ts": 1776989643,
+  "lock_ts": 1776989948,
+  "current_ts": 1776989701,
   "history": [
     {
       "epoch": 474945,
@@ -3231,7 +3231,8 @@
       "time": "08:08:15",
       "time_full": "2026-04-24 08:08:15",
       "trend": null,
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BEAR"
     },
     {
       "epoch": 475264,
@@ -3244,18 +3245,18 @@
     }
   ],
   "tracking": {
-    "wins": 1181,
+    "wins": 1182,
     "losses": 1144,
     "skips": 608,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 53.3,
-    "total_24h": 152,
+    "win_rate_24h": 53.6,
+    "total_24h": 153,
     "hourly_wins": {
       "5": 3,
       "6": 6,
       "7": 8,
-      "8": 2,
+      "8": 3,
       "9": 1,
       "10": 3,
       "11": 3,
@@ -3301,8 +3302,8 @@
       "3": 2,
       "4": 1
     },
-    "tracking_win_rate_24h": 53.3,
-    "tracking_total_24h": 152
+    "tracking_win_rate_24h": 53.6,
+    "tracking_total_24h": 153
   },
   "hourly_stats": {
     "hour": 8,
@@ -3312,5 +3313,5 @@
     "total": 15
   },
   "bnb_price": 638.83,
-  "updated": "2026-04-24T08:14:03.422561"
+  "updated": "2026-04-24T08:15:03.825675"
 }
