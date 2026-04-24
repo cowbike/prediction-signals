@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 475448,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.5213,
-    "pool_bull": 0.006,
-    "pool_bear": 0.5153,
+    "direction": "BEAR",
+    "confidence": 27.0,
+    "pool_total": 0.65,
+    "pool_bull": 0.06,
+    "pool_bear": 0.59,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:1.2%(86.9x) R:98.8%(1.0x)"
-      },
       {
         "name": "Time",
         "direction": "BULL",
@@ -20,16 +14,22 @@
         "info": "23h Fri BULL:51.4%"
       },
       {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:9.7%(10.3x) R:90.3%(1.1x) ⚠️ trap(BEAR极端失衡)"
+      },
+      {
         "name": "Mom",
         "direction": "BEAR",
-        "score": 100,
-        "info": "$639.05 RSI:86 EMA:+0.11% OB"
+        "score": 61,
+        "info": "$639.00 RSI:79 EMA:+0.13% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 62,
-        "info": "LS:2.24 long-squeeze"
+        "info": "LS:2.23 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "23:47:43"
+    "time": "23:51:59"
   },
   "lock_ts": 1777045958,
-  "current_ts": 1777045832,
+  "current_ts": 1777045922,
   "history": [
     {
       "epoch": 475062,
@@ -3902,6 +3902,15 @@
       "time_full": "2026-04-24 23:46:53",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 475448,
+      "direction": "BEAR",
+      "confidence": 27.0,
+      "time": "23:51:59",
+      "time_full": "2026-04-24 23:51:59",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3968,10 +3977,10 @@
   "hourly_stats": {
     "hour": 23,
     "bull": 5,
-    "bear": 15,
+    "bear": 16,
     "skip": 2,
-    "total": 22
+    "total": 23
   },
-  "bnb_price": 639.18,
-  "updated": "2026-04-24T23:51:03.834516"
+  "bnb_price": 639.0,
+  "updated": "2026-04-24T23:52:02.888342"
 }
