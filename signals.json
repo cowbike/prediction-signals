@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475435,
-    "direction": "BEAR",
-    "confidence": 42.0,
-    "pool_total": 0.39,
-    "pool_bull": 0.27,
-    "pool_bear": 0.12,
+    "epoch": 475436,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.003,
+    "pool_bull": 0.003,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:100.0%(1.0x) R:0.0%(0.0x)"
+      },
       {
         "name": "Time",
         "direction": "BULL",
         "score": 26,
         "info": "22h Fri BULL:52.6%"
-      },
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 70,
-        "info": "B:69.6%(1.4x) R:30.4%(3.3x)"
       },
       {
         "name": "Mom",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": "📈 连涨3根(+$1.92)",
-    "time": "22:46:12"
+    "trend": null,
+    "time": "22:46:30"
   },
-  "lock_ts": 1777041980,
-  "current_ts": 1777041975,
+  "lock_ts": 1777042286,
+  "current_ts": 1777042023,
   "history": [
     {
       "epoch": 475056,
@@ -3831,7 +3831,8 @@
       "time": "22:41:00",
       "time_full": "2026-04-24 22:41:00",
       "trend": null,
-      "outcome": null
+      "outcome": "SKIP",
+      "result": "BULL"
     },
     {
       "epoch": 475435,
@@ -3846,7 +3847,7 @@
   "tracking": {
     "wins": 1241,
     "losses": 1191,
-    "skips": 672,
+    "skips": 673,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 54.0,
@@ -3911,6 +3912,6 @@
     "skip": 5,
     "total": 21
   },
-  "bnb_price": 638.32,
-  "updated": "2026-04-24T22:46:16.035123"
+  "bnb_price": 638.52,
+  "updated": "2026-04-24T22:47:03.693353"
 }
