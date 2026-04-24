@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475301,
-    "direction": "BULL",
-    "confidence": 31.0,
-    "pool_total": 0.3,
-    "pool_bull": 0.16,
-    "pool_bear": 0.15,
+    "epoch": 475302,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "11h Fri neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:51.5%(1.9x) R:48.5%(2.1x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "11:22:10"
+    "time": "11:23:00"
   },
-  "lock_ts": 1777000970,
-  "current_ts": 1777000933,
+  "lock_ts": 1777001276,
+  "current_ts": 1777000980,
   "history": [
     {
       "epoch": 474973,
@@ -3321,7 +3321,8 @@
       "time": "11:17:04",
       "time_full": "2026-04-24 11:17:04",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BEAR"
     },
     {
       "epoch": 475301,
@@ -3335,12 +3336,12 @@
   ],
   "tracking": {
     "wins": 1191,
-    "losses": 1151,
+    "losses": 1152,
     "skips": 628,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 53.8,
-    "total_24h": 156,
+    "win_rate_24h": 53.5,
+    "total_24h": 157,
     "hourly_wins": {
       "7": 7,
       "8": 4,
@@ -3389,10 +3390,10 @@
       "4": 1,
       "5": 7,
       "7": 5,
-      "11": 2
+      "11": 3
     },
-    "tracking_win_rate_24h": 53.8,
-    "tracking_total_24h": 156
+    "tracking_win_rate_24h": 53.5,
+    "tracking_total_24h": 157
   },
   "hourly_stats": {
     "hour": 11,
@@ -3401,6 +3402,6 @@
     "skip": 4,
     "total": 17
   },
-  "bnb_price": 635.93,
-  "updated": "2026-04-24T11:22:13.865989"
+  "bnb_price": 635.72,
+  "updated": "2026-04-24T11:23:03.158800"
 }
