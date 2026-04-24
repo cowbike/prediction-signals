@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 475410,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.6323,
-    "pool_bull": 0.1676,
-    "pool_bear": 0.4647,
+    "direction": "BULL",
+    "confidence": 52.0,
+    "pool_total": 0.64,
+    "pool_bull": 0.17,
+    "pool_bear": 0.47,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:26.5%(3.8x) R:73.5%(1.4x)"
-      },
       {
         "name": "Time",
         "direction": "BEAR",
@@ -20,16 +14,22 @@
         "info": "20h Fri BEAR:52.1%"
       },
       {
+        "name": "Pool",
+        "direction": "BULL",
+        "score": 98,
+        "info": "B:26.2%(3.8x) R:73.8%(1.4x)"
+      },
+      {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$637.51 RSI:41 EMA:+0.09% flat"
+        "info": "$636.73 RSI:36 EMA:+0.00% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 64,
-        "info": "LS:2.29 long-squeeze"
+        "score": 65,
+        "info": "LS:2.30 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "20:33:54"
+    "time": "20:38:11"
   },
   "lock_ts": 1777034330,
-  "current_ts": 1777034280,
+  "current_ts": 1777034294,
   "history": [
     {
       "epoch": 475031,
@@ -3832,6 +3832,15 @@
       "time_full": "2026-04-24 20:33:30",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 475410,
+      "direction": "BULL",
+      "confidence": 52.0,
+      "time": "20:38:11",
+      "time_full": "2026-04-24 20:38:11",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3898,11 +3907,11 @@
   },
   "hourly_stats": {
     "hour": 20,
-    "bull": 6,
+    "bull": 7,
     "bear": 10,
     "skip": 2,
-    "total": 18
+    "total": 19
   },
-  "bnb_price": 636.74,
-  "updated": "2026-04-24T20:38:03.730811"
+  "bnb_price": 636.73,
+  "updated": "2026-04-24T20:38:14.363686"
 }
