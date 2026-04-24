@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 475284,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.0329,
-    "pool_bull": 0.0299,
-    "pool_bear": 0.003,
+    "direction": "BEAR",
+    "confidence": 40.0,
+    "pool_total": 0.25,
+    "pool_bull": 0.2,
+    "pool_bear": 0.05,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:90.9%(1.1x) R:9.1%(11.0x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,16 +14,22 @@
         "info": "9h Fri neutral"
       },
       {
+        "name": "Pool",
+        "direction": "BEAR",
+        "score": 76,
+        "info": "B:79.9%(1.3x) R:20.1%(5.0x)"
+      },
+      {
         "name": "Mom",
-        "direction": null,
-        "score": 0,
-        "info": "$639.30 RSI:70 EMA:-0.11% flat"
+        "direction": "BEAR",
+        "score": 10,
+        "info": "$639.35 RSI:72 EMA:-0.05% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 55,
-        "info": "LS:2.10 long-squeeze"
+        "info": "LS:2.09 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "09:51:12"
+    "time": "09:55:32"
   },
   "lock_ts": 1776995768,
-  "current_ts": 1776995672,
+  "current_ts": 1776995734,
   "history": [
     {
       "epoch": 474957,
@@ -3312,6 +3312,15 @@
       "time_full": "2026-04-24 09:50:40",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 475284,
+      "direction": "BEAR",
+      "confidence": 40.0,
+      "time": "09:55:32",
+      "time_full": "2026-04-24 09:55:32",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3378,10 +3387,10 @@
   "hourly_stats": {
     "hour": 9,
     "bull": 10,
-    "bear": 6,
+    "bear": 7,
     "skip": 6,
-    "total": 22
+    "total": 23
   },
   "bnb_price": 639.35,
-  "updated": "2026-04-24T09:55:03.622024"
+  "updated": "2026-04-24T09:55:35.069344"
 }
