@@ -1,35 +1,35 @@
 {
   "current": {
     "epoch": 475274,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.4654,
-    "pool_bull": 0.3452,
-    "pool_bear": 0.1202,
+    "direction": "BEAR",
+    "confidence": 46.0,
+    "pool_total": 0.48,
+    "pool_bull": 0.36,
+    "pool_bear": 0.12,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:74.2%(1.3x) R:25.8%(3.9x)"
-      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
-        "info": "8h Fri neutral"
+        "info": "9h Fri neutral"
+      },
+      {
+        "name": "Pool",
+        "direction": "BEAR",
+        "score": 100,
+        "info": "B:75.2%(1.3x) R:24.8%(4.0x)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$639.70 RSI:60 EMA:+0.14% flat"
+        "info": "$639.18 RSI:45 EMA:+0.11% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 55,
-        "info": "LS:2.09 long-squeeze"
+        "info": "LS:2.10 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "09:00:07"
+    "time": "09:04:22"
   },
   "lock_ts": 1776992703,
-  "current_ts": 1776992641,
+  "current_ts": 1776992665,
   "history": [
     {
       "epoch": 474953,
@@ -3252,6 +3252,15 @@
       "time_full": "2026-04-24 08:59:38",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 475274,
+      "direction": "BEAR",
+      "confidence": 46.0,
+      "time": "09:04:22",
+      "time_full": "2026-04-24 09:04:22",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3316,12 +3325,12 @@
     "tracking_total_24h": 152
   },
   "hourly_stats": {
-    "hour": 8,
-    "bull": 4,
-    "bear": 14,
+    "hour": 9,
+    "bull": 3,
+    "bear": 4,
     "skip": 6,
-    "total": 24
+    "total": 13
   },
   "bnb_price": 639.18,
-  "updated": "2026-04-24T09:04:03.256324"
+  "updated": "2026-04-24T09:04:25.882725"
 }
