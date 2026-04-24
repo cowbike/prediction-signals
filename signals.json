@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475378,
-    "direction": "BEAR",
-    "confidence": 22.0,
-    "pool_total": 0.18,
-    "pool_bull": 0.07,
-    "pool_bear": 0.12,
+    "epoch": 475379,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "17h Fri neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:36.3%(2.8x) R:63.7%(1.6x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "17:55:05"
+    "time": "17:55:49"
   },
-  "lock_ts": 1777024538,
-  "current_ts": 1777024508,
+  "lock_ts": 1777024844,
+  "current_ts": 1777024560,
   "history": [
     {
       "epoch": 475016,
@@ -3661,7 +3661,8 @@
       "time": "17:49:53",
       "time_full": "2026-04-24 17:49:53",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BULL"
     },
     {
       "epoch": 475378,
@@ -3675,12 +3676,12 @@
   ],
   "tracking": {
     "wins": 1222,
-    "losses": 1174,
+    "losses": 1175,
     "skips": 651,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 54.6,
-    "total_24h": 194,
+    "win_rate_24h": 54.4,
+    "total_24h": 195,
     "hourly_wins": {
       "11": 7,
       "12": 9,
@@ -3730,10 +3731,10 @@
       "9": 3,
       "10": 1,
       "11": 5,
-      "17": 3
+      "17": 4
     },
-    "tracking_win_rate_24h": 54.6,
-    "tracking_total_24h": 194
+    "tracking_win_rate_24h": 54.4,
+    "tracking_total_24h": 195
   },
   "hourly_stats": {
     "hour": 17,
@@ -3742,6 +3743,6 @@
     "skip": 3,
     "total": 23
   },
-  "bnb_price": 633.7,
-  "updated": "2026-04-24T17:55:08.864600"
+  "bnb_price": 633.54,
+  "updated": "2026-04-24T17:56:04.135903"
 }
