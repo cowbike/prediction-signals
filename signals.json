@@ -1,29 +1,29 @@
 {
   "current": {
     "epoch": 475332,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.6385,
-    "pool_bull": 0.2312,
-    "pool_bear": 0.4072,
+    "direction": "BEAR",
+    "confidence": 64.0,
+    "pool_total": 1.04,
+    "pool_bull": 0.23,
+    "pool_bear": 0.81,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:36.2%(2.8x) R:63.8%(1.6x)"
-      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
-        "info": "13h Fri neutral"
+        "info": "14h Fri neutral"
+      },
+      {
+        "name": "Pool",
+        "direction": "BULL",
+        "score": 92,
+        "info": "B:22.1%(4.5x) R:77.9%(1.3x)"
       },
       {
         "name": "Mom",
         "direction": "BEAR",
         "score": 100,
-        "info": "$633.62 RSI:88 EMA:+0.03% OB"
+        "info": "$634.27 RSI:100 EMA:+0.08% OB"
       },
       {
         "name": "Liq",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0033% neutral"
       }
     ],
-    "trend": null,
-    "time": "13:56:06"
+    "trend": "📈 连涨3根(+$1.08)",
+    "time": "14:00:22"
   },
   "lock_ts": 1777010462,
-  "current_ts": 1777010400,
+  "current_ts": 1777010425,
   "history": [
     {
       "epoch": 474987,
@@ -3492,6 +3492,15 @@
       "time_full": "2026-04-24 13:55:16",
       "trend": "📈 连涨3根(+$0.72)",
       "outcome": null
+    },
+    {
+      "epoch": 475332,
+      "direction": "BEAR",
+      "confidence": 64.0,
+      "time": "14:00:22",
+      "time_full": "2026-04-24 14:00:22",
+      "trend": "📈 连涨3根(+$1.08)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3556,12 +3565,12 @@
     "tracking_total_24h": 173
   },
   "hourly_stats": {
-    "hour": 13,
-    "bull": 10,
+    "hour": 14,
+    "bull": 2,
     "bear": 10,
-    "skip": 3,
-    "total": 23
+    "skip": 1,
+    "total": 13
   },
-  "bnb_price": 634.11,
-  "updated": "2026-04-24T14:00:04.009605"
+  "bnb_price": 634.27,
+  "updated": "2026-04-24T14:00:26.039600"
 }
