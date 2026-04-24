@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475307,
-    "direction": "BEAR",
-    "confidence": 24.0,
-    "pool_total": 0.93,
-    "pool_bull": 0.51,
-    "pool_bear": 0.42,
+    "epoch": 475308,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "11h Fri neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:55.0%(1.8x) R:45.0%(2.2x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "11:52:52"
+    "time": "11:53:42"
   },
-  "lock_ts": 1777002812,
-  "current_ts": 1777002783,
+  "lock_ts": 1777003118,
+  "current_ts": 1777002822,
   "history": [
     {
       "epoch": 474976,
@@ -3351,7 +3351,8 @@
       "time": "11:47:50",
       "time_full": "2026-04-24 11:47:50",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BULL"
     },
     {
       "epoch": 475307,
@@ -3365,12 +3366,12 @@
   ],
   "tracking": {
     "wins": 1194,
-    "losses": 1153,
+    "losses": 1154,
     "skips": 629,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 53.8,
-    "total_24h": 160,
+    "win_rate_24h": 53.4,
+    "total_24h": 161,
     "hourly_wins": {
       "7": 6,
       "8": 4,
@@ -3419,10 +3420,10 @@
       "4": 1,
       "5": 7,
       "7": 5,
-      "11": 4
+      "11": 5
     },
-    "tracking_win_rate_24h": 53.8,
-    "tracking_total_24h": 160
+    "tracking_win_rate_24h": 53.4,
+    "tracking_total_24h": 161
   },
   "hourly_stats": {
     "hour": 11,
@@ -3431,6 +3432,6 @@
     "skip": 4,
     "total": 23
   },
-  "bnb_price": 634.89,
-  "updated": "2026-04-24T11:53:03.812094"
+  "bnb_price": 634.65,
+  "updated": "2026-04-24T11:54:03.671547"
 }
