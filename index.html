@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- cache v1776745400 -->
+<!-- cache v1776745600 -->
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -537,13 +537,14 @@ async function initChainKline() {
   const currentEpoch = await getCurrentEpoch();
   if (currentEpoch) {
     await rebuildChainKline(currentEpoch);
-    // Refresh every 10s to pick up new closed rounds
+    // Refresh every 2s — quick epoch detection, low RPC cost (1 eth_call)
     setInterval(async () => {
       const newEpoch = await getCurrentEpoch();
       if (newEpoch && newEpoch !== currentEpoch) {
+        currentEpoch = newEpoch;
         await rebuildChainKline(newEpoch);
       }
-    }, 10000);
+    }, 2000);
   }
 }
 
