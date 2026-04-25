@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 475555,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 1.005,
-    "pool_bull": 0.8426,
-    "pool_bear": 0.1624,
+    "direction": "BEAR",
+    "confidence": 28.0,
+    "pool_total": 1.02,
+    "pool_bull": 0.84,
+    "pool_bear": 0.18,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:83.8%(1.2x) R:16.2%(6.2x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,16 +14,22 @@
         "info": "8h Sat neutral"
       },
       {
+        "name": "Pool",
+        "direction": "BEAR",
+        "score": 47,
+        "info": "B:82.3%(1.2x) R:17.7%(5.6x)"
+      },
+      {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$635.81 RSI:47 EMA:-0.01% flat"
+        "info": "$635.97 RSI:53 EMA:-0.01% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 60,
-        "info": "LS:2.21 long-squeeze"
+        "info": "LS:2.20 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "08:53:23"
+    "time": "08:57:40"
   },
   "lock_ts": 1777078700,
-  "current_ts": 1777078622,
+  "current_ts": 1777078679,
   "history": [
     {
       "epoch": 475464,
@@ -722,6 +722,15 @@
       "time_full": "2026-04-25 08:52:35",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 475555,
+      "direction": "BEAR",
+      "confidence": 28.0,
+      "time": "08:57:40",
+      "time_full": "2026-04-25 08:57:40",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -758,12 +767,11 @@
   "hourly_stats": {
     "hour": 8,
     "bull": 4,
-    "bear": 4,
+    "bear": 5,
     "skip": 0,
-    "total": 8
+    "total": 9
   },
-  "bnb_price": 635.97,
-  "updated": "2026-04-25T08:57:18.358530",
+  "bnb_price": 636.02,
   "kline": [
     {
       "t": 1777060800000,
@@ -1240,10 +1248,11 @@
     {
       "t": 1777078500000,
       "o": 635.85,
-      "h": 635.97,
+      "h": 636.02,
       "l": 635.84,
-      "c": 635.97,
-      "v": 35.935
+      "c": 636.02,
+      "v": 39.338
     }
-  ]
+  ],
+  "updated": "2026-04-25T08:57:59.245775"
 }
