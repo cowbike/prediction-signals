@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- cache v1776740725 -->
+<!-- cache v1776745400 -->
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -372,7 +372,7 @@
  <div class="kline-section">
   <div class="kline-header">
    <span class="kline-title">🕐 BNB 5分钟K线 (真实链上数据)</span>
-   <span class="kline-badge">BINANCE</span>
+   <span class="kline-badge">ONCHAIN</span>
   </div>
   <div class="kline-container">
    <canvas id="kline-canvas" class="kline-canvas"></canvas>
@@ -412,6 +412,140 @@ const DATA_URL = './signals.json';
 const REFRESH_MS = 10000;
 let refreshCount = 0;
 let lastEpoch = 0;
+
+// ─── Chain-derived K-line rebuild (direct from PCSP contract, 10s refresh) ───
+const PCSP_CONTRACT = '0x18B2A687610328590Bc8F2e5fEdDe3b582A49cdA';
+const RPC_SERVERS = [
+  'https://bsc-dataseed.binance.org/',
+  'https://bsc-dataseed1.binance.org/',
+  'https://bsc-dataseed2.binance.org/',
+  'https://bsc-dataseed3.binance.org/',
+];
+const MAX_KLINE = 60; // 60 rounds ≈ 5 hours
+
+// Get current epoch from PCSP contract
+async function rpcCall(method, params) {
+  for (const rpc of RPC_SERVERS) {
+    try {
+      const resp = await fetch(rpc, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
+      });
+      const d = await resp.json();
+      return d.result;
+    } catch (e) { /* try next */ }
+  }
+  return null;
+}
+
+// Parse a round from raw hex result
+function parseRound(f) {
+  if (!f || f.length < 10) return null;
+  return {
+    epoch: f[0],
+    lock_ts: f[2],
+    lock_p: f[4] / 1e8,
+    close_p: f[5] / 1e8,
+  };
+}
+
+// Fetch one round from PCSP contract
+async function getRound(epoch) {
+  const data = '0x8c65c81f' + epoch.toString(16).padStart(64, '0');
+  const result = await rpcCall('eth_call', [{ to: PCSP_CONTRACT, data }, 'latest']);
+  if (!result || result === '0x' || result.length < 192) return null;
+  const h = result.slice(2);
+  const f = [];
+  for (let i = 0; i < 1920 && i < h.length; i += 64) {
+    let v = parseInt(h.slice(i, i + 64), 16);
+    if (v >= 2 ** 255) v -= 2 ** 256;
+    f.push(v);
+  }
+  return parseRound(f);
+}
+
+// Get current epoch number
+async function getCurrentEpoch() {
+  const data = '0x76671808';
+  const result = await rpcCall('eth_call', [{ to: PCSP_CONTRACT, data }, 'latest']);
+  if (!result || result === '0x') return null;
+  const v = parseInt(result.slice(2), 16);
+  return v;
+}
+
+// Rebuild K-line from chain (chain-time-aligned, NOT Binance time)
+let _chainKlineCache = [];
+let _chainKlineFetching = false;
+
+async function rebuildChainKline(currentEpoch) {
+  if (!currentEpoch || _chainKlineFetching) return;
+  _chainKlineFetching = true;
+  const t0 = performance.now();
+
+  try {
+    const startEpoch = Math.max(1, currentEpoch - MAX_KLINE);
+    const epochs = [];
+    for (let e = currentEpoch - 1; e >= startEpoch; e--) epochs.push(e);
+
+    const kline = [];
+    let prevClose = null;
+    const BATCH = 5; // parallel fetches per group
+
+    // Fetch in parallel batches of 5, process in epoch-descending order
+    for (let i = 0; i < epochs.length; i += BATCH) {
+      const batch = epochs.slice(i, i + BATCH);
+      const results = await Promise.all(batch.map(e => getRound(e).catch(() => null)));
+
+      for (const rd of results) {
+        if (!rd || !rd.close_p || rd.close_p === 0) continue;
+        const open = prevClose !== null ? prevClose : rd.lock_p;
+        kline.push({
+          epoch: rd.epoch,
+          timestamp: rd.lock_ts,
+          open,
+          high: Math.max(rd.lock_p, rd.close_p),
+          low: Math.min(rd.lock_p, rd.close_p),
+          close: rd.close_p,
+        });
+        prevClose = rd.close_p;
+      }
+    }
+
+    kline.reverse();
+    _chainKlineCache = kline;
+
+    const elapsed = (performance.now() - t0).toFixed(0);
+    console.log(`[kline] rebuilt ${kline.length} candles from chain in ${elapsed}ms`);
+
+    // Draw with rebuilt kline
+    const fakeData = {
+      kline: _chainKlineCache,
+      current: window._signalData ? window._signalData.current : null,
+      lock_ts: (await getRound(currentEpoch))?.lock_ts || 0,
+    };
+    drawKline(fakeData);
+  } catch (e) {
+    console.warn('[kline] rebuild failed:', e);
+  }
+
+  _chainKlineFetching = false;
+}
+
+// Start chain kline rebuild on page load
+async function initChainKline() {
+  const currentEpoch = await getCurrentEpoch();
+  if (currentEpoch) {
+    await rebuildChainKline(currentEpoch);
+    // Refresh every 10s to pick up new closed rounds
+    setInterval(async () => {
+      const newEpoch = await getCurrentEpoch();
+      if (newEpoch && newEpoch !== currentEpoch) {
+        await rebuildChainKline(newEpoch);
+      }
+    }, 10000);
+  }
+}
 
 // Theme toggle
 function toggleTheme() {
@@ -751,8 +885,7 @@ async function fetchData() {
     startGlobalCountdown();
     renderTracking(data.tracking);
 updateBnbPrice(data);
-    // drawKline uses signals.json kline (chain-derived, PCSP-time-aligned)
-    drawKline(data);
+    // K-line is driven by initChainKline() — chain data, no backend dependency
   } catch (e) {
     document.getElementById('live-dot').className = 'dot dot-stale';
     document.getElementById('live-text').textContent = '连接失败';
@@ -772,6 +905,7 @@ function startClock() {
 startClock();
 fetchData();
 setInterval(fetchData, REFRESH_MS);
+initChainKline(); // rebuild chain kline from PCSP contract directly
 
 // BNB price from signals.json (fetched server-side, no CORS)
 function updateBnbPrice(data) {
