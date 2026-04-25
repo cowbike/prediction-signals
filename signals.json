@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 475608,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.8113,
-    "pool_bull": 0.6035,
-    "pool_bear": 0.2077,
+    "direction": "BEAR",
+    "confidence": 65.0,
+    "pool_total": 1.16,
+    "pool_bull": 0.86,
+    "pool_bear": 0.3,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:74.4%(1.3x) R:25.6%(3.9x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,10 +14,16 @@
         "info": "13h Sat neutral"
       },
       {
+        "name": "Pool",
+        "direction": "BEAR",
+        "score": 100,
+        "info": "B:74.4%(1.3x) R:25.6%(3.9x)"
+      },
+      {
         "name": "Mom",
         "direction": "BULL",
-        "score": 3,
-        "info": "$636.70 RSI:30 EMA:-0.06% OS"
+        "score": 91,
+        "info": "$636.42 RSI:16 EMA:-0.06% OS"
       },
       {
         "name": "Liq",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0032% neutral"
       }
     ],
-    "trend": null,
-    "time": "13:24:49"
+    "trend": "📉 连跌3根($-0.56)",
+    "time": "13:28:44"
   },
   "lock_ts": 1777094960,
-  "current_ts": 1777094881,
+  "current_ts": 1777094951,
   "history": [
     {
       "epoch": 475464,
@@ -1102,6 +1102,15 @@
       "time_full": "2026-04-25 13:24:10",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 475608,
+      "direction": "BEAR",
+      "confidence": 65.0,
+      "time": "13:28:44",
+      "time_full": "2026-04-25 13:28:44",
+      "trend": "📉 连跌3根($-0.56)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -1148,12 +1157,11 @@
   "hourly_stats": {
     "hour": 13,
     "bull": 0,
-    "bear": 4,
+    "bear": 5,
     "skip": 0,
-    "total": 4
+    "total": 5
   },
-  "bnb_price": 636.42,
-  "updated": "2026-04-25T13:28:27.553872",
+  "bnb_price": 636.41,
   "kline": [
     {
       "timestamp": 1777077000.0,
@@ -1573,7 +1581,8 @@
       "open": 636.7,
       "high": 636.7,
       "low": 636.41,
-      "close": 636.42
+      "close": 636.41
     }
-  ]
+  ],
+  "updated": "2026-04-25T13:29:11.696259"
 }
