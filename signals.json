@@ -1,17 +1,20 @@
 {
   "current": {
     "epoch": 475785,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.0558,
-    "pool_bull": 0.0558,
+    "direction": "BEAR",
+    "confidence": 27.4,
+    "pool_total": 0.2786,
+    "pool_bull": 0.2786,
     "pool_bear": 0.0,
+    "lock_p": 0.0,
+    "lock_ts": 1777149188,
+    "close_ts": 1777149488,
     "signals": [
       {
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:100.0%(1.0x) R:0.0%(0.0x)"
+        "info": "B:100.0%(1.0x) R:0.0%(999.0x) ⚠️ trap(BULL极端失衡)"
       },
       {
         "name": "Time",
@@ -21,14 +24,14 @@
       },
       {
         "name": "Mom",
-        "direction": null,
-        "score": 0,
-        "info": "$629.14 RSI:67 EMA:+0.04% flat"
+        "direction": "BEAR",
+        "score": 25,
+        "info": "$629.13 RSI:78 EMA:+0.05% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 14,
+        "score": 25,
         "info": "LS:2.44 long-squeeze"
       },
       {
@@ -39,10 +42,9 @@
       }
     ],
     "trend": null,
-    "time": "04:28:22"
+    "time": "04:32:31"
   },
-  "lock_ts": 1777149188,
-  "current_ts": 1777149094,
+  "current_ts": 1777149151,
   "history": [
     {
       "epoch": 475464,
@@ -52,8 +54,7 @@
       "time_full": "2026-04-26 01:14:03",
       "trend": null,
       "outcome": "WIN",
-      "result": "BEAR",
-      "win_odds": 2.0
+      "result": "BEAR"
     },
     {
       "epoch": 475466,
@@ -63,8 +64,7 @@
       "time_full": "2026-04-26 01:24:01",
       "trend": null,
       "outcome": "LOSS",
-      "result": "BEAR",
-      "win_odds": 2.0
+      "result": "BEAR"
     },
     {
       "epoch": 475467,
@@ -74,8 +74,7 @@
       "time_full": "2026-04-26 01:29:15",
       "trend": null,
       "outcome": "WIN",
-      "result": "BEAR",
-      "win_odds": 1.9
+      "result": "BEAR"
     },
     {
       "epoch": 475468,
@@ -85,8 +84,7 @@
       "time_full": "2026-04-26 01:34:36",
       "trend": "📉 连跌3根($-0.81)",
       "outcome": "WIN",
-      "result": "BULL",
-      "win_odds": 1.8
+      "result": "BULL"
     },
     {
       "epoch": 475469,
@@ -96,8 +94,7 @@
       "time_full": "2026-04-26 01:39:38",
       "trend": "📉 连跌3根($-1.07)",
       "outcome": "LOSS",
-      "result": "BULL",
-      "win_odds": 2.2
+      "result": "BULL"
     },
     {
       "epoch": 475470,
@@ -107,8 +104,7 @@
       "time_full": "2026-04-26 01:44:47",
       "trend": "📉 连跌3根($-1.12)",
       "outcome": "LOSS",
-      "result": "BEAR",
-      "win_odds": 2.1
+      "result": "BEAR"
     },
     {
       "epoch": 475471,
@@ -118,8 +114,7 @@
       "time_full": "2026-04-26 01:49:51",
       "trend": null,
       "outcome": "LOSS",
-      "result": "BULL",
-      "win_odds": 1.9
+      "result": "BULL"
     },
     {
       "epoch": 475473,
@@ -129,8 +124,7 @@
       "time_full": "2026-04-26 01:59:39",
       "trend": null,
       "outcome": "LOSS",
-      "result": "BEAR",
-      "win_odds": 1.7
+      "result": "BEAR"
     },
     {
       "epoch": 475474,
@@ -140,8 +134,7 @@
       "time_full": "2026-04-26 02:05:12",
       "trend": null,
       "outcome": "LOSS",
-      "result": "BULL",
-      "win_odds": 1.7
+      "result": "BULL"
     },
     {
       "epoch": 475475,
@@ -151,8 +144,7 @@
       "time_full": "2026-04-26 02:10:15",
       "trend": null,
       "outcome": "WIN",
-      "result": "BEAR",
-      "win_odds": 2.3
+      "result": "BEAR"
     },
     {
       "epoch": 475476,
@@ -162,8 +154,7 @@
       "time_full": "2026-04-26 02:15:24",
       "trend": "📉 连跌3根($-1.34)",
       "outcome": "WIN",
-      "result": "BEAR",
-      "win_odds": 1.9
+      "result": "BEAR"
     },
     {
       "epoch": 475477,
@@ -173,8 +164,7 @@
       "time_full": "2026-04-26 02:20:28",
       "trend": "📉 连跌3根($-1.44)",
       "outcome": "LOSS",
-      "result": "BULL",
-      "win_odds": 2.0
+      "result": "BULL"
     },
     {
       "epoch": 475478,
@@ -184,8 +174,7 @@
       "time_full": "2026-04-26 02:25:25",
       "trend": null,
       "outcome": "LOSS",
-      "result": "BULL",
-      "win_odds": 1.9
+      "result": "BULL"
     },
     {
       "epoch": 475479,
@@ -195,8 +184,7 @@
       "time_full": "2026-04-26 02:30:40",
       "trend": null,
       "outcome": "LOSS",
-      "result": "BULL",
-      "win_odds": 1.9
+      "result": "BULL"
     },
     {
       "epoch": 475481,
@@ -206,8 +194,7 @@
       "time_full": "2026-04-26 02:40:28",
       "trend": "📈 连涨3根(+$0.74)",
       "outcome": "WIN",
-      "result": "BEAR",
-      "win_odds": 2.0
+      "result": "BEAR"
     },
     {
       "epoch": 475482,
@@ -217,8 +204,7 @@
       "time_full": "2026-04-26 02:45:38",
       "trend": null,
       "outcome": "LOSS",
-      "result": "BULL",
-      "win_odds": 1.9
+      "result": "BULL"
     },
     {
       "epoch": 475483,
@@ -228,8 +214,7 @@
       "time_full": "2026-04-26 02:51:03",
       "trend": null,
       "outcome": "WIN",
-      "result": "BEAR",
-      "win_odds": 1.8
+      "result": "BEAR"
     },
     {
       "epoch": 475484,
@@ -239,8 +224,7 @@
       "time_full": "2026-04-26 02:56:12",
       "trend": null,
       "outcome": "LOSS",
-      "result": "BULL",
-      "win_odds": 3.2
+      "result": "BULL"
     },
     {
       "epoch": 475485,
@@ -250,8 +234,7 @@
       "time_full": "2026-04-26 03:01:15",
       "trend": null,
       "outcome": "WIN",
-      "result": "BEAR",
-      "win_odds": 2.4
+      "result": "BEAR"
     },
     {
       "epoch": 475491,
@@ -261,8 +244,7 @@
       "time_full": "2026-04-26 03:31:31",
       "trend": null,
       "outcome": "WIN",
-      "result": "BULL",
-      "win_odds": 1.4
+      "result": "BULL"
     },
     {
       "epoch": 475492,
@@ -272,8 +254,7 @@
       "time_full": "2026-04-26 03:36:23",
       "trend": null,
       "outcome": "LOSS",
-      "result": "BULL",
-      "win_odds": 1.8
+      "result": "BULL"
     },
     {
       "epoch": 475493,
@@ -283,8 +264,7 @@
       "time_full": "2026-04-26 03:42:06",
       "trend": "📈 连涨3根(+$1.28)",
       "outcome": "WIN",
-      "result": "BEAR",
-      "win_odds": 2.0
+      "result": "BEAR"
     },
     {
       "epoch": 475494,
@@ -294,8 +274,7 @@
       "time_full": "2026-04-26 03:47:09",
       "trend": "📈 连涨3根(+$1.06)",
       "outcome": "LOSS",
-      "result": "BULL",
-      "win_odds": 1.9
+      "result": "BULL"
     },
     {
       "epoch": 475495,
@@ -305,8 +284,7 @@
       "time_full": "2026-04-26 03:52:17",
       "trend": "📈 连涨3根(+$0.78)",
       "outcome": "WIN",
-      "result": "BEAR",
-      "win_odds": 2.0
+      "result": "BEAR"
     },
     {
       "epoch": 475496,
@@ -316,8 +294,7 @@
       "time_full": "2026-04-26 03:57:20",
       "trend": "📈 连涨3根(+$0.22)",
       "outcome": "WIN",
-      "result": "BEAR",
-      "win_odds": 1.9
+      "result": "BEAR"
     },
     {
       "epoch": 475498,
@@ -327,8 +304,7 @@
       "time_full": "2026-04-26 04:07:21",
       "trend": null,
       "outcome": "WIN",
-      "result": "BEAR",
-      "win_odds": 1.8
+      "result": "BEAR"
     },
     {
       "epoch": 475499,
@@ -338,8 +314,7 @@
       "time_full": "2026-04-26 04:12:42",
       "trend": "📉 连跌3根($-1.80)",
       "outcome": "LOSS",
-      "result": "BEAR",
-      "win_odds": 2.2
+      "result": "BEAR"
     },
     {
       "epoch": 475500,
@@ -349,8 +324,7 @@
       "time_full": "2026-04-26 04:17:45",
       "trend": null,
       "outcome": "WIN",
-      "result": "BEAR",
-      "win_odds": 1.8
+      "result": "BEAR"
     },
     {
       "epoch": 475501,
@@ -360,8 +334,7 @@
       "time_full": "2026-04-26 04:22:53",
       "trend": null,
       "outcome": "LOSS",
-      "result": "BEAR",
-      "win_odds": 1.6
+      "result": "BEAR"
     },
     {
       "epoch": 475502,
@@ -371,8 +344,7 @@
       "time_full": "2026-04-26 04:27:56",
       "trend": null,
       "outcome": "WIN",
-      "result": "BULL",
-      "win_odds": 1.9
+      "result": "BULL"
     },
     {
       "epoch": 475503,
@@ -2774,10 +2746,7 @@
     "skip": 2,
     "total": 15
   },
-  "bnb_price": 629.12,
-  "updated": "2026-04-26T04:31:50.760352",
-  "live_price": 629.13,
-  "live_price_ts": 1777149110,
+  "bnb_price": 629.13,
   "kline": [
     {
       "timestamp": 1777131300.0,
@@ -3195,9 +3164,12 @@
     {
       "timestamp": 1777149000.0,
       "open": 629.05,
-      "high": 629.12,
+      "high": 629.13,
       "low": 629.05,
-      "close": 629.12
+      "close": 629.13
     }
-  ]
+  ],
+  "updated": "2026-04-26T04:32:52.028849",
+  "live_price": 629.13,
+  "live_price_ts": 1777149151
 }
