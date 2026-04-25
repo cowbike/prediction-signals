@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 475554,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.2033,
-    "pool_bull": 0.1285,
-    "pool_bear": 0.0748,
+    "direction": "BULL",
+    "confidence": 37.0,
+    "pool_total": 1.43,
+    "pool_bull": 0.28,
+    "pool_bear": 1.14,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:63.2%(1.6x) R:36.8%(2.7x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,16 +14,22 @@
         "info": "8h Sat neutral"
       },
       {
+        "name": "Pool",
+        "direction": "BULL",
+        "score": 73,
+        "info": "B:19.8%(5.1x) R:80.2%(1.2x)"
+      },
+      {
         "name": "Mom",
-        "direction": "BEAR",
-        "score": 16,
-        "info": "$636.58 RSI:73 EMA:-0.01% OB"
+        "direction": null,
+        "score": 0,
+        "info": "$635.81 RSI:47 EMA:-0.01% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 16,
-        "info": "LS:2.20 long-squeeze"
+        "score": 60,
+        "info": "LS:2.21 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "08:48:19"
+    "time": "08:52:35"
   },
   "lock_ts": 1777078394,
-  "current_ts": 1777078323,
+  "current_ts": 1777078374,
   "history": [
     {
       "epoch": 475464,
@@ -713,6 +713,15 @@
       "trend": null,
       "outcome": "LOSS",
       "result": "BULL"
+    },
+    {
+      "epoch": 475554,
+      "direction": "BULL",
+      "confidence": 37.0,
+      "time": "08:52:35",
+      "time_full": "2026-04-25 08:52:35",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -748,13 +757,12 @@
   },
   "hourly_stats": {
     "hour": 8,
-    "bull": 3,
+    "bull": 4,
     "bear": 4,
     "skip": 0,
-    "total": 7
+    "total": 8
   },
-  "bnb_price": 635.81,
-  "updated": "2026-04-25T08:52:18.580396",
+  "bnb_price": 635.8,
   "kline": [
     {
       "t": 1777060500000,
@@ -1233,8 +1241,9 @@
       "o": 635.76,
       "h": 635.81,
       "l": 635.75,
-      "c": 635.81,
-      "v": 20.153
+      "c": 635.8,
+      "v": 21.112
     }
-  ]
+  ],
+  "updated": "2026-04-25T08:52:54.266987"
 }
