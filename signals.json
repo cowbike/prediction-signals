@@ -2,22 +2,22 @@
   "current": {
     "epoch": 475620,
     "direction": "BEAR",
-    "confidence": 45.4,
-    "pool_total": 3.7163,
-    "pool_bull": 2.7009,
-    "pool_bear": 1.0154,
+    "confidence": 45.0,
+    "pool_total": 3.72,
+    "pool_bull": 2.7,
+    "pool_bear": 1.02,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 45,
-        "info": "B:72.7%(1.4x) R:27.3%(3.7x)"
-      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "14h Sat neutral"
+      },
+      {
+        "name": "Pool",
+        "direction": "BEAR",
+        "score": 95,
+        "info": "B:72.7%(1.4x) R:27.3%(3.7x)"
       },
       {
         "name": "Mom",
@@ -28,7 +28,7 @@
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 45,
+        "score": 61,
         "info": "LS:2.23 long-squeeze"
       },
       {
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "14:30:31"
+    "time": "14:30:29"
   },
   "lock_ts": 1777098632,
-  "current_ts": 1777098631,
+  "current_ts": 1777098660,
   "history": [
     {
       "epoch": 475464,
@@ -1173,6 +1173,15 @@
       "trend": null,
       "outcome": "WIN",
       "result": "BEAR"
+    },
+    {
+      "epoch": 475620,
+      "direction": "BEAR",
+      "confidence": 45.0,
+      "time": "14:30:29",
+      "time_full": "2026-04-25 14:30:29",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -1221,12 +1230,11 @@
   "hourly_stats": {
     "hour": 14,
     "bull": 0,
-    "bear": 2,
+    "bear": 3,
     "skip": 0,
-    "total": 2
+    "total": 3
   },
-  "bnb_price": 636.74,
-  "updated": "2026-04-25T14:30:32.448631",
+  "bnb_price": 636.85,
   "kline": [
     {
       "timestamp": 1777080900.0,
@@ -1644,9 +1652,10 @@
     {
       "timestamp": 1777098600.0,
       "open": 636.7,
-      "high": 636.8,
+      "high": 636.91,
       "low": 636.69,
-      "close": 636.73
+      "close": 636.85
     }
-  ]
+  ],
+  "updated": "2026-04-25T14:31:00.476787"
 }
