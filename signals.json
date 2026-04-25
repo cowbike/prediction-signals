@@ -1,20 +1,17 @@
 {
   "current": {
-    "epoch": 475776,
-    "direction": "BEAR",
-    "confidence": 50.3,
-    "pool_total": 0.8813,
-    "pool_bull": 0.6323,
-    "pool_bear": 0.2489,
-    "lock_p": 0.0,
-    "lock_ts": 1777146410,
-    "close_ts": 1777146710,
+    "epoch": 475777,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
       {
         "name": "Pool",
-        "direction": "BEAR",
-        "score": 46,
-        "info": "B:71.8%(1.4x) R:28.2%(3.5x)"
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
       },
       {
         "name": "Time",
@@ -42,9 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "03:46:13"
+    "time": "03:47:37"
   },
-  "current_ts": 1777146373,
+  "lock_ts": 1777146716,
+  "current_ts": 1777146457,
   "history": [
     {
       "epoch": 475464,
@@ -2583,13 +2581,23 @@
       "time": "03:41:43",
       "time_full": "2026-04-26 03:41:43",
       "trend": null,
+      "outcome": "SKIP",
+      "result": "BEAR"
+    },
+    {
+      "epoch": 475776,
+      "direction": "BEAR",
+      "confidence": 50.0,
+      "time": "03:46:12",
+      "time_full": "2026-04-26 03:46:12",
+      "trend": null,
       "outcome": null
     }
   ],
   "tracking": {
     "wins": 1272,
     "losses": 1220,
-    "skips": 715,
+    "skips": 716,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 50.7,
@@ -2652,11 +2660,14 @@
   "hourly_stats": {
     "hour": 3,
     "bull": 1,
-    "bear": 11,
+    "bear": 12,
     "skip": 4,
-    "total": 16
+    "total": 17
   },
-  "bnb_price": 628.43,
+  "bnb_price": 628.41,
+  "updated": "2026-04-26T03:47:52.537349",
+  "live_price": 628.41,
+  "live_price_ts": 1777146468,
   "kline": [
     {
       "timestamp": 1777128600.0,
@@ -3076,10 +3087,7 @@
       "open": 628.18,
       "high": 628.48,
       "low": 628.17,
-      "close": 628.43
+      "close": 628.41
     }
-  ],
-  "updated": "2026-04-26T03:46:51.699941",
-  "live_price": 628.23,
-  "live_price_ts": 1777146374
+  ]
 }
