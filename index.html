@@ -536,26 +536,30 @@ async function rebuildChainKline(currentEpoch) {
 
 // Start chain kline rebuild on page load
 async function initChainKline() {
-  const currentEpoch = await getCurrentEpoch();
+  let currentEpoch = await getCurrentEpoch();
   if (currentEpoch) {
     await rebuildChainKline(currentEpoch);
-    // Refresh every 2s — redraw always, rebuild only on epoch change
-    setInterval(async () => {
+  }
+
+  // Always start 2s refresh — fallback to signals.json kline if chain cache empty
+  setInterval(async () => {
+    try {
       const newEpoch = await getCurrentEpoch();
       if (newEpoch && newEpoch !== currentEpoch) {
         currentEpoch = newEpoch;
-        await rebuildChainKline(newEpoch);  // full rebuild + redraw
-      } else if (_chainKlineCache.length > 0) {
-        // Redraw with cached data for smooth progress bar
-        const fakeData = {
-          kline: _chainKlineCache,
+        await rebuildChainKline(newEpoch);
+      } else {
+        // Redraw with whatever data we have (chain cache > signals.json)
+        const kl = _chainKlineCache.length > 0 ? _chainKlineCache
+                  : (window._signalData && window._signalData.kline) || [];
+        drawKline({
+          kline: kl,
           current: window._signalData ? window._signalData.current : null,
           lock_ts: window._signalData ? window._signalData.lock_ts : 0,
-        };
-        drawKline(fakeData);
+        });
       }
-    }, 2000);
-  }
+    } catch(e) { /* silent — retry next tick */ }
+  }, 2000);
 }
 
 // Theme toggle
