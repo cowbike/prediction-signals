@@ -270,6 +270,7 @@
   .history .col-actual { width: 44px; font-weight: 600; }
   .history .col-conf { width: 34px; text-align: right; }
   .history .col-result { width: 48px; text-align: center; }
+  .history .col-odds { width: 44px; text-align: right; font-variant-numeric: tabular-nums; }
   .history .col-time { text-align: right; color: var(--dim); }
   .bull { color: var(--green); }
   .bear { color: var(--red); }
@@ -391,6 +392,7 @@
       <th class="col-actual">实际</th>
       <th class="col-conf" style="text-align:right">信心</th>
       <th class="col-result">结果</th>
+      <th class="col-odds">赔率</th>
       <th class="col-time">时间</th>
     </tr></thead>
     <tbody id="history-tbody"></tbody>
@@ -686,6 +688,7 @@ function renderHistoryPage() {
       '<td class="col-actual ' + actCls + '">' + actualDir + '</td>' +
       '<td class="col-conf">' + (h.confidence ? Math.round(h.confidence) : '--') + '</td>' +
       '<td class="col-result">' + outcome + '</td>' +
+      '<td class="col-odds">' + (h.win_odds != null ? h.win_odds + 'x' : '--') + '</td>' +
       '<td class="col-time">' + (h.time || '') + '</td>';
     tbody.appendChild(tr);
   }

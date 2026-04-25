@@ -462,9 +462,47 @@ def git_push():
         print(f"[{datetime.now().strftime('%H:%M:%S')}] Git error: {e}")
 
 
+def backfill_history_odds():
+    """Fill win_odds for history entries that don't have it yet (one-time backfill)."""
+    if not OUTPUT_FILE.exists():
+        return
+    try:
+        data = json.loads(OUTPUT_FILE.read_text())
+        hist = data.get("history", [])
+        missing = [h for h in hist if h.get("result") and h.get("result") != "TIE" and "win_odds" not in h]
+        if not missing:
+            return
+        sys.path.insert(0, str(HOME))
+        from prediction_monitor import get_round
+        filled = 0
+        for h in missing:
+            try:
+                rd = get_round(h["epoch"])
+                if not rd or rd.get("total", 0) == 0:
+                    continue
+                winner = h["result"]
+                if winner == "BULL" and rd.get("bull", 0) > 0:
+                    h["win_odds"] = round(rd["total"] * 0.97 / rd["bull"], 1)
+                    filled += 1
+                elif winner == "BEAR" and rd.get("bear", 0) > 0:
+                    h["win_odds"] = round(rd["total"] * 0.97 / rd["bear"], 1)
+                    filled += 1
+            except:
+                pass
+        if filled > 0:
+            data["history"] = hist
+            OUTPUT_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2))
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] Backfilled win_odds for {filled}/{len(missing)} history entries")
+    except Exception as e:
+        print(f"backfill_history_odds error: {e}")
+
+
 def main():
     # First update tracking results from on-chain
     update_tracking_results()
+
+    # Backfill win_odds for existing history entries
+    backfill_history_odds()
 
     current = parse_latest_signal()
     history = parse_history()
