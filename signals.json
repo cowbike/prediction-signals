@@ -2,17 +2,11 @@
   "current": {
     "epoch": 475624,
     "direction": "BEAR",
-    "confidence": 30.4,
-    "pool_total": 0.3981,
-    "pool_bull": 0.155,
-    "pool_bear": 0.2431,
+    "confidence": 30.0,
+    "pool_total": 0.4,
+    "pool_bull": 0.15,
+    "pool_bear": 0.24,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:38.9%(2.6x) R:61.1%(1.6x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,15 +14,21 @@
         "info": "14h Sat neutral"
       },
       {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:38.9%(2.6x) R:61.1%(1.6x)"
+      },
+      {
         "name": "Mom",
         "direction": "BEAR",
-        "score": 30,
+        "score": 91,
         "info": "$637.85 RSI:84 EMA:+0.10% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 30,
+        "score": 61,
         "info": "LS:2.22 long-squeeze"
       },
       {
@@ -38,11 +38,11 @@
         "info": "FR:+0.0032% neutral"
       }
     ],
-    "trend": null,
-    "time": "14:50:20"
+    "trend": "📈 连涨3根(+$0.58)",
+    "time": "14:50:19"
   },
   "lock_ts": 1777099856,
-  "current_ts": 1777099820,
+  "current_ts": 1777099848,
   "history": [
     {
       "epoch": 475464,
@@ -1193,6 +1193,15 @@
       "trend": null,
       "outcome": "LOSS",
       "result": "BULL"
+    },
+    {
+      "epoch": 475624,
+      "direction": "BEAR",
+      "confidence": 30.0,
+      "time": "14:50:19",
+      "time_full": "2026-04-25 14:50:19",
+      "trend": "📈 连涨3根(+$0.58)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -1241,12 +1250,11 @@
   "hourly_stats": {
     "hour": 14,
     "bull": 0,
-    "bear": 4,
+    "bear": 5,
     "skip": 0,
-    "total": 4
+    "total": 5
   },
-  "bnb_price": 637.84,
-  "updated": "2026-04-25T14:50:30.098165",
+  "bnb_price": 637.85,
   "kline": [
     {
       "timestamp": 1777082100.0,
@@ -1668,5 +1676,6 @@
       "low": 637.79,
       "close": 637.85
     }
-  ]
+  ],
+  "updated": "2026-04-25T14:50:48.896204"
 }
