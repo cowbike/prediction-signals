@@ -973,7 +973,7 @@ function drawKline(data) {
   ctx.beginPath();
   for (let i = 0; i <= 4; i++) {
     const y = chartY + (chartH * i / 4);
-    ctx.moveTo(30, y);
+    ctx.moveTo(55, y);
     ctx.lineTo(w - 10, y);
   }
   ctx.stroke();
@@ -985,14 +985,15 @@ function drawKline(data) {
   for (let i = 0; i <= 4; i++) {
     const y = chartY + (chartH * i / 4);
     const price = maxPrice - (priceRange * i / 4);
-    ctx.fillText(price.toFixed(2), 28, y + 3);
+    ctx.fillText(price.toFixed(2), 52, y + 3);
   }
 
   // Draw candlesticks
-  const step = (w - 40) / kline.length;
+  const candleW = w - 65;  // 55 left + 10 right
+  const step = candleW / kline.length;
   for (let i = 0; i < kline.length; i++) {
     const k = kline[i];
-    const x = 35 + i * step;
+    const x = 60 + i * step;
     const isBull = k.close >= k.open;
     const color = isBull ? '#f85149' : '#3fb950';  // 红涨绿跌（用户视觉反转）
 
@@ -1021,7 +1022,7 @@ function drawKline(data) {
     if (!k.timestamp) continue;
     const d = new Date(k.timestamp * 1000);
     const label = d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
-    const x = 35 + i * step;
+    const x = 60 + i * step;
     ctx.fillText(label, x, h - 5);
   }
 
@@ -1038,8 +1039,8 @@ function drawKline(data) {
 
     // Draw progress bar at bottom
     const barY = h - 16;
-    const barX = 30;
-    const barW = w - 40;
+    const barX = 55;
+    const barW = w - 65;
 
     // Background
     ctx.fillStyle = 'rgba(48,54,61,0.5)';
@@ -1069,7 +1070,7 @@ function drawKline(data) {
     ctx.strokeStyle = 'rgba(255,255,255,0.3)';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(30, priceY);
+    ctx.moveTo(55, priceY);
     ctx.lineTo(w - 10, priceY);
     ctx.stroke();
     ctx.setLineDash([]);
