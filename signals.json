@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475558,
-    "direction": "BULL",
-    "confidence": 47.0,
-    "pool_total": 0.65,
-    "pool_bull": 0.16,
-    "pool_bear": 0.5,
+    "epoch": 475559,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "9h Sat neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": "BULL",
-        "score": 99,
-        "info": "B:23.8%(4.2x) R:76.2%(1.3x)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "09:13:00"
+    "time": "09:13:48"
   },
-  "lock_ts": 1777079618,
-  "current_ts": 1777079608,
+  "lock_ts": 1777079924,
+  "current_ts": 1777079645,
   "history": [
     {
       "epoch": 475464,
@@ -741,7 +741,8 @@
       "time": "09:08:26",
       "time_full": "2026-04-25 09:08:26",
       "trend": null,
-      "outcome": null
+      "outcome": "LOSS",
+      "result": "BULL"
     },
     {
       "epoch": 475558,
@@ -759,8 +760,8 @@
     "skips": 683,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 49.3,
-    "total_24h": 69,
+    "win_rate_24h": 48.6,
+    "total_24h": 70,
     "hourly_wins": {
       "1": 3,
       "2": 4,
@@ -779,10 +780,11 @@
       "5": 5,
       "6": 4,
       "7": 3,
-      "8": 5
+      "8": 5,
+      "9": 1
     },
-    "tracking_win_rate_24h": 49.3,
-    "tracking_total_24h": 69
+    "tracking_win_rate_24h": 48.6,
+    "tracking_total_24h": 70
   },
   "hourly_stats": {
     "hour": 9,
@@ -791,7 +793,8 @@
     "skip": 0,
     "total": 2
   },
-  "bnb_price": 636.01,
+  "bnb_price": 636.26,
+  "updated": "2026-04-25T09:14:22.344844",
   "kline": [
     {
       "t": 1777061700000,
@@ -1268,11 +1271,10 @@
     {
       "t": 1777079400000,
       "o": 635.76,
-      "h": 636.01,
+      "h": 636.26,
       "l": 635.75,
-      "c": 636.01,
-      "v": 66.237
+      "c": 636.26,
+      "v": 114.765
     }
-  ],
-  "updated": "2026-04-25T09:13:28.912308"
+  ]
 }
