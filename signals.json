@@ -1,20 +1,17 @@
 {
   "current": {
-    "epoch": 475720,
-    "direction": "BULL",
-    "confidence": 35.9,
-    "pool_total": 1.319,
-    "pool_bull": 0.6964,
-    "pool_bear": 0.6226,
-    "lock_p": 0.0,
-    "lock_ts": 1777129250,
-    "close_ts": 1777129550,
+    "epoch": 475721,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.1454,
+    "pool_bull": 0.0,
+    "pool_bear": 0.1454,
     "signals": [
       {
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:52.8%(1.9x) R:47.2%(2.1x)"
+        "info": "B:0.0%(0.0x) R:100.0%(1.0x)"
       },
       {
         "name": "Time",
@@ -42,9 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "23:00:14"
+    "time": "23:01:38"
   },
-  "current_ts": 1777129214,
+  "lock_ts": 1777129556,
+  "current_ts": 1777129298,
   "history": [
     {
       "epoch": 475464,
@@ -2023,13 +2021,23 @@
       "time": "22:55:43",
       "time_full": "2026-04-25 22:55:43",
       "trend": "📉 连跌3根($-1.02)",
+      "outcome": "SKIP",
+      "result": "BEAR"
+    },
+    {
+      "epoch": 475720,
+      "direction": "BULL",
+      "confidence": 36.0,
+      "time": "23:00:12",
+      "time_full": "2026-04-25 23:00:12",
+      "trend": "📉 连跌3根($-1.17)",
       "outcome": null
     }
   ],
   "tracking": {
     "wins": 1257,
     "losses": 1202,
-    "skips": 692,
+    "skips": 693,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 51.6,
@@ -2086,13 +2094,16 @@
     "tracking_total_24h": 188
   },
   "hourly_stats": {
-    "hour": 22,
-    "bull": 4,
-    "bear": 6,
-    "skip": 1,
-    "total": 11
+    "hour": 23,
+    "bull": 1,
+    "bear": 0,
+    "skip": 0,
+    "total": 1
   },
-  "bnb_price": 630.0,
+  "bnb_price": 629.39,
+  "updated": "2026-04-25T23:01:52.255596",
+  "live_price": 629.36,
+  "live_price_ts": 1777129309,
   "kline": [
     {
       "timestamp": 1777111500.0,
@@ -2511,11 +2522,8 @@
       "timestamp": 1777129200.0,
       "open": 630.92,
       "high": 630.92,
-      "low": 630.0,
-      "close": 630.0
+      "low": 629.3,
+      "close": 629.39
     }
-  ],
-  "updated": "2026-04-25T23:00:55.285324",
-  "live_price": 630.18,
-  "live_price_ts": 1777129214
+  ]
 }
