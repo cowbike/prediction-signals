@@ -410,26 +410,25 @@ def fetch_bnb_price():
 
 
 def fetch_bnb_kline():
-    """Fetch real 5min BNB/USDT kline from Binance (Casino chain data)."""
+    """Fetch on-chain-derived kline from cache, fallback to Binance API."""
+    # Try chain-derived kline first (PCSP-time-aligned)
     try:
-        # Get last 60 5-min candles (5 hours of data)
+        cache_file = HOME / ".hermes" / "kline_cache.json"
+        if cache_file.exists():
+            data = json.loads(cache_file.read_text())
+            if data and len(data) > 0:
+                return data  # [{timestamp, open, high, low, close}, ...]
+    except Exception as e:
+        print(f"Kline cache read error: {e}")
+
+    # Fallback: Binance 5m candles (for initial display before daemon has cache)
+    try:
         url = 'https://api.binance.com/api/v3/klines?symbol=BNBUSDT&interval=5m&limit=60'
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req, timeout=10) as resp:
-            data = json.loads(resp.read())
-        
-        kline = []
-        for k in data:
-            # Binance kline: [openTime, open, high, low, close, volume, closeTime, ...]
-            kline.append({
-                't': k[0],  # open time (ms)
-                'o': float(k[1]),
-                'h': float(k[2]),
-                'l': float(k[3]),
-                'c': float(k[4]),
-                'v': float(k[5])
-            })
-        return kline
+            raw = json.loads(resp.read())
+        return [{'timestamp': k[0] / 1000, 'open': float(k[1]), 'high': float(k[2]),
+                 'low': float(k[3]), 'close': float(k[4])} for k in raw]
     except Exception as e:
         print(f"Failed to fetch kline: {e}")
         return None
