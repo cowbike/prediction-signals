@@ -1,34 +1,34 @@
 {
   "current": {
-    "epoch": 475635,
+    "epoch": 475636,
     "direction": "SKIP",
-    "confidence": 14.7,
-    "pool_total": 0.1234,
-    "pool_bull": 0.0152,
-    "pool_bear": 0.1082,
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
       {
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "no data"
+        "info": "waiting"
       },
       {
         "name": "Time",
         "direction": "BEAR",
-        "score": 15,
+        "score": 36,
         "info": "15h Sat BEAR:51.2%"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$637.23 RSI:61 EMA:+0.02% flat"
+        "info": "$637.26 RSI:63 EMA:+0.02% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 15,
+        "score": 36,
         "info": "LS:2.22 long-squeeze"
       },
       {
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "15:46:24"
+    "time": "15:47:27"
   },
-  "lock_ts": 1777103222,
-  "current_ts": 1777103184,
+  "lock_ts": 1777103528,
+  "current_ts": 1777103247,
   "history": [
     {
       "epoch": 475464,
@@ -1283,6 +1283,15 @@
       "trend": null,
       "outcome": "LOSS",
       "result": "BULL"
+    },
+    {
+      "epoch": 475635,
+      "direction": "BEAR",
+      "confidence": 36.0,
+      "time": "15:46:46",
+      "time_full": "2026-04-25 15:46:46",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -1333,12 +1342,12 @@
   "hourly_stats": {
     "hour": 15,
     "bull": 1,
-    "bear": 6,
+    "bear": 7,
     "skip": 0,
-    "total": 7
+    "total": 8
   },
-  "bnb_price": 637.26,
-  "updated": "2026-04-25T15:46:30.964590",
+  "bnb_price": 637.25,
+  "updated": "2026-04-25T15:47:32.332492",
   "kline": [
     {
       "timestamp": 1777085400.0,
@@ -1757,8 +1766,8 @@
       "timestamp": 1777103100.0,
       "open": 637.39,
       "high": 637.39,
-      "low": 637.22,
-      "close": 637.26
+      "low": 637.17,
+      "close": 637.25
     }
   ]
 }
