@@ -549,11 +549,9 @@ async function initChainKline() {
         currentEpoch = newEpoch;
         await rebuildChainKline(newEpoch);
       } else {
-        // Redraw with whatever data we have (chain cache > signals.json)
-        const kl = _chainKlineCache.length > 0 ? _chainKlineCache
-                  : (window._signalData && window._signalData.kline) || [];
+        // Only use chain data — no Binance fallback
         drawKline({
-          kline: kl,
+          kline: _chainKlineCache,
           current: window._signalData ? window._signalData.current : null,
           lock_ts: window._signalData ? window._signalData.lock_ts : 0,
         });
