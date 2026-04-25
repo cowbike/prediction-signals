@@ -96,9 +96,27 @@
     background: rgba(255,255,255,0.02); color: var(--dim);
     border-bottom: 1px solid var(--border);
   }
-  .trend-bar.active { background: rgba(248,81,73,0.08); color: var(--yellow); }
+.trend-bar.active { background: rgba(248,81,73,0.08); color: var(--yellow); }
 
-  .wallet-section {
+ .kline-section {
+  max-width: 480px; margin: 12px auto; padding: 0 16px;
+ }
+ .kline-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; font-size: 13px; color: var(--dim);
+ }
+ .kline-title { font-weight: 600; color: var(--text); }
+ .kline-badge {
+  font-size: 10px; padding: 2px 6px; border-radius: 4px;
+  background: rgba(88,166,255,0.15); color: var(--blue);
+ }
+ .kline-container {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden; height: 200px;
+ }
+ .kline-canvas { width: 100%; height: 100%; display: block; }
+
+ .wallet-section {
     max-width: 480px; margin: 12px auto; padding: 0 16px;
   }
   .btn-row { display: flex; gap: 8px; }
@@ -350,8 +368,17 @@
   <div class="pool-bar" style="font-size:11px; color:var(--dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis">
     下注时的底池<span id="pool-total">0.00</span>BNB │ B:<span id="odds-bull">--</span>x R:<span id="odds-bear">--</span>x
   </div>
-  <div class="trend-bar" id="trend-bar">⚠️ <span id="trend-text"></span></div>
-  <div class="signals-grid" id="signals-grid"></div>
+<div class="trend-bar" id="trend-bar">⚠️ <span id="trend-text"></span></div>
+ <div class="kline-section">
+  <div class="kline-header">
+   <span class="kline-title">🕐 BNB 5分钟K线 (真实链上数据)</span>
+   <span class="kline-badge">BINANCE</span>
+  </div>
+  <div class="kline-container">
+   <canvas id="kline-canvas" class="kline-canvas"></canvas>
+  </div>
+ </div>
+ <div class="signals-grid" id="signals-grid"></div>
 </div>
 
 <div class="history">
@@ -723,8 +750,9 @@ async function fetchData() {
     renderHistory(data.history);
     startGlobalCountdown();
     renderTracking(data.tracking);
-    updateBnbPrice(data);
-  } catch (e) {
+updateBnbPrice(data);
+drawKline(data);
+} catch (e) {
     document.getElementById('live-dot').className = 'dot dot-stale';
     document.getElementById('live-text').textContent = '连接失败';
   }
@@ -746,11 +774,103 @@ setInterval(fetchData, REFRESH_MS);
 
 // BNB price from signals.json (fetched server-side, no CORS)
 function updateBnbPrice(data) {
-  if (data && data.bnb_price) {
-    document.getElementById('bnb-price').textContent = '$' + data.bnb_price;
-  } else {
-    document.getElementById('bnb-price').textContent = 'N/A';
-  }
+ if (data && data.bnb_price) {
+ document.getElementById('bnb-price').textContent = '$' + data.bnb_price;
+ } else {
+ document.getElementById('bnb-price').textContent = 'N/A';
+ }
+}
+
+// Draw real 5min BNB/USDT kline from Binance (Casino chain data)
+function drawKline(data) {
+ const canvas = document.getElementById('kline-canvas');
+ if (!canvas) return;
+ const ctx = canvas.getContext('2d');
+ 
+ // Handle HiDPI
+ const dpr = window.devicePixelRatio || 1;
+ const rect = canvas.getBoundingClientRect();
+ canvas.width = rect.width * dpr;
+ canvas.height = rect.height * dpr;
+ ctx.scale(dpr, dpr);
+ const w = rect.width;
+ const h = rect.height;
+ 
+ const kline = data && data.kline;
+ if (!kline || !kline.length) {
+ ctx.fillStyle = '#8b949e';
+ ctx.font = '12px sans-serif';
+ ctx.textAlign = 'center';
+ ctx.fillText('暂无K线数据', w/2, h/2);
+ return;
+ }
+ 
+ // Calculate price range
+ let minPrice = Infinity, maxPrice = -Infinity;
+ for (const k of kline) {
+ minPrice = Math.min(minPrice, k.l);
+ maxPrice = Math.max(maxPrice, k.h);
+ }
+ const priceRange = maxPrice - minPrice || 1;
+ const padding = 10;
+ const chartH = h - 30;
+ const chartY = 10;
+ 
+ // Draw grid
+ ctx.strokeStyle = 'rgba(48,54,61,0.5)';
+ ctx.lineWidth = 1;
+ ctx.beginPath();
+ for (let i = 0; i <= 4; i++) {
+ const y = chartY + (chartH * i / 4);
+ ctx.moveTo(30, y);
+ ctx.lineTo(w - 10, y);
+ }
+ ctx.stroke();
+ 
+ // Draw price labels
+ ctx.fillStyle = '#8b949e';
+ ctx.font = '10px monospace';
+ ctx.textAlign = 'right';
+ for (let i = 0; i <= 4; i++) {
+ const y = chartY + (chartH * i / 4);
+ const price = maxPrice - (priceRange * i / 4);
+ ctx.fillText(price.toFixed(1), 28, y + 3);
+ }
+ 
+ // Draw candlesticks
+ const candleW = Math.max(2, (w - 40) / kline.length - 2);
+ for (let i = 0; i < kline.length; i++) {
+ const k = kline[i];
+ const x = 35 + i * ((w - 40) / kline.length);
+ const isBull = k.c >= k.o;
+ const color = isBull ? '#3fb950' : '#f85149';
+ 
+ // Wick
+ ctx.strokeStyle = color;
+ ctx.lineWidth = 1;
+ ctx.beginPath();
+ ctx.moveTo(x + candleW/2, chartY + ((maxPrice - k.h) / priceRange) * chartH);
+ ctx.lineTo(x + candleW/2, chartY + ((maxPrice - k.l) / priceRange) * chartH);
+ ctx.stroke();
+ 
+ // Body
+ ctx.fillStyle = color;
+ const bodyTop = chartY + ((maxPrice - Math.max(k.o, k.c)) / priceRange) * chartH;
+ const bodyBottom = chartY + ((maxPrice - Math.min(k.o, k.c)) / priceRange) * chartH;
+ const bodyH = Math.max(1, bodyBottom - bodyTop);
+ ctx.fillRect(x, bodyTop, candleW, bodyH);
+ }
+ 
+ // Time labels
+ ctx.fillStyle = '#8b949e';
+ ctx.font = '9px monospace';
+ ctx.textAlign = 'center';
+ const now = Date.now();
+ for (let i = 0; i < kline.length; i += 10) {
+ const x = 35 + i * ((w - 40) / kline.length);
+ const age = Math.round((now - kline[i].t) / 60000);
+ ctx.fillText('-' + age + 'm', x, h - 5);
+ }
 }
 
 // ─── MetaMask + Auto Bet ───

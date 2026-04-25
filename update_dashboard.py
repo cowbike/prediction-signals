@@ -409,6 +409,32 @@ def fetch_bnb_price():
         return None
 
 
+def fetch_bnb_kline():
+    """Fetch real 5min BNB/USDT kline from Binance (Casino chain data)."""
+    try:
+        # Get last 60 5-min candles (5 hours of data)
+        url = 'https://api.binance.com/api/v3/klines?symbol=BNBUSDT&interval=5m&limit=60'
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read())
+        
+        kline = []
+        for k in data:
+            # Binance kline: [openTime, open, high, low, close, volume, closeTime, ...]
+            kline.append({
+                't': k[0],  # open time (ms)
+                'o': float(k[1]),
+                'h': float(k[2]),
+                'l': float(k[3]),
+                'c': float(k[4]),
+                'v': float(k[5])
+            })
+        return kline
+    except Exception as e:
+        print(f"Failed to fetch kline: {e}")
+        return None
+
+
 def git_push():
     """Commit and push to GitHub."""
     repo_dir = str(Path(__file__).parent)
@@ -472,8 +498,9 @@ def main():
                 # Daemon has newer signal — keep it, only update tracking/history
                 existing["history"] = history
                 existing["tracking"] = tracking
-                existing["bnb_price"] = fetch_bnb_price()
-                existing["hourly_stats"] = hourly_stats
+existing["bnb_price"] = fetch_bnb_price()
+            existing["kline"] = fetch_bnb_kline()
+            existing["hourly_stats"] = hourly_stats
                 existing["updated"] = datetime.now().isoformat()
                 OUTPUT_FILE.write_text(json.dumps(existing, ensure_ascii=False, indent=2))
                 print(f"  Kept daemon signal E{existing_epoch} (cron had E{new_epoch})")
@@ -490,10 +517,11 @@ def main():
         "current_ts": int(time.time()),
         "history": history,
         "tracking": tracking,
-        "hourly_stats": hourly_stats,
-        "bnb_price": fetch_bnb_price(),
-        "updated": datetime.now().isoformat(),
-    }
+"hourly_stats": hourly_stats,
+    "bnb_price": fetch_bnb_price(),
+    "kline": fetch_bnb_kline(),
+    "updated": datetime.now().isoformat(),
+}
 
     OUTPUT_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2))
     git_push()
