@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 475736,
+    "epoch": 475737,
     "direction": "SKIP",
     "confidence": 0,
-    "pool_total": 0.76,
-    "pool_bull": 0,
-    "pool_bear": 0,
+    "pool_total": 0.2,
+    "pool_bull": 0.2,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:100.0%(1.0x) R:0.0%(0.0x)"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "0h Sun neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:91.3%(1.1x) R:8.7%(11.5x) ⚠️ trap(BULL极端失衡)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "00:22:06"
+    "time": "00:23:20"
   },
-  "lock_ts": 1777134152,
-  "current_ts": 1777134173,
+  "lock_ts": 1777134458,
+  "current_ts": 1777134211,
   "history": [
     {
       "epoch": 475464,
@@ -2186,16 +2186,16 @@
     },
     {
       "epoch": 475736,
-      "direction": "SKIP",
-      "confidence": 14.0,
-      "time": "00:22:06",
-      "time_full": "2026-04-26 00:22:06",
+      "direction": "BEAR",
+      "confidence": 44.0,
+      "time": "00:22:11",
+      "time_full": "2026-04-26 00:22:11",
       "trend": null,
       "outcome": null
     }
   ],
   "tracking": {
-    "wins": 1263,
+    "wins": 1264,
     "losses": 1207,
     "skips": 697,
     "time_wins": 0,
@@ -2260,11 +2260,14 @@
   "hourly_stats": {
     "hour": 0,
     "bull": 2,
-    "bear": 2,
-    "skip": 1,
+    "bear": 3,
+    "skip": 0,
     "total": 5
   },
-  "bnb_price": 629.98,
+  "bnb_price": 630.14,
+  "updated": "2026-04-26T00:23:54.159813",
+  "live_price": 630.14,
+  "live_price_ts": 1777134233,
   "kline": [
     {
       "timestamp": 1777116300.0,
@@ -2684,8 +2687,7 @@
       "open": 630.15,
       "high": 630.41,
       "low": 629.93,
-      "close": 629.98
+      "close": 630.14
     }
-  ],
-  "updated": "2026-04-26T00:22:53.352828"
+  ]
 }
