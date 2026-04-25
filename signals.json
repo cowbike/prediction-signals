@@ -1,12 +1,18 @@
 {
   "current": {
-    "epoch": 475678,
-    "direction": "BULL",
-    "confidence": 32.0,
-    "pool_total": 2.16,
-    "pool_bull": 1.17,
-    "pool_bear": 0.99,
+    "epoch": 475679,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
@@ -14,21 +20,15 @@
         "info": "19h Sat neutral"
       },
       {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:54.0%(1.9x) R:46.0%(2.2x)"
-      },
-      {
         "name": "Mom",
         "direction": "BULL",
-        "score": 100,
+        "score": 20,
         "info": "$636.76 RSI:4 EMA:-0.09% OS"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 61,
+        "score": 12,
         "info": "LS:2.23 long-squeeze"
       },
       {
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "19:25:53"
+    "time": "19:26:46"
   },
-  "lock_ts": 1777116392,
-  "current_ts": 1777116405,
+  "lock_ts": 1777116698,
+  "current_ts": 1777116455,
   "history": [
     {
       "epoch": 475464,
@@ -1714,7 +1714,8 @@
     "skip": 0,
     "total": 6
   },
-  "bnb_price": 636.73,
+  "bnb_price": 636.52,
+  "updated": "2026-04-25T19:27:47.100272",
   "kline": [
     {
       "timestamp": 1777098600.0,
@@ -2133,9 +2134,8 @@
       "timestamp": 1777116300.0,
       "open": 636.75,
       "high": 636.76,
-      "low": 636.73,
-      "close": 636.73
+      "low": 636.52,
+      "close": 636.53
     }
-  ],
-  "updated": "2026-04-25T19:26:45.940706"
+  ]
 }
