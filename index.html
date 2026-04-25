@@ -539,12 +539,20 @@ async function initChainKline() {
   const currentEpoch = await getCurrentEpoch();
   if (currentEpoch) {
     await rebuildChainKline(currentEpoch);
-    // Refresh every 2s — quick epoch detection, low RPC cost (1 eth_call)
+    // Refresh every 2s — redraw always, rebuild only on epoch change
     setInterval(async () => {
       const newEpoch = await getCurrentEpoch();
       if (newEpoch && newEpoch !== currentEpoch) {
         currentEpoch = newEpoch;
-        await rebuildChainKline(newEpoch);
+        await rebuildChainKline(newEpoch);  // full rebuild + redraw
+      } else if (_chainKlineCache.length > 0) {
+        // Redraw with cached data for smooth progress bar
+        const fakeData = {
+          kline: _chainKlineCache,
+          current: window._signalData ? window._signalData.current : null,
+          lock_ts: window._signalData ? window._signalData.lock_ts : 0,
+        };
+        drawKline(fakeData);
       }
     }, 2000);
   }
