@@ -1,20 +1,17 @@
 {
   "current": {
-    "epoch": 475759,
-    "direction": "BEAR",
-    "confidence": 21.6,
-    "pool_total": 0.2307,
-    "pool_bull": 0.1525,
-    "pool_bear": 0.0782,
-    "lock_p": 0.0,
-    "lock_ts": 1777141208,
-    "close_ts": 1777141508,
+    "epoch": 475760,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.008,
+    "pool_bull": 0.0,
+    "pool_bear": 0.008,
     "signals": [
       {
         "name": "Pool",
-        "direction": "BEAR",
-        "score": 22,
-        "info": "B:66.1%(1.5x) R:33.9%(3.0x)"
+        "direction": null,
+        "score": 0,
+        "info": "B:0.0%(0.0x) R:100.0%(1.0x)"
       },
       {
         "name": "Time",
@@ -31,7 +28,7 @@
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 22,
+        "score": 71,
         "info": "LS:2.42 long-squeeze"
       },
       {
@@ -42,9 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "02:19:32"
+    "time": "02:20:55"
   },
-  "current_ts": 1777141172,
+  "lock_ts": 1777141514,
+  "current_ts": 1777141255,
   "history": [
     {
       "epoch": 475464,
@@ -2413,6 +2411,16 @@
       "time": "02:15:02",
       "time_full": "2026-04-26 02:15:02",
       "trend": null,
+      "outcome": "LOSS",
+      "result": "BULL"
+    },
+    {
+      "epoch": 475759,
+      "direction": "BEAR",
+      "confidence": 22.0,
+      "time": "02:19:31",
+      "time_full": "2026-04-26 02:19:31",
+      "trend": null,
       "outcome": null
     }
   ],
@@ -2422,8 +2430,8 @@
     "skips": 709,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 51.4,
-    "total_24h": 210,
+    "win_rate_24h": 51.2,
+    "total_24h": 211,
     "hourly_wins": {
       "1": 5,
       "2": 5,
@@ -2452,7 +2460,7 @@
     },
     "hourly_losses": {
       "1": 9,
-      "2": 6,
+      "2": 7,
       "3": 2,
       "4": 5,
       "5": 5,
@@ -2476,440 +2484,16 @@
       "23": 4,
       "0": 3
     },
-    "tracking_win_rate_24h": 51.4,
-    "tracking_total_24h": 210
+    "tracking_win_rate_24h": 51.2,
+    "tracking_total_24h": 211
   },
   "hourly_stats": {
     "hour": 2,
     "bull": 1,
-    "bear": 10,
+    "bear": 11,
     "skip": 2,
-    "total": 13
+    "total": 14
   },
   "bnb_price": 628.06,
-  "kline": [
-    {
-      "timestamp": 1777123200.0,
-      "open": 633.27,
-      "high": 633.49,
-      "low": 633.27,
-      "close": 633.35
-    },
-    {
-      "timestamp": 1777123500.0,
-      "open": 633.35,
-      "high": 633.5,
-      "low": 633.1,
-      "close": 633.37
-    },
-    {
-      "timestamp": 1777123800.0,
-      "open": 633.37,
-      "high": 633.37,
-      "low": 633.05,
-      "close": 633.28
-    },
-    {
-      "timestamp": 1777124100.0,
-      "open": 633.28,
-      "high": 633.84,
-      "low": 633.27,
-      "close": 633.79
-    },
-    {
-      "timestamp": 1777124400.0,
-      "open": 633.78,
-      "high": 633.9,
-      "low": 633.46,
-      "close": 633.86
-    },
-    {
-      "timestamp": 1777124700.0,
-      "open": 633.86,
-      "high": 633.9,
-      "low": 633.68,
-      "close": 633.79
-    },
-    {
-      "timestamp": 1777125000.0,
-      "open": 633.78,
-      "high": 633.85,
-      "low": 633.31,
-      "close": 633.4
-    },
-    {
-      "timestamp": 1777125300.0,
-      "open": 633.39,
-      "high": 633.4,
-      "low": 632.73,
-      "close": 632.74
-    },
-    {
-      "timestamp": 1777125600.0,
-      "open": 632.74,
-      "high": 632.87,
-      "low": 632.2,
-      "close": 632.21
-    },
-    {
-      "timestamp": 1777125900.0,
-      "open": 632.2,
-      "high": 632.31,
-      "low": 632.0,
-      "close": 632.21
-    },
-    {
-      "timestamp": 1777126200.0,
-      "open": 632.2,
-      "high": 632.25,
-      "low": 631.23,
-      "close": 631.78
-    },
-    {
-      "timestamp": 1777126500.0,
-      "open": 631.78,
-      "high": 632.03,
-      "low": 631.21,
-      "close": 631.33
-    },
-    {
-      "timestamp": 1777126800.0,
-      "open": 631.33,
-      "high": 631.82,
-      "low": 631.32,
-      "close": 631.5
-    },
-    {
-      "timestamp": 1777127100.0,
-      "open": 631.5,
-      "high": 632.28,
-      "low": 631.5,
-      "close": 632.1
-    },
-    {
-      "timestamp": 1777127400.0,
-      "open": 632.11,
-      "high": 632.78,
-      "low": 632.1,
-      "close": 632.43
-    },
-    {
-      "timestamp": 1777127700.0,
-      "open": 632.42,
-      "high": 632.5,
-      "low": 632.16,
-      "close": 632.3
-    },
-    {
-      "timestamp": 1777128000.0,
-      "open": 632.3,
-      "high": 632.9,
-      "low": 632.01,
-      "close": 632.1
-    },
-    {
-      "timestamp": 1777128300.0,
-      "open": 632.1,
-      "high": 632.27,
-      "low": 631.7,
-      "close": 631.81
-    },
-    {
-      "timestamp": 1777128600.0,
-      "open": 631.8,
-      "high": 631.83,
-      "low": 631.27,
-      "close": 631.27
-    },
-    {
-      "timestamp": 1777128900.0,
-      "open": 631.27,
-      "high": 631.28,
-      "low": 630.92,
-      "close": 630.92
-    },
-    {
-      "timestamp": 1777129200.0,
-      "open": 630.92,
-      "high": 630.92,
-      "low": 629.11,
-      "close": 629.9
-    },
-    {
-      "timestamp": 1777129500.0,
-      "open": 629.9,
-      "high": 630.61,
-      "low": 629.89,
-      "close": 630.47
-    },
-    {
-      "timestamp": 1777129800.0,
-      "open": 630.47,
-      "high": 630.95,
-      "low": 630.18,
-      "close": 630.75
-    },
-    {
-      "timestamp": 1777130100.0,
-      "open": 630.74,
-      "high": 631.19,
-      "low": 630.66,
-      "close": 631.01
-    },
-    {
-      "timestamp": 1777130400.0,
-      "open": 631.0,
-      "high": 631.01,
-      "low": 630.74,
-      "close": 630.93
-    },
-    {
-      "timestamp": 1777130700.0,
-      "open": 630.92,
-      "high": 631.3,
-      "low": 630.92,
-      "close": 631.13
-    },
-    {
-      "timestamp": 1777131000.0,
-      "open": 631.13,
-      "high": 631.58,
-      "low": 631.12,
-      "close": 631.58
-    },
-    {
-      "timestamp": 1777131300.0,
-      "open": 631.57,
-      "high": 631.67,
-      "low": 631.37,
-      "close": 631.48
-    },
-    {
-      "timestamp": 1777131600.0,
-      "open": 631.48,
-      "high": 631.61,
-      "low": 631.43,
-      "close": 631.44
-    },
-    {
-      "timestamp": 1777131900.0,
-      "open": 631.44,
-      "high": 631.44,
-      "low": 630.24,
-      "close": 630.24
-    },
-    {
-      "timestamp": 1777132200.0,
-      "open": 630.25,
-      "high": 630.4,
-      "low": 629.15,
-      "close": 629.56
-    },
-    {
-      "timestamp": 1777132500.0,
-      "open": 629.55,
-      "high": 630.1,
-      "low": 629.55,
-      "close": 629.91
-    },
-    {
-      "timestamp": 1777132800.0,
-      "open": 629.9,
-      "high": 630.0,
-      "low": 629.29,
-      "close": 629.78
-    },
-    {
-      "timestamp": 1777133100.0,
-      "open": 629.78,
-      "high": 630.06,
-      "low": 629.46,
-      "close": 629.74
-    },
-    {
-      "timestamp": 1777133400.0,
-      "open": 629.74,
-      "high": 629.94,
-      "low": 629.36,
-      "close": 629.93
-    },
-    {
-      "timestamp": 1777133700.0,
-      "open": 629.93,
-      "high": 630.35,
-      "low": 629.93,
-      "close": 630.15
-    },
-    {
-      "timestamp": 1777134000.0,
-      "open": 630.15,
-      "high": 630.41,
-      "low": 629.93,
-      "close": 630.13
-    },
-    {
-      "timestamp": 1777134300.0,
-      "open": 630.14,
-      "high": 630.14,
-      "low": 629.42,
-      "close": 629.5
-    },
-    {
-      "timestamp": 1777134600.0,
-      "open": 629.51,
-      "high": 629.97,
-      "low": 629.0,
-      "close": 629.19
-    },
-    {
-      "timestamp": 1777134900.0,
-      "open": 629.19,
-      "high": 629.64,
-      "low": 627.36,
-      "close": 628.23
-    },
-    {
-      "timestamp": 1777135200.0,
-      "open": 628.23,
-      "high": 628.98,
-      "low": 628.22,
-      "close": 628.85
-    },
-    {
-      "timestamp": 1777135500.0,
-      "open": 628.86,
-      "high": 629.17,
-      "low": 628.79,
-      "close": 629.17
-    },
-    {
-      "timestamp": 1777135800.0,
-      "open": 629.17,
-      "high": 629.45,
-      "low": 629.04,
-      "close": 629.17
-    },
-    {
-      "timestamp": 1777136100.0,
-      "open": 629.16,
-      "high": 629.52,
-      "low": 629.1,
-      "close": 629.52
-    },
-    {
-      "timestamp": 1777136400.0,
-      "open": 629.52,
-      "high": 629.65,
-      "low": 628.83,
-      "close": 629.08
-    },
-    {
-      "timestamp": 1777136700.0,
-      "open": 629.08,
-      "high": 629.51,
-      "low": 629.08,
-      "close": 629.51
-    },
-    {
-      "timestamp": 1777137000.0,
-      "open": 629.52,
-      "high": 629.6,
-      "low": 629.36,
-      "close": 629.43
-    },
-    {
-      "timestamp": 1777137300.0,
-      "open": 629.43,
-      "high": 629.49,
-      "low": 629.17,
-      "close": 629.34
-    },
-    {
-      "timestamp": 1777137600.0,
-      "open": 629.34,
-      "high": 629.97,
-      "low": 629.34,
-      "close": 629.83
-    },
-    {
-      "timestamp": 1777137900.0,
-      "open": 629.84,
-      "high": 629.99,
-      "low": 628.0,
-      "close": 628.03
-    },
-    {
-      "timestamp": 1777138200.0,
-      "open": 628.03,
-      "high": 628.11,
-      "low": 627.32,
-      "close": 627.73
-    },
-    {
-      "timestamp": 1777138500.0,
-      "open": 627.73,
-      "high": 628.33,
-      "low": 627.73,
-      "close": 628.33
-    },
-    {
-      "timestamp": 1777138800.0,
-      "open": 628.33,
-      "high": 628.42,
-      "low": 628.16,
-      "close": 628.16
-    },
-    {
-      "timestamp": 1777139100.0,
-      "open": 628.15,
-      "high": 628.15,
-      "low": 627.57,
-      "close": 627.57
-    },
-    {
-      "timestamp": 1777139400.0,
-      "open": 627.58,
-      "high": 627.62,
-      "low": 627.39,
-      "close": 627.5
-    },
-    {
-      "timestamp": 1777139700.0,
-      "open": 627.5,
-      "high": 627.69,
-      "low": 627.4,
-      "close": 627.41
-    },
-    {
-      "timestamp": 1777140000.0,
-      "open": 627.41,
-      "high": 628.08,
-      "low": 627.15,
-      "close": 628.01
-    },
-    {
-      "timestamp": 1777140300.0,
-      "open": 628.01,
-      "high": 628.01,
-      "low": 627.65,
-      "close": 627.99
-    },
-    {
-      "timestamp": 1777140600.0,
-      "open": 627.98,
-      "high": 628.18,
-      "low": 627.85,
-      "close": 628.1
-    },
-    {
-      "timestamp": 1777140900.0,
-      "open": 628.09,
-      "high": 628.1,
-      "low": 627.92,
-      "close": 628.06
-    }
-  ],
-  "updated": "2026-04-26T02:19:52.344889",
-  "live_price": 628.02,
-  "live_price_ts": 1777141172
+  "updated": "2026-04-26T02:20:55.914467"
 }
