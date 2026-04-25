@@ -955,15 +955,17 @@ function drawKline(data) {
     return;
   }
 
-  // Calculate price range
+  // Calculate price range with 0.1% padding
   let minPrice = Infinity, maxPrice = -Infinity;
   for (const k of kline) {
     minPrice = Math.min(minPrice, k.low);
     maxPrice = Math.max(maxPrice, k.high);
   }
+  minPrice *= 0.999;
+  maxPrice *= 1.001;
   const priceRange = maxPrice - minPrice || 1;
-  const chartH = h - 30;
-  const chartY = 10;
+  const chartH = h - 42;  // leave room for time labels + progress bar
+  const chartY = 8;
 
   // Draw grid
   ctx.strokeStyle = 'rgba(48,54,61,0.5)';
