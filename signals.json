@@ -3,16 +3,10 @@
     "epoch": 475586,
     "direction": "BULL",
     "confidence": 28.0,
-    "pool_total": 0.4065,
-    "pool_bull": 0.1328,
-    "pool_bear": 0.2737,
+    "pool_total": 0.41,
+    "pool_bull": 0.13,
+    "pool_bear": 0.27,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": "BULL",
-        "score": 14,
-        "info": "B:32.7%(3.1x) R:67.3%(1.5x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,15 +14,21 @@
         "info": "11h Sat neutral"
       },
       {
+        "name": "Pool",
+        "direction": "BULL",
+        "score": 41,
+        "info": "B:32.7%(3.1x) R:67.3%(1.5x)"
+      },
+      {
         "name": "Mom",
         "direction": "BEAR",
-        "score": 14,
+        "score": 7,
         "info": "$637.52 RSI:71 EMA:-0.00% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 14,
+        "score": 61,
         "info": "LS:2.22 long-squeeze"
       },
       {
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "11:36:06"
+    "time": "11:36:05"
   },
   "lock_ts": 1777088204,
-  "current_ts": 1777088166,
+  "current_ts": 1777088188,
   "history": [
     {
       "epoch": 475464,
@@ -932,6 +932,15 @@
       "time_full": "2026-04-25 11:31:02",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 475586,
+      "direction": "BULL",
+      "confidence": 28.0,
+      "time": "11:36:05",
+      "time_full": "2026-04-25 11:36:05",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -973,13 +982,12 @@
   },
   "hourly_stats": {
     "hour": 11,
-    "bull": 2,
+    "bull": 3,
     "bear": 2,
     "skip": 0,
-    "total": 4
+    "total": 5
   },
-  "bnb_price": 637.51,
-  "updated": "2026-04-25T11:36:22.580764",
+  "bnb_price": 637.52,
   "kline": [
     {
       "timestamp": 1777070400.0,
@@ -1399,7 +1407,8 @@
       "open": 637.25,
       "high": 637.52,
       "low": 637.24,
-      "close": 637.51
+      "close": 637.52
     }
-  ]
+  ],
+  "updated": "2026-04-25T11:36:28.564517"
 }
