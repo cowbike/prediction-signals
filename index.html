@@ -413,6 +413,39 @@ const REFRESH_MS = 10000;
 let refreshCount = 0;
 let lastEpoch = 0;
 
+// ─── Real-time K-line (direct from Binance, 2s refresh) ───
+let klineLiveInterval = null;
+
+async function fetchKlineLive() {
+  const canvas = document.getElementById('kline-canvas');
+  if (!canvas) return;
+  try {
+    // Binance 5m kline — always 60 candles, updates every ~15s
+    const resp = await fetch('https://api.binance.com/api/v3/klines?symbol=BNBUSDT&interval=5m&limit=60');
+    if (!resp.ok) return;
+    const raw = await resp.json();
+
+    // Build kline in same format as backend
+    const kline = raw.map(d => ({
+      t: d[0],
+      o: parseFloat(d[1]),
+      h: parseFloat(d[2]),
+      l: parseFloat(d[3]),
+      c: parseFloat(d[4]),
+    }));
+
+    drawKline({ kline });
+  } catch (e) {
+    // silent fail — keep showing last frame
+  }
+}
+
+function startKlineLive() {
+  if (klineLiveInterval) clearInterval(klineLiveInterval);
+  fetchKlineLive();
+  klineLiveInterval = setInterval(fetchKlineLive, 2000); // every 2s
+}
+
 // Theme toggle
 function toggleTheme() {
   document.body.classList.toggle('light');
@@ -750,8 +783,10 @@ async function fetchData() {
     renderHistory(data.history);
     startGlobalCountdown();
     renderTracking(data.tracking);
-updateBnbPrice(data);
-drawKline(data);
+    updateBnbPrice(data);
+    // Show initial kline from signals.json, then start live 2s refresh
+    drawKline(data);
+    startKlineLive();
 } catch (e) {
     document.getElementById('live-dot').className = 'dot dot-stale';
     document.getElementById('live-text').textContent = '连接失败';
@@ -861,16 +896,83 @@ function drawKline(data) {
  ctx.fillRect(x, bodyTop, candleW, bodyH);
  }
  
- // Time labels
- ctx.fillStyle = '#8b949e';
- ctx.font = '9px monospace';
- ctx.textAlign = 'center';
- const now = Date.now();
- for (let i = 0; i < kline.length; i += 10) {
- const x = 35 + i * ((w - 40) / kline.length);
- const age = Math.round((now - kline[i].t) / 60000);
- ctx.fillText('-' + age + 'm', x, h - 5);
- }
+// Time labels
+  ctx.fillStyle = '#8b949e';
+  ctx.font = '9px monospace';
+  ctx.textAlign = 'center';
+  const now = Date.now();
+  for (let i = 0; i < kline.length; i += 10) {
+    const x = 35 + i * ((w - 40) / kline.length);
+    const age = Math.round((now - kline[i].t) / 60000);
+    ctx.fillText('-' + age + 'm', x, h - 5);
+  }
+
+  // ─── PCSP Cycle Sync Lines ───
+  const nowSec = Math.floor(now / 1000);
+  // Find the NEXT lock_ts after now (aligned to 5-min boundary)
+  // Binance candles align at :00,:05,:10... so compute next boundary
+  const minInHour = new Date(now).getMinutes();
+  const secInMin = new Date(now).getSeconds();
+  const secOffset = minInHour * 60 + secInMin; // seconds since last :00
+  const nextLock = nowSec + (300 - secOffset % 300); // seconds until next :05/:10/:15...
+
+  const lockCandleIdx = kline.findIndex(k => k.t >= nextLock * 1000);
+  // Also CLOSE = lock + 300
+  const closeCandleIdx = kline.findIndex(k => k.t >= (nextLock + 300) * 1000);
+
+  const step = (w - 40) / kline.length;
+
+  // Draw LOCK line
+  if (lockCandleIdx >= 0) {
+    const lockX = 35 + lockCandleIdx * step;
+    ctx.setLineDash([4, 3]);
+    ctx.strokeStyle = '#d29922';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(lockX, chartY);
+    ctx.lineTo(lockX, chartY + chartH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#d29922';
+    ctx.font = 'bold 9px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('🔒LOCK', lockX + 2, chartY + 12);
+  }
+
+  // Draw CLOSE line
+  if (closeCandleIdx >= 0) {
+    const closeX = 35 + closeCandleIdx * step;
+    ctx.setLineDash([4, 3]);
+    ctx.strokeStyle = '#58a6ff';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(closeX, chartY);
+    ctx.lineTo(closeX, chartY + chartH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#58a6ff';
+    ctx.font = 'bold 9px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('📊CLOSE', closeX + 2, chartY + 24);
+  }
+
+  // Current price line
+  if (kline.length > 0) {
+    const lastClose = kline[kline.length - 1].c;
+    const priceY = chartY + ((maxPrice - lastClose) / priceRange) * chartH;
+    ctx.setLineDash([2, 2]);
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(30, priceY);
+    ctx.lineTo(w - 10, priceY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.font = 'bold 10px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(lastClose.toFixed(1), w - 60, priceY - 4);
+  }
 }
 
 // ─── MetaMask + Auto Bet ───
