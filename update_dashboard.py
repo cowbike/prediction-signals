@@ -466,7 +466,7 @@ def git_push():
 def main():
     # First update tracking results from on-chain
     update_tracking_results()
-    
+
     current = parse_latest_signal()
     history = parse_history()
     tracking = load_tracking(history)
@@ -483,7 +483,7 @@ def main():
             if rd:
                 lock_ts = rd.get("lock_ts", 0)
         except Exception as e:
-            print(f"  lock_ts fetch error: {e}")
+            print(f" lock_ts fetch error: {e}")
 
     # Compute hourly stats from history
     hourly_stats = compute_hourly_stats(history)
@@ -498,12 +498,12 @@ def main():
                 # Daemon has newer signal — keep it, only update tracking/history
                 existing["history"] = history
                 existing["tracking"] = tracking
-existing["bnb_price"] = fetch_bnb_price()
-            existing["kline"] = fetch_bnb_kline()
-            existing["hourly_stats"] = hourly_stats
+                existing["bnb_price"] = fetch_bnb_price()
+                existing["kline"] = fetch_bnb_kline()
+                existing["hourly_stats"] = hourly_stats
                 existing["updated"] = datetime.now().isoformat()
                 OUTPUT_FILE.write_text(json.dumps(existing, ensure_ascii=False, indent=2))
-                print(f"  Kept daemon signal E{existing_epoch} (cron had E{new_epoch})")
+                print(f" Kept daemon signal E{existing_epoch} (cron had E{new_epoch})")
                 git_push()
                 return
         except:
@@ -511,17 +511,17 @@ existing["bnb_price"] = fetch_bnb_price()
 
     data = {
         "current": current or {"epoch": 0, "direction": "SKIP", "confidence": 0,
-                                "pool_total": 0, "pool_bull": 0, "pool_bear": 0,
-                                "signals": [], "time": "--"},
+                               "pool_total": 0, "pool_bull": 0, "pool_bear": 0,
+                               "signals": [], "time": "--"},
         "lock_ts": lock_ts,
         "current_ts": int(time.time()),
         "history": history,
         "tracking": tracking,
-"hourly_stats": hourly_stats,
-    "bnb_price": fetch_bnb_price(),
-    "kline": fetch_bnb_kline(),
-    "updated": datetime.now().isoformat(),
-}
+        "hourly_stats": hourly_stats,
+        "bnb_price": fetch_bnb_price(),
+        "kline": fetch_bnb_kline(),
+        "updated": datetime.now().isoformat(),
+    }
 
     OUTPUT_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2))
     git_push()
