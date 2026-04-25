@@ -1,34 +1,34 @@
 {
   "current": {
     "epoch": 475591,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.2466,
-    "pool_bull": 0.0123,
-    "pool_bear": 0.2343,
+    "direction": "BULL",
+    "confidence": 44.0,
+    "pool_total": 0.3,
+    "pool_bull": 0.06,
+    "pool_bear": 0.23,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:5.0%(20.0x) R:95.0%(1.1x)"
-      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
-        "info": "11h Sat neutral"
+        "info": "12h Sat neutral"
+      },
+      {
+        "name": "Pool",
+        "direction": "BULL",
+        "score": 84,
+        "info": "B:21.0%(4.8x) R:79.0%(1.3x)"
       },
       {
         "name": "Mom",
-        "direction": null,
-        "score": 0,
-        "info": "$637.42 RSI:63 EMA:+0.01% flat"
+        "direction": "BEAR",
+        "score": 14,
+        "info": "$637.52 RSI:72 EMA:+0.01% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 12,
+        "score": 61,
         "info": "LS:2.22 long-squeeze"
       },
       {
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "11:57:17"
+    "time": "12:01:34"
   },
   "lock_ts": 1777089734,
-  "current_ts": 1777089662,
+  "current_ts": 1777089718,
   "history": [
     {
       "epoch": 475464,
@@ -953,6 +953,15 @@
       "trend": null,
       "outcome": "LOSS",
       "result": "BEAR"
+    },
+    {
+      "epoch": 475591,
+      "direction": "BULL",
+      "confidence": 44.0,
+      "time": "12:01:34",
+      "time_full": "2026-04-25 12:01:34",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -993,14 +1002,13 @@
     "tracking_total_24h": 91
   },
   "hourly_stats": {
-    "hour": 11,
-    "bull": 4,
-    "bear": 2,
+    "hour": 12,
+    "bull": 1,
+    "bear": 0,
     "skip": 0,
-    "total": 6
+    "total": 1
   },
   "bnb_price": 637.52,
-  "updated": "2026-04-25T12:01:24.135796",
   "kline": [
     {
       "timestamp": 1777071900.0,
@@ -1422,5 +1430,6 @@
       "low": 637.45,
       "close": 637.52
     }
-  ]
+  ],
+  "updated": "2026-04-25T12:01:58.273674"
 }
