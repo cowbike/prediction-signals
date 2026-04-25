@@ -2,22 +2,22 @@
   "current": {
     "epoch": 475596,
     "direction": "BEAR",
-    "confidence": 35.1,
-    "pool_total": 0.2761,
-    "pool_bull": 0.1909,
-    "pool_bear": 0.0853,
+    "confidence": 35.0,
+    "pool_total": 0.28,
+    "pool_bull": 0.19,
+    "pool_bear": 0.09,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 35,
-        "info": "B:69.1%(1.4x) R:30.9%(3.2x)"
-      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "12h Sat neutral"
+      },
+      {
+        "name": "Pool",
+        "direction": "BEAR",
+        "score": 65,
+        "info": "B:69.1%(1.4x) R:30.9%(3.2x)"
       },
       {
         "name": "Mom",
@@ -28,7 +28,7 @@
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 35,
+        "score": 61,
         "info": "LS:2.22 long-squeeze"
       },
       {
@@ -38,11 +38,11 @@
         "info": "FR:+0.0032% neutral"
       }
     ],
-    "trend": null,
-    "time": "12:27:09"
+    "trend": "📉 连跌3根($-0.48)",
+    "time": "12:27:08"
   },
   "lock_ts": 1777091264,
-  "current_ts": 1777091229,
+  "current_ts": 1777091253,
   "history": [
     {
       "epoch": 475464,
@@ -992,6 +992,15 @@
       "time_full": "2026-04-25 12:22:03",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 475596,
+      "direction": "BEAR",
+      "confidence": 35.0,
+      "time": "12:27:08",
+      "time_full": "2026-04-25 12:27:08",
+      "trend": "📉 连跌3根($-0.48)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -1035,12 +1044,11 @@
   "hourly_stats": {
     "hour": 12,
     "bull": 1,
-    "bear": 3,
+    "bear": 4,
     "skip": 0,
-    "total": 4
+    "total": 5
   },
-  "bnb_price": 637.16,
-  "updated": "2026-04-25T12:27:25.139328",
+  "bnb_price": 637.15,
   "kline": [
     {
       "timestamp": 1777073400.0,
@@ -1460,7 +1468,8 @@
       "open": 637.33,
       "high": 637.38,
       "low": 637.15,
-      "close": 637.16
+      "close": 637.15
     }
-  ]
+  ],
+  "updated": "2026-04-25T12:27:34.315302"
 }
