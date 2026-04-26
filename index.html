@@ -541,7 +541,7 @@ async function initChainKline() {
     await rebuildChainKline(currentEpoch);
   }
 
-  // Always start 10s refresh — chain data + latest candle from Binance
+  // Always start 2s refresh — chain data + latest candle from Binance
   setInterval(async () => {
     try {
       let newEpoch = await getCurrentEpoch();
@@ -601,7 +601,7 @@ async function initChainKline() {
         lock_ts: window._signalData ? window._signalData.lock_ts : 0,
       });
     }
-  }, 10000);
+  }, 2000);
 }
 
 // Theme toggle
