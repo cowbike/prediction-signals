@@ -541,23 +541,67 @@ async function initChainKline() {
     await rebuildChainKline(currentEpoch);
   }
 
-  // Always start 2s refresh — fallback to signals.json kline if chain cache empty
+  // Always start 10s refresh — chain data + latest candle from Binance
   setInterval(async () => {
     try {
-      const newEpoch = await getCurrentEpoch();
+      let newEpoch = await getCurrentEpoch();
+
+      // Fallback: if RPC failed, use signals.json epoch
+      if (!newEpoch && window._signalData?.current?.epoch) {
+        newEpoch = window._signalData.current.epoch;
+        console.log('[kline] RPC failed, using signals.json epoch: ' + newEpoch);
+      }
+
+      console.log('[kline] tick: newEpoch=' + newEpoch + ', currentEpoch=' + currentEpoch);
+
       if (newEpoch && newEpoch !== currentEpoch) {
+        console.log('[kline] epoch changed, rebuilding...');
         currentEpoch = newEpoch;
         await rebuildChainKline(newEpoch);
       } else {
-        // Only use chain data — no Binance fallback
+        // Fetch latest 5m candle from Binance (real-time price)
+        let displayKline = _chainKlineCache.slice();
+        try {
+          const resp = await fetch('https://api.binance.com/api/v3/klines?symbol=BNBUSDT&interval=5m&limit=1', { cache: 'no-store' });
+          const data = await resp.json();
+          if (data && data.length > 0) {
+            const k = data[0]; // [openTime, open, high, low, close, volume, ...]
+            const latestCandle = {
+              timestamp: Math.floor(k[0] / 1000),
+              open: parseFloat(k[1]),
+              high: parseFloat(k[2]),
+              low: parseFloat(k[3]),
+              close: parseFloat(k[4]),
+              isLive: true, // mark as live
+            };
+            // Replace last candle with Binance data
+            if (displayKline.length > 0) {
+              displayKline[displayKline.length - 1] = latestCandle;
+            } else {
+              displayKline.push(latestCandle);
+            }
+            console.log('[kline] updated latest candle from Binance: ' + latestCandle.close.toFixed(2));
+          }
+        } catch (e) {
+          console.warn('[kline] Binance fetch failed:', e);
+        }
+
         drawKline({
-          kline: _chainKlineCache,
+          kline: displayKline,
           current: window._signalData ? window._signalData.current : null,
           lock_ts: window._signalData ? window._signalData.lock_ts : 0,
         });
       }
-    } catch(e) { /* silent — retry next tick */ }
-  }, 2000);
+    } catch(e) {
+      console.warn('[kline] tick error:', e);
+      // Still redraw on error
+      drawKline({
+        kline: _chainKlineCache,
+        current: window._signalData ? window._signalData.current : null,
+        lock_ts: window._signalData ? window._signalData.lock_ts : 0,
+      });
+    }
+  }, 10000);
 }
 
 // Theme toggle
@@ -995,7 +1039,7 @@ function drawKline(data) {
     const k = kline[i];
     const x = 60 + i * step;
     const isBull = k.close >= k.open;
-    const color = isBull ? '#f85149' : '#3fb950';  // 红涨绿跌（用户视觉反转）
+    const color = isBull ? '#3fb950' : '#f85149';  // 绿涨红跌
 
     // Wick
     ctx.strokeStyle = color;
