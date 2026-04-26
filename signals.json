@@ -2,20 +2,11 @@
   "current": {
     "epoch": 475844,
     "direction": "BEAR",
-    "confidence": 20.2,
-    "pool_total": 0.1554,
-    "pool_bull": 0.0766,
-    "pool_bear": 0.0788,
-    "lock_p": 0.0,
-    "lock_ts": 1777167248,
-    "close_ts": 1777167548,
+    "confidence": 20.0,
+    "pool_total": 0.16,
+    "pool_bull": 0.08,
+    "pool_bear": 0.08,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:49.3%(2.0x) R:50.7%(2.0x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -23,15 +14,21 @@
         "info": "9h Sun neutral"
       },
       {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:49.3%(2.0x) R:50.7%(2.0x)"
+      },
+      {
         "name": "Mom",
         "direction": "BEAR",
-        "score": 20,
+        "score": 28,
         "info": "$629.43 RSI:74 EMA:+0.07% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 20,
+        "score": 73,
         "info": "LS:2.46 long-squeeze"
       },
       {
@@ -41,10 +38,11 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": null,
-    "time": "09:33:35"
+    "trend": "📈 连涨3根(+$0.72)",
+    "time": "09:33:34"
   },
-  "current_ts": 1777167215,
+  "lock_ts": 1777167248,
+  "current_ts": 1777167288,
   "history": [
     {
       "epoch": 475464,
@@ -3263,6 +3261,16 @@
       "time": "09:28:23",
       "time_full": "2026-04-26 09:28:23",
       "trend": "📈 连涨3根(+$0.50)",
+      "outcome": "LOSS",
+      "result": "BULL"
+    },
+    {
+      "epoch": 475844,
+      "direction": "BEAR",
+      "confidence": 20.0,
+      "time": "09:33:34",
+      "time_full": "2026-04-26 09:33:34",
+      "trend": "📈 连涨3根(+$0.72)",
       "outcome": null
     }
   ],
@@ -3272,8 +3280,8 @@
     "skips": 741,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 51.0,
-    "total_24h": 263,
+    "win_rate_24h": 50.8,
+    "total_24h": 264,
     "hourly_wins": {
       "1": 5,
       "2": 9,
@@ -3309,7 +3317,7 @@
       "6": 6,
       "7": 7,
       "8": 10,
-      "9": 5,
+      "9": 6,
       "10": 5,
       "11": 5,
       "12": 2,
@@ -3326,17 +3334,17 @@
       "23": 4,
       "0": 3
     },
-    "tracking_win_rate_24h": 51.0,
-    "tracking_total_24h": 263
+    "tracking_win_rate_24h": 50.8,
+    "tracking_total_24h": 264
   },
   "hourly_stats": {
     "hour": 9,
     "bull": 8,
-    "bear": 7,
+    "bear": 8,
     "skip": 0,
-    "total": 15
+    "total": 16
   },
-  "bnb_price": 629.45,
+  "bnb_price": 629.73,
   "kline": [
     {
       "timestamp": 1777149300.0,
@@ -3754,12 +3762,10 @@
     {
       "timestamp": 1777167000.0,
       "open": 629.3,
-      "high": 629.49,
+      "high": 629.73,
       "low": 629.18,
-      "close": 629.45
+      "close": 629.73
     }
   ],
-  "updated": "2026-04-26T09:33:48.428707",
-  "live_price": 629.43,
-  "live_price_ts": 1777167215
+  "updated": "2026-04-26T09:34:49.090516"
 }
