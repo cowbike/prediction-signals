@@ -1039,7 +1039,7 @@ function drawKline(data) {
     const k = kline[i];
     const x = 60 + i * step;
     const isBull = k.close >= k.open;
-    const color = isBull ? '#3fb950' : '#f85149';  // 绿涨红跌
+    const color = isBull ? '#f85149' : '#3fb950';  // 红涨绿跌
 
     // Wick
     ctx.strokeStyle = color;
