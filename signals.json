@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 476286,
-    "direction": "BEAR",
-    "confidence": 51.0,
-    "pool_total": 2.36,
-    "pool_bull": 1.83,
-    "pool_bear": 0.53,
+    "epoch": 476287,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": "BULL",
         "score": 14,
         "info": "23h Mon BULL:51.4%"
-      },
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 93,
-        "info": "B:77.6%(1.3x) R:22.4%(4.5x)"
       },
       {
         "name": "Mom",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": "📉 连跌3根($-4.52)",
-    "time": "23:09:17"
+    "trend": null,
+    "time": "23:09:55"
   },
-  "lock_ts": 1777302566,
-  "current_ts": 1777302567,
+  "lock_ts": 1777302872,
+  "current_ts": 1777302601,
   "history": [
     {
       "epoch": 475873,
@@ -4171,7 +4171,8 @@
       "time": "23:03:51",
       "time_full": "2026-04-27 23:03:51",
       "trend": "📉 连跌3根($-2.05)",
-      "outcome": null
+      "outcome": "SKIP",
+      "result": "BEAR"
     },
     {
       "epoch": 476286,
@@ -4186,7 +4187,7 @@
   "tracking": {
     "wins": 1438,
     "losses": 1375,
-    "skips": 904,
+    "skips": 905,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 52.5,
@@ -4251,15 +4252,11 @@
     "skip": 1,
     "total": 13
   },
-  "bnb_price": 624.51,
+  "bnb_price": 624.37,
+  "updated": "2026-04-27T23:10:10.583588",
+  "live_price": 624.35,
+  "live_price_ts": 1777302600,
   "kline": [
-    {
-      "timestamp": 1777284600.0,
-      "open": 628.42,
-      "high": 628.42,
-      "low": 628.24,
-      "close": 628.25
-    },
     {
       "timestamp": 1777284900.0,
       "open": 628.24,
@@ -4671,8 +4668,14 @@
       "open": 623.76,
       "high": 624.81,
       "low": 623.32,
-      "close": 624.51
+      "close": 624.36
+    },
+    {
+      "timestamp": 1777302600.0,
+      "open": 624.36,
+      "high": 624.43,
+      "low": 624.32,
+      "close": 624.37
     }
-  ],
-  "updated": "2026-04-27T23:09:27.593869"
+  ]
 }
