@@ -1126,9 +1126,9 @@ function drawKline(data) {
     ctx.stroke();
     ctx.setLineDash([]);
     ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.font = 'bold 10px monospace';
-    ctx.textAlign = 'left';
-    ctx.fillText(lastClose.toFixed(2), w - 60, priceY - 4);
+    ctx.font = 'bold 8px monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(lastClose.toFixed(2), w - 10, priceY - 2);
   }
 }
 
