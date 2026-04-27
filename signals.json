@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 476254,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.3388,
-    "pool_bull": 0.3233,
-    "pool_bear": 0.0154,
+    "direction": "BEAR",
+    "confidence": 27.0,
+    "pool_total": 0.49,
+    "pool_bull": 0.43,
+    "pool_bear": 0.06,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:95.5%(1.0x) R:4.5%(22.0x)"
-      },
       {
         "name": "Time",
         "direction": "BEAR",
@@ -20,16 +14,22 @@
         "info": "20h Mon BEAR:52.1%"
       },
       {
-        "name": "Mom",
+        "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "$627.01 RSI:44 EMA:-0.05% flat"
+        "info": "B:87.6%(1.1x) R:12.4%(8.1x) ⚠️ trap(BULL极端失衡)"
+      },
+      {
+        "name": "Mom",
+        "direction": "BULL",
+        "score": 37,
+        "info": "$626.47 RSI:25 EMA:-0.06% OS"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 78,
-        "info": "LS:2.55 long-squeeze"
+        "info": "LS:2.56 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "20:21:24"
+    "time": "20:25:25"
   },
   "lock_ts": 1777292762,
-  "current_ts": 1777292675,
+  "current_ts": 1777292735,
   "history": [
     {
       "epoch": 475854,
@@ -4042,6 +4042,15 @@
       "time_full": "2026-04-27 20:20:45",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476254,
+      "direction": "BEAR",
+      "confidence": 27.0,
+      "time": "20:25:25",
+      "time_full": "2026-04-27 20:25:25",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4109,14 +4118,11 @@
   "hourly_stats": {
     "hour": 20,
     "bull": 5,
-    "bear": 9,
+    "bear": 10,
     "skip": 2,
-    "total": 16
+    "total": 17
   },
   "bnb_price": 626.47,
-  "updated": "2026-04-27T20:25:10.541266",
-  "live_price": 626.46,
-  "live_price_ts": 1777292702,
   "kline": [
     {
       "timestamp": 1777275000.0,
@@ -4534,9 +4540,10 @@
     {
       "timestamp": 1777292700.0,
       "open": 626.49,
-      "high": 626.5,
+      "high": 626.55,
       "low": 626.46,
       "close": 626.47
     }
-  ]
+  ],
+  "updated": "2026-04-27T20:25:35.400975"
 }
