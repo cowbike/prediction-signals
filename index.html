@@ -52,6 +52,15 @@
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
   @keyframes flash { 0% { box-shadow: 0 0 0 0 rgba(88,166,255,0.5); } 100% { box-shadow: 0 0 0 0 transparent; } }
   .flash-update { animation: flash 1s ease-out; }
+  .rainbow-price {
+    font-weight: 700;
+    background: linear-gradient(90deg, #ff0000, #ff7700, #ffff00, #00ff00, #0077ff, #8800ff, #ff00ff, #ff0000);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 2s linear infinite;
+  }
 
   .signal-card {
     max-width: 480px; margin: 16px auto; background: var(--card);
@@ -373,7 +382,7 @@
  <div class="kline-section">
   <div class="kline-header">
    <span class="kline-title">🕐 BNB 5分钟K线 (真实链上数据)</span>
-   <span class="kline-badge">ONCHAIN <span id="kline-live-price" style="color:var(--yellow);font-weight:700"></span></span>
+   <span class="kline-badge">ONCHAIN <span id="kline-live-price" class="rainbow-price"></span></span>
   </div>
   <div class="kline-container">
    <canvas id="kline-canvas" class="kline-canvas"></canvas>
@@ -597,6 +606,9 @@ async function initChainKline() {
             last.close = livePrice;
             if (livePrice > last.high) last.high = livePrice;
             if (livePrice < last.low) last.low = livePrice;
+            // Update HTML price display (outside canvas, in title bar)
+            const priceEl = document.getElementById('kline-live-price');
+            if (priceEl) priceEl.textContent = '$' + livePrice.toFixed(2);
           }
         }
 
@@ -1127,15 +1139,7 @@ function drawKline(data) {
     ctx.setLineDash([]);
     ctx.fillStyle = 'rgba(255,255,255,0.6)';
     ctx.font = 'bold 8px monospace';
-    // Current price in top-right corner, away from candlesticks — rainbow shimmer
     ctx.textAlign = 'right';
-    // Rainbow cycling color
-    const hue = (Date.now() / 80) % 360;
-    ctx.fillStyle = 'hsl(' + hue + ', 100%, 60%)';
-    ctx.font = 'bold 11px monospace';
-    ctx.strokeStyle = 'rgba(0,0,0,0.8)';
-    ctx.lineWidth = 2;
-    ctx.strokeText('$' + lastClose.toFixed(2), w - 10, 25);
     ctx.fillText('$' + lastClose.toFixed(2), w - 10, 25);
   }
 }
