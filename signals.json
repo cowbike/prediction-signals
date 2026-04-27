@@ -1,29 +1,29 @@
 {
   "current": {
     "epoch": 476320,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 1.1546,
-    "pool_bull": 0.1616,
-    "pool_bear": 0.993,
+    "direction": "BULL",
+    "confidence": 39.0,
+    "pool_total": 1.17,
+    "pool_bull": 0.18,
+    "pool_bear": 0.99,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:14.0%(7.1x) R:86.0%(1.2x)"
-      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
-        "info": "1h Tue neutral"
+        "info": "2h Tue neutral"
+      },
+      {
+        "name": "Pool",
+        "direction": "BULL",
+        "score": 6,
+        "info": "B:15.3%(6.5x) R:84.7%(1.2x)"
       },
       {
         "name": "Mom",
-        "direction": "BEAR",
-        "score": 29,
-        "info": "$623.47 RSI:74 EMA:+0.15% OB"
+        "direction": "BULL",
+        "score": 100,
+        "info": "$622.98 RSI:15 EMA:+0.12% OS"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "01:58:18"
+    "time": "02:02:19"
   },
   "lock_ts": 1777312976,
-  "current_ts": 1777312895,
+  "current_ts": 1777312949,
   "history": [
     {
       "epoch": 475897,
@@ -4272,6 +4272,15 @@
       "time_full": "2026-04-28 01:57:13",
       "trend": "📈 连涨3根(+$0.07)",
       "outcome": null
+    },
+    {
+      "epoch": 476320,
+      "direction": "BULL",
+      "confidence": 39.0,
+      "time": "02:02:19",
+      "time_full": "2026-04-28 02:02:19",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4337,16 +4346,13 @@
     "tracking_total_24h": 271
   },
   "hourly_stats": {
-    "hour": 1,
+    "hour": 2,
     "bull": 4,
-    "bear": 17,
-    "skip": 3,
-    "total": 24
+    "bear": 7,
+    "skip": 2,
+    "total": 13
   },
   "bnb_price": 622.97,
-  "updated": "2026-04-28T02:02:10.359509",
-  "live_price": 622.93,
-  "live_price_ts": 1777312922,
   "kline": [
     {
       "timestamp": 1777295100.0,
@@ -4768,5 +4774,6 @@
       "low": 622.85,
       "close": 622.97
     }
-  ]
+  ],
+  "updated": "2026-04-28T02:02:30.006551"
 }
