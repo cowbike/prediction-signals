@@ -534,6 +534,26 @@ async function rebuildChainKline(currentEpoch) {
   _chainKlineFetching = false;
 }
 
+// ─── Get real-time BNB price from PancakeSwap BNB/BUSD pool on-chain ───
+// Using Chainlink BNB/USD oracle (0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE)
+const CHAINLINK_BNB_USD = '0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE';
+const CHAINLINK_ABI = '0xfeaf968c'; // latestRoundData() selector
+
+async function getLiveBNBPrice() {
+  try {
+    const result = await rpcCall('eth_call', [{ to: CHAINLINK_BNB_USD, data: CHAINLINK_ABI }, 'latest']);
+    if (!result || result === '0x' || result.length < 200) return null;
+    const h = result.slice(2);
+    // latestRoundData returns: (roundId, answer, startedAt, updatedAt, answeredInRound)
+    // answer is field[1] at offset 64..128, /1e8
+    const answerHex = h.slice(64, 128);
+    const answer = parseInt(answerHex, 16) / 1e8;
+    return answer;
+  } catch (e) {
+    return null;
+  }
+}
+
 // Start chain kline refresh loop — PCSP chain-time-aligned, works without VPN
 // Uses BSC RPC directly (bsc-dataseed nodes) — no Binance API, no signals.json kline
 async function initChainKline() {
@@ -551,7 +571,7 @@ async function initChainKline() {
     } catch(e) { console.warn('[kline] initial chain rebuild failed:', e); }
   })();
 
-  // 5s refresh — chain data epoch-based, no Binance API
+  // 5s refresh — chain data epoch-based + live price for latest candle
   setInterval(async () => {
     try {
       let newEpoch = await getCurrentEpoch();
@@ -565,9 +585,23 @@ async function initChainKline() {
         currentEpoch = newEpoch;
         await rebuildChainKline(newEpoch);
       } else {
-        // Redraw existing cache (show "暂无K线数据" if no data yet)
+        // Redraw existing cache with live price update on latest candle
+        let displayKline = _chainKlineCache.map(k => ({...k})); // deep copy
+
+        // Get live BNB price from Chainlink oracle to update latest candle
+        if (displayKline.length > 0) {
+          const livePrice = await getLiveBNBPrice();
+          if (livePrice && livePrice > 0) {
+            const last = displayKline[displayKline.length - 1];
+            // Update close to live price, adjust high/low
+            last.close = livePrice;
+            if (livePrice > last.high) last.high = livePrice;
+            if (livePrice < last.low) last.low = livePrice;
+          }
+        }
+
         drawKline({
-          kline: _chainKlineCache,
+          kline: displayKline,
           current: window._signalData?.current || null,
           lock_ts: window._signalData?.lock_ts || 0,
         });
