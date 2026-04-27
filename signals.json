@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 476276,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.3789,
-    "pool_bull": 0.3789,
+    "direction": "BEAR",
+    "confidence": 21.0,
+    "pool_total": 0.45,
+    "pool_bull": 0.45,
     "pool_bear": 0.0,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:100.0%(1.0x) R:0.0%(0.0x)"
-      },
       {
         "name": "Time",
         "direction": "BULL",
@@ -20,10 +14,16 @@
         "info": "22h Mon BULL:52.6%"
       },
       {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:100.0%(1.0x) R:0.0%(999.0x) ⚠️ trap(BULL极端失衡)"
+      },
+      {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$625.78 RSI:39 EMA:-0.06% flat"
+        "info": "$625.81 RSI:44 EMA:-0.06% flat"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "22:13:48"
+    "time": "22:17:49"
   },
   "lock_ts": 1777299506,
-  "current_ts": 1777299391,
+  "current_ts": 1777299479,
   "history": [
     {
       "epoch": 475866,
@@ -4142,6 +4142,15 @@
       "time_full": "2026-04-27 22:12:39",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476276,
+      "direction": "BEAR",
+      "confidence": 21.0,
+      "time": "22:17:49",
+      "time_full": "2026-04-27 22:17:49",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4209,14 +4218,11 @@
   "hourly_stats": {
     "hour": 22,
     "bull": 1,
-    "bear": 14,
+    "bear": 15,
     "skip": 0,
-    "total": 15
+    "total": 16
   },
-  "bnb_price": 626.0,
-  "updated": "2026-04-27T22:17:10.058340",
-  "live_price": 626.02,
-  "live_price_ts": 1777299419,
+  "bnb_price": 625.8,
   "kline": [
     {
       "timestamp": 1777281600.0,
@@ -4636,7 +4642,8 @@
       "open": 625.79,
       "high": 626.12,
       "low": 625.79,
-      "close": 626.0
+      "close": 625.8
     }
-  ]
+  ],
+  "updated": "2026-04-27T22:17:59.557782"
 }
