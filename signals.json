@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 476167,
-    "direction": "BULL",
-    "confidence": 32.0,
-    "pool_total": 0.02,
-    "pool_bull": 0.02,
+    "epoch": 476168,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0022,
+    "pool_bull": 0.0022,
     "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:100.0%(1.0x) R:0.0%(0.0x)"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "13h Mon neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "no data"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "13:01:33"
+    "time": "13:02:42"
   },
-  "lock_ts": 1777266134,
-  "current_ts": 1777266130,
+  "lock_ts": 1777266440,
+  "current_ts": 1777266163,
   "history": [
     {
       "epoch": 475775,
@@ -3961,7 +3961,8 @@
       "time": "12:56:30",
       "time_full": "2026-04-27 12:56:30",
       "trend": null,
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BULL"
     },
     {
       "epoch": 476167,
@@ -3974,13 +3975,13 @@
     }
   ],
   "tracking": {
-    "wins": 1399,
+    "wins": 1400,
     "losses": 1327,
     "skips": 872,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 54.3,
-    "total_24h": 234,
+    "win_rate_24h": 54.5,
+    "total_24h": 235,
     "hourly_wins": {
       "3": 3,
       "4": 6,
@@ -3991,7 +3992,7 @@
       "9": 8,
       "10": 7,
       "11": 5,
-      "12": 8,
+      "12": 9,
       "13": 7,
       "14": 4,
       "15": 2,
@@ -4031,8 +4032,8 @@
       "1": 6,
       "2": 4
     },
-    "tracking_win_rate_24h": 54.3,
-    "tracking_total_24h": 234
+    "tracking_win_rate_24h": 54.5,
+    "tracking_total_24h": 235
   },
   "hourly_stats": {
     "hour": 13,
@@ -4041,7 +4042,10 @@
     "skip": 0,
     "total": 13
   },
-  "bnb_price": 636.56,
+  "bnb_price": 636.9,
+  "updated": "2026-04-27T13:03:10.724252",
+  "live_price": 636.9,
+  "live_price_ts": 1777266190,
   "kline": [
     {
       "timestamp": 1777248300.0,
@@ -4460,9 +4464,8 @@
       "timestamp": 1777266000.0,
       "open": 636.88,
       "high": 637.11,
-      "low": 636.56,
-      "close": 636.56
+      "low": 636.55,
+      "close": 636.9
     }
-  ],
-  "updated": "2026-04-27T13:02:11.121448"
+  ]
 }
