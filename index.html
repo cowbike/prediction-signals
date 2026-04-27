@@ -423,7 +423,7 @@ const RPC_SERVERS = [
   'https://bsc-dataseed2.binance.org/',
   'https://bsc-dataseed3.binance.org/',
 ];
-const MAX_KLINE = 30; // 30 rounds ≈ 2.5 hours (fewer = faster over slow RPC)
+const MAX_KLINE = 60; // 60 rounds ≈ 5 hours
 
 // Get current epoch from PCSP contract
 async function rpcCall(method, params) {
