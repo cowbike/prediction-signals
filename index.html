@@ -423,7 +423,7 @@ const RPC_SERVERS = [
   'https://bsc-dataseed2.binance.org/',
   'https://bsc-dataseed3.binance.org/',
 ];
-const MAX_KLINE = 60; // 60 rounds ≈ 5 hours
+const MAX_KLINE = 30; // 30 rounds ≈ 2.5 hours (fewer = faster over slow RPC)
 
 // Get current epoch from PCSP contract
 async function rpcCall(method, params) {
@@ -492,7 +492,7 @@ async function rebuildChainKline(currentEpoch) {
 
     const kline = [];
     let prevClose = null;
-    const BATCH = 5; // parallel fetches per group
+    const BATCH = 10; // parallel fetches per group (10 = 3 rounds for 30 candles)
 
     // Fetch in parallel batches of 5, process in epoch-descending order
     for (let i = 0; i < epochs.length; i += BATCH) {
