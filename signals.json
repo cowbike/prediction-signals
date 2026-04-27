@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 476262,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.4634,
-    "pool_bull": 0.4457,
-    "pool_bear": 0.0178,
+    "direction": "BEAR",
+    "confidence": 22.0,
+    "pool_total": 0.54,
+    "pool_bull": 0.46,
+    "pool_bear": 0.09,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:96.2%(1.0x) R:3.8%(26.1x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,10 +14,16 @@
         "info": "21h Mon neutral"
       },
       {
+        "name": "Pool",
+        "direction": "BEAR",
+        "score": 18,
+        "info": "B:84.0%(1.2x) R:16.0%(6.3x)"
+      },
+      {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$625.93 RSI:44 EMA:-0.11% flat"
+        "info": "$625.78 RSI:55 EMA:-0.10% flat"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "21:02:19"
+    "time": "21:06:15"
   },
   "lock_ts": 1777295216,
-  "current_ts": 1777295131,
+  "current_ts": 1777295187,
   "history": [
     {
       "epoch": 475859,
@@ -4072,6 +4072,15 @@
       "time_full": "2026-04-27 21:01:14",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476262,
+      "direction": "BEAR",
+      "confidence": 22.0,
+      "time": "21:06:15",
+      "time_full": "2026-04-27 21:06:15",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4139,14 +4148,11 @@
   "hourly_stats": {
     "hour": 21,
     "bull": 3,
-    "bear": 8,
+    "bear": 9,
     "skip": 2,
-    "total": 13
+    "total": 14
   },
-  "bnb_price": 625.78,
-  "updated": "2026-04-27T21:06:10.729129",
-  "live_price": 625.78,
-  "live_price_ts": 1777295170,
+  "bnb_price": 625.83,
   "kline": [
     {
       "timestamp": 1777277400.0,
@@ -4566,7 +4572,8 @@
       "open": 625.9,
       "high": 625.91,
       "low": 625.68,
-      "close": 625.78
+      "close": 625.83
     }
-  ]
+  ],
+  "updated": "2026-04-27T21:06:27.547425"
 }
