@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 476213,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.502,
-    "pool_bull": 0.3839,
-    "pool_bear": 0.1181,
+    "direction": "BEAR",
+    "confidence": 44.0,
+    "pool_total": 0.57,
+    "pool_bull": 0.45,
+    "pool_bear": 0.12,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:76.5%(1.3x) R:23.5%(4.2x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,10 +14,16 @@
         "info": "16h Mon neutral"
       },
       {
+        "name": "Pool",
+        "direction": "BEAR",
+        "score": 81,
+        "info": "B:79.3%(1.3x) R:20.7%(4.8x)"
+      },
+      {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$627.49 RSI:64 EMA:+0.07% flat"
+        "info": "$627.73 RSI:63 EMA:+0.10% flat"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "16:52:12"
+    "time": "16:56:13"
   },
   "lock_ts": 1777280210,
-  "current_ts": 1777280134,
+  "current_ts": 1777280183,
   "history": [
     {
       "epoch": 475805,
@@ -4122,6 +4122,15 @@
       "time_full": "2026-04-27 16:51:33",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476213,
+      "direction": "BEAR",
+      "confidence": 44.0,
+      "time": "16:56:13",
+      "time_full": "2026-04-27 16:56:13",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4188,14 +4197,11 @@
   "hourly_stats": {
     "hour": 16,
     "bull": 7,
-    "bear": 13,
+    "bear": 14,
     "skip": 3,
-    "total": 23
+    "total": 24
   },
-  "bnb_price": 627.72,
-  "updated": "2026-04-27T16:56:10.050500",
-  "live_price": 627.73,
-  "live_price_ts": 1777280162,
+  "bnb_price": 627.8,
   "kline": [
     {
       "timestamp": 1777262400.0,
@@ -4613,9 +4619,10 @@
     {
       "timestamp": 1777280100.0,
       "open": 627.54,
-      "high": 627.73,
+      "high": 627.83,
       "low": 627.54,
-      "close": 627.72
+      "close": 627.8
     }
-  ]
+  ],
+  "updated": "2026-04-27T16:56:23.671329"
 }
