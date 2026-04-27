@@ -1005,10 +1005,8 @@ function drawKline(data) {
     const x = 60 + i * step;
     const isBull = k.close >= k.open;
     const isLatest = i === kline.length - 1;
-    // 旧K线：红涨绿跌；最新K线：绿涨红跌
-    const color = isLatest
-      ? (isBull ? '#3fb950' : '#f85149')
-      : (isBull ? '#f85149' : '#3fb950');
+    // 红涨绿跌（A股习惯）
+    const color = isBull ? '#f85149' : '#3fb950';
 
     // Wick
     ctx.strokeStyle = color;
