@@ -571,7 +571,7 @@ async function initChainKline() {
     } catch(e) { console.warn('[kline] initial chain rebuild failed:', e); }
   })();
 
-  // 5s refresh — chain data epoch-based + live price for latest candle
+  // 2s refresh — chain data epoch-based + live price for latest candle
   setInterval(async () => {
     try {
       let newEpoch = await getCurrentEpoch();
@@ -614,7 +614,7 @@ async function initChainKline() {
         lock_ts: window._signalData?.lock_ts || 0,
       });
     }
-  }, 5000);
+  }, 2000);
 }
 
 // Theme toggle
@@ -1127,19 +1127,15 @@ function drawKline(data) {
     ctx.setLineDash([]);
     ctx.fillStyle = 'rgba(255,255,255,0.6)';
     ctx.font = 'bold 8px monospace';
-    // Current price in top-right corner, away from candlesticks
+    // Current price in top-right corner, away from candlesticks — rainbow shimmer
     ctx.textAlign = 'right';
-    // Rainbow gradient for the price number
-    const rainbowGrad = ctx.createLinearGradient(w - 100, 0, w - 10, 0);
-    rainbowGrad.addColorStop(0.0, '#ff0000');
-    rainbowGrad.addColorStop(0.17, '#ff7700');
-    rainbowGrad.addColorStop(0.33, '#ffff00');
-    rainbowGrad.addColorStop(0.5, '#00ff00');
-    rainbowGrad.addColorStop(0.67, '#0077ff');
-    rainbowGrad.addColorStop(0.83, '#8800ff');
-    rainbowGrad.addColorStop(1.0, '#ff00ff');
-    ctx.fillStyle = rainbowGrad;
-    ctx.font = 'bold 14px monospace';
+    // Rainbow cycling color
+    const hue = (Date.now() / 80) % 360;
+    ctx.fillStyle = 'hsl(' + hue + ', 100%, 60%)';
+    ctx.font = 'bold 11px monospace';
+    ctx.strokeStyle = 'rgba(0,0,0,0.8)';
+    ctx.lineWidth = 2;
+    ctx.strokeText('$' + lastClose.toFixed(2), w - 10, 25);
     ctx.fillText('$' + lastClose.toFixed(2), w - 10, 25);
   }
 }
