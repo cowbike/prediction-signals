@@ -373,7 +373,7 @@
  <div class="kline-section">
   <div class="kline-header">
    <span class="kline-title">🕐 BNB 5分钟K线 (真实链上数据)</span>
-   <span class="kline-badge">ONCHAIN</span>
+   <span class="kline-badge">ONCHAIN <span id="kline-live-price" style="color:var(--yellow);font-weight:700"></span></span>
   </div>
   <div class="kline-container">
    <canvas id="kline-canvas" class="kline-canvas"></canvas>
@@ -423,7 +423,7 @@ const RPC_SERVERS = [
   'https://bsc-dataseed2.binance.org/',
   'https://bsc-dataseed3.binance.org/',
 ];
-const MAX_KLINE = 60; // 60 rounds ≈ 5 hours
+const MAX_KLINE = 80; // 80 rounds ≈ 6.7 hours
 
 // Get current epoch from PCSP contract
 async function rpcCall(method, params) {
@@ -1040,10 +1040,11 @@ function drawKline(data) {
   ctx.fillStyle = '#8b949e';
   ctx.font = '10px monospace';
   ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
   for (let i = 0; i <= 4; i++) {
     const y = chartY + (chartH * i / 4);
     const price = maxPrice - (priceRange * i / 4);
-    ctx.fillText(price.toFixed(2), 52, y + 3);
+    ctx.fillText(price.toFixed(2), 50, y);
   }
 
   // Draw candlesticks
