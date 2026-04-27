@@ -1004,7 +1004,6 @@ function drawKline(data) {
     const k = kline[i];
     const x = 60 + i * step;
     const isBull = k.close >= k.open;
-    const isLatest = i === kline.length - 1;
     // 红涨绿跌（A股习惯）
     const color = isBull ? '#f85149' : '#3fb950';
 
