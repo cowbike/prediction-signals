@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 476374,
-    "direction": "BEAR",
-    "confidence": 36.0,
-    "pool_total": 0.29,
-    "pool_bull": 0.29,
-    "pool_bear": 0.01,
+    "epoch": 476375,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "6h Tue neutral"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:98.3%(1.0x) R:1.7%(58.2x) ⚠️ trap(BULL极端失衡)"
       },
       {
         "name": "Mom",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "06:37:49"
+    "time": "06:38:55"
   },
-  "lock_ts": 1777329506,
-  "current_ts": 1777329490,
+  "lock_ts": 1777329813,
+  "current_ts": 1777329541,
   "history": [
     {
       "epoch": 475940,
@@ -4381,7 +4381,8 @@
       "time": "06:32:44",
       "time_full": "2026-04-28 06:32:44",
       "trend": null,
-      "outcome": null
+      "outcome": "WIN",
+      "result": "BEAR"
     },
     {
       "epoch": 476374,
@@ -4394,13 +4395,13 @@
     }
   ],
   "tracking": {
-    "wins": 1465,
+    "wins": 1466,
     "losses": 1407,
     "skips": 933,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 50.4,
-    "total_24h": 280,
+    "win_rate_24h": 50.5,
+    "total_24h": 281,
     "hourly_wins": {
       "17": 6,
       "18": 11,
@@ -4414,7 +4415,7 @@
       "3": 4,
       "4": 5,
       "5": 12,
-      "6": 5,
+      "6": 6,
       "7": 5,
       "8": 4,
       "9": 4,
@@ -4452,8 +4453,8 @@
       "17": 5,
       "18": 1
     },
-    "tracking_win_rate_24h": 50.4,
-    "tracking_total_24h": 280
+    "tracking_win_rate_24h": 50.5,
+    "tracking_total_24h": 281
   },
   "hourly_stats": {
     "hour": 6,
@@ -4462,7 +4463,10 @@
     "skip": 3,
     "total": 20
   },
-  "bnb_price": 624.69,
+  "bnb_price": 624.68,
+  "updated": "2026-04-28T06:39:10.795353",
+  "live_price": 624.68,
+  "live_price_ts": 1777329540,
   "kline": [
     {
       "timestamp": 1777311600.0,
@@ -4882,8 +4886,7 @@
       "open": 624.39,
       "high": 624.69,
       "low": 624.39,
-      "close": 624.69
+      "close": 624.68
     }
-  ],
-  "updated": "2026-04-28T06:38:10.340342"
+  ]
 }
