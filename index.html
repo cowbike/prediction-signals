@@ -1019,8 +1019,8 @@ function drawKline(data) {
     const k = kline[i];
     const x = 60 + i * step;
     const isBull = k.close >= k.open;
-    // 绿涨红跌（A股习惯：绿阳红阴）
-    const color = isBull ? '#3fb950' : '#f85149';
+    // 红涨绿跌
+    const color = isBull ? '#f85149' : '#3fb950';
 
     // Wick
     ctx.strokeStyle = color;
