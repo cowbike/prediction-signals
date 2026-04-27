@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 476362,
-    "direction": "BEAR",
-    "confidence": 25.0,
-    "pool_total": 0.31,
-    "pool_bull": 0.3,
-    "pool_bear": 0.01,
+    "epoch": 476363,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": "BEAR",
         "score": 13,
         "info": "5h Tue BEAR:51.3%"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:97.8%(1.0x) R:2.2%(44.5x) ⚠️ trap(BULL极端失衡)"
       },
       {
         "name": "Mom",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": "📈 连涨3根(+$0.81)",
-    "time": "05:36:38"
+    "trend": null,
+    "time": "05:37:42"
   },
-  "lock_ts": 1777325834,
-  "current_ts": 1777325830,
+  "lock_ts": 1777326140,
+  "current_ts": 1777325862,
   "history": [
     {
       "epoch": 475935,
@@ -4311,7 +4311,8 @@
       "time": "05:31:50",
       "time_full": "2026-04-28 05:31:50",
       "trend": null,
-      "outcome": null
+      "outcome": "SKIP",
+      "result": "BULL"
     },
     {
       "epoch": 476362,
@@ -4326,7 +4327,7 @@
   "tracking": {
     "wins": 1459,
     "losses": 1403,
-    "skips": 931,
+    "skips": 932,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 50.0,
@@ -4392,7 +4393,10 @@
     "skip": 3,
     "total": 20
   },
-  "bnb_price": 624.63,
+  "bnb_price": 624.58,
+  "updated": "2026-04-28T05:38:09.972633",
+  "live_price": 624.64,
+  "live_price_ts": 1777325878,
   "kline": [
     {
       "timestamp": 1777308000.0,
@@ -4810,10 +4814,9 @@
     {
       "timestamp": 1777325700.0,
       "open": 624.45,
-      "high": 624.63,
+      "high": 624.65,
       "low": 624.44,
-      "close": 624.63
+      "close": 624.58
     }
-  ],
-  "updated": "2026-04-28T05:37:10.305977"
+  ]
 }
