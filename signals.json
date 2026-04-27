@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 476178,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.4198,
-    "pool_bull": 0.1333,
-    "pool_bear": 0.2865,
+    "direction": "BEAR",
+    "confidence": 69.0,
+    "pool_total": 0.57,
+    "pool_bull": 0.13,
+    "pool_bear": 0.44,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:31.7%(3.1x) R:68.3%(1.5x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,10 +14,16 @@
         "info": "13h Mon neutral"
       },
       {
+        "name": "Pool",
+        "direction": "BULL",
+        "score": 97,
+        "info": "B:23.4%(4.3x) R:76.6%(1.3x)"
+      },
+      {
         "name": "Mom",
         "direction": "BEAR",
         "score": 100,
-        "info": "$629.29 RSI:31 EMA:-0.76% ↓"
+        "info": "$629.29 RSI:31 EMA:-0.71% ↓"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "13:53:42"
+    "time": "13:57:42"
   },
   "lock_ts": 1777269501,
-  "current_ts": 1777269395,
+  "current_ts": 1777269472,
   "history": [
     {
       "epoch": 475780,
@@ -4022,6 +4022,15 @@
       "time_full": "2026-04-27 13:52:37",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476178,
+      "direction": "BEAR",
+      "confidence": 69.0,
+      "time": "13:57:42",
+      "time_full": "2026-04-27 13:57:42",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4088,14 +4097,11 @@
   "hourly_stats": {
     "hour": 13,
     "bull": 10,
-    "bear": 13,
+    "bear": 14,
     "skip": 0,
-    "total": 23
+    "total": 24
   },
-  "bnb_price": 629.44,
-  "updated": "2026-04-27T13:57:10.591802",
-  "live_price": 629.43,
-  "live_price_ts": 1777269417,
+  "bnb_price": 629.29,
   "kline": [
     {
       "timestamp": 1777251600.0,
@@ -4515,7 +4521,8 @@
       "open": 629.26,
       "high": 629.57,
       "low": 629.18,
-      "close": 629.44
+      "close": 629.29
     }
-  ]
+  ],
+  "updated": "2026-04-27T13:57:52.838835"
 }
