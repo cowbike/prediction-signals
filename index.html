@@ -534,29 +534,57 @@ async function rebuildChainKline(currentEpoch) {
   _chainKlineFetching = false;
 }
 
-// Start chain kline refresh loop — tracks epoch via signals.json, no VPN dependencies
+// Start chain kline refresh loop — PCSP chain-time-aligned, works without VPN
+// Uses BSC RPC directly (bsc-dataseed nodes) — no Binance API dependency
 async function initChainKline() {
-  // Initial draw uses data from fetchData(), but this loop keeps it fresh
+  let currentEpoch = null;
+
+  // Initial draw from signals.json (fast, might be Binance time)
+  const d = window._signalData;
+  if (d && d.kline && d.kline.length > 0) {
+    _chainKlineCache = d.kline;
+    drawKline({ kline: d.kline, current: d.current, lock_ts: d.lock_ts || 0 });
+  }
+
+  // Then rebuild from chain asynchronously
+  (async () => {
+    try {
+      let ce = await getCurrentEpoch();
+      if (ce) {
+        currentEpoch = ce;
+        await rebuildChainKline(ce);
+      }
+    } catch(e) { console.warn('[kline] initial chain rebuild failed:', e); }
+  })();
+
+  // 5s refresh — chain data epoch-based, no Binance API
   setInterval(async () => {
     try {
-      const data = window._signalData;
-      if (!data || !data.current) {
-        // No data yet, try again next tick
-        return;
+      let newEpoch = await getCurrentEpoch();
+
+      // Fallback: if RPC failed, use signals.json epoch
+      if (!newEpoch && window._signalData?.current?.epoch) {
+        newEpoch = window._signalData.current.epoch;
       }
 
-      // Use kline from signals.json — fresh every 10s from server-side fetch
-      if (data.kline && data.kline.length > 0) {
-        _chainKlineCache = data.kline;
+      if (newEpoch && newEpoch !== currentEpoch) {
+        currentEpoch = newEpoch;
+        await rebuildChainKline(newEpoch);
+      } else {
+        // Redraw existing cache
+        drawKline({
+          kline: _chainKlineCache,
+          current: window._signalData?.current || null,
+          lock_ts: window._signalData?.lock_ts || 0,
+        });
       }
-
-      drawKline({
-        kline: _chainKlineCache,
-        current: data.current,
-        lock_ts: data.lock_ts || 0,
-      });
     } catch(e) {
       console.warn('[kline] tick error:', e);
+      drawKline({
+        kline: _chainKlineCache,
+        current: window._signalData?.current || null,
+        lock_ts: window._signalData?.lock_ts || 0,
+      });
     }
   }, 5000);
 }
@@ -900,8 +928,8 @@ async function fetchData() {
     startGlobalCountdown();
     renderTracking(data.tracking);
     updateBnbPrice(data);
-    // K-line from signals.json — works everywhere, no VPN needed
-    if (data.kline && data.kline.length > 0) {
+    // K-line: initial draw from signals.json as fallback; chain RPC will overwrite later
+    if (data.kline && data.kline.length > 0 && !_chainKlineCache.length) {
       _chainKlineCache = data.kline;
       drawKline({
         kline: data.kline,
