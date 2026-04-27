@@ -1031,28 +1031,19 @@ function drawKline(data) {
   ctx.beginPath();
   for (let i = 0; i <= 4; i++) {
     const y = chartY + (chartH * i / 4);
-    ctx.moveTo(55, y);
+    ctx.moveTo(10, y);
     ctx.lineTo(w - 10, y);
   }
   ctx.stroke();
 
-  // Draw price labels
-  ctx.fillStyle = '#8b949e';
-  ctx.font = '10px monospace';
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'middle';
-  for (let i = 0; i <= 4; i++) {
-    const y = chartY + (chartH * i / 4);
-    const price = maxPrice - (priceRange * i / 4);
-    ctx.fillText(price.toFixed(2), 50, y);
-  }
+  // No price labels (removed to save horizontal space)
 
   // Draw candlesticks
-  const candleW = w - 65;  // 55 left + 10 right
+  const candleW = w - 20;  // 10 left + 10 right
   const step = candleW / kline.length;
   for (let i = 0; i < kline.length; i++) {
     const k = kline[i];
-    const x = 60 + i * step;
+    const x = 12 + i * step;
     const isBull = k.close >= k.open;
     // 红涨绿跌
     const color = isBull ? '#f85149' : '#3fb950';
@@ -1099,8 +1090,8 @@ function drawKline(data) {
 
     // Draw progress bar at bottom
     const barY = h - 16;
-    const barX = 55;
-    const barW = w - 65;
+    const barX = 10;
+    const barW = w - 20;
 
     // Background
     ctx.fillStyle = 'rgba(48,54,61,0.5)';
@@ -1130,7 +1121,7 @@ function drawKline(data) {
     ctx.strokeStyle = 'rgba(255,255,255,0.3)';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(55, priceY);
+    ctx.moveTo(10, priceY);
     ctx.lineTo(w - 10, priceY);
     ctx.stroke();
     ctx.setLineDash([]);
