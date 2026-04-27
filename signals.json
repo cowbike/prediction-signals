@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 476345,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.4703,
-    "pool_bull": 0.2703,
-    "pool_bear": 0.2,
+    "direction": "BEAR",
+    "confidence": 48.0,
+    "pool_total": 1.27,
+    "pool_bull": 0.42,
+    "pool_bear": 0.84,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:57.5%(1.7x) R:42.5%(2.4x)"
-      },
       {
         "name": "Time",
         "direction": "BULL",
@@ -20,10 +14,16 @@
         "info": "4h Tue BULL:51.4%"
       },
       {
+        "name": "Pool",
+        "direction": "BULL",
+        "score": 27,
+        "info": "B:33.6%(3.0x) R:66.4%(1.5x)"
+      },
+      {
         "name": "Mom",
         "direction": "BEAR",
         "score": 100,
-        "info": "$624.12 RSI:95 EMA:+0.08% OB"
+        "info": "$624.00 RSI:88 EMA:+0.11% OB"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "04:05:49"
+    "time": "04:09:49"
   },
   "lock_ts": 1777320626,
-  "current_ts": 1777320511,
+  "current_ts": 1777320599,
   "history": [
     {
       "epoch": 475916,
@@ -4332,6 +4332,15 @@
       "time_full": "2026-04-28 04:04:42",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476345,
+      "direction": "BEAR",
+      "confidence": 48.0,
+      "time": "04:09:49",
+      "time_full": "2026-04-28 04:09:49",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4399,14 +4408,11 @@
   "hourly_stats": {
     "hour": 4,
     "bull": 1,
-    "bear": 10,
+    "bear": 11,
     "skip": 3,
-    "total": 14
+    "total": 15
   },
-  "bnb_price": 623.98,
-  "updated": "2026-04-28T04:09:10.797294",
-  "live_price": 623.97,
-  "live_price_ts": 1777320550,
+  "bnb_price": 623.99,
   "kline": [
     {
       "timestamp": 1777302600.0,
@@ -4826,7 +4832,8 @@
       "open": 624.24,
       "high": 624.36,
       "low": 623.89,
-      "close": 623.97
+      "close": 623.99
     }
-  ]
+  ],
+  "updated": "2026-04-28T04:09:59.851231"
 }
