@@ -535,18 +535,12 @@ async function rebuildChainKline(currentEpoch) {
 }
 
 // Start chain kline refresh loop — PCSP chain-time-aligned, works without VPN
-// Uses BSC RPC directly (bsc-dataseed nodes) — no Binance API dependency
+// Uses BSC RPC directly (bsc-dataseed nodes) — no Binance API, no signals.json kline
 async function initChainKline() {
   let currentEpoch = null;
 
-  // Initial draw from signals.json (fast, might be Binance time)
-  const d = window._signalData;
-  if (d && d.kline && d.kline.length > 0) {
-    _chainKlineCache = d.kline;
-    drawKline({ kline: d.kline, current: d.current, lock_ts: d.lock_ts || 0 });
-  }
-
-  // Then rebuild from chain asynchronously
+  // Initial draw: rebuild directly from chain (PCSP contract, epoch-time-aligned)
+  // This is the ONLY source of kline data — no Binance API dependency
   (async () => {
     try {
       let ce = await getCurrentEpoch();
@@ -571,7 +565,7 @@ async function initChainKline() {
         currentEpoch = newEpoch;
         await rebuildChainKline(newEpoch);
       } else {
-        // Redraw existing cache
+        // Redraw existing cache (show "暂无K线数据" if no data yet)
         drawKline({
           kline: _chainKlineCache,
           current: window._signalData?.current || null,
@@ -928,15 +922,8 @@ async function fetchData() {
     startGlobalCountdown();
     renderTracking(data.tracking);
     updateBnbPrice(data);
-    // K-line: initial draw from signals.json as fallback; chain RPC will overwrite later
-    if (data.kline && data.kline.length > 0 && !_chainKlineCache.length) {
-      _chainKlineCache = data.kline;
-      drawKline({
-        kline: data.kline,
-        current: data.current,
-        lock_ts: data.lock_ts || 0,
-      });
-    }
+    // K-line: NOT drawn here — initChainKline() handles it from chain RPC
+    // This avoids Binance-time kline flashing before chain data arrives
   } catch (e) {
     document.getElementById('live-dot').className = 'dot dot-stale';
     document.getElementById('live-text').textContent = '连接失败';
