@@ -1127,8 +1127,20 @@ function drawKline(data) {
     ctx.setLineDash([]);
     ctx.fillStyle = 'rgba(255,255,255,0.6)';
     ctx.font = 'bold 8px monospace';
+    // Current price in top-right corner, away from candlesticks
     ctx.textAlign = 'right';
-    ctx.fillText(lastClose.toFixed(2), w - 10, priceY - 2);
+    // Rainbow gradient for the price number
+    const rainbowGrad = ctx.createLinearGradient(w - 100, 0, w - 10, 0);
+    rainbowGrad.addColorStop(0.0, '#ff0000');
+    rainbowGrad.addColorStop(0.17, '#ff7700');
+    rainbowGrad.addColorStop(0.33, '#ffff00');
+    rainbowGrad.addColorStop(0.5, '#00ff00');
+    rainbowGrad.addColorStop(0.67, '#0077ff');
+    rainbowGrad.addColorStop(0.83, '#8800ff');
+    rainbowGrad.addColorStop(1.0, '#ff00ff');
+    ctx.fillStyle = rainbowGrad;
+    ctx.font = 'bold 14px monospace';
+    ctx.fillText('$' + lastClose.toFixed(2), w - 10, 25);
   }
 }
 
