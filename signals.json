@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 476452,
-    "direction": "BEAR",
-    "confidence": 28.0,
-    "pool_total": 0.6,
-    "pool_bull": 0.1,
-    "pool_bear": 0.49,
+    "epoch": 476453,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.51,
+    "pool_bull": 0,
+    "pool_bear": 0,
     "signals": [
       {
         "name": "Time",
@@ -15,15 +15,15 @@
       },
       {
         "name": "Pool",
-        "direction": "BULL",
-        "score": 39,
-        "info": "B:17.2%(5.8x) R:82.8%(1.2x)"
+        "direction": null,
+        "score": 0,
+        "info": "B:64.9%(1.5x) R:35.1%(2.9x)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$625.36 RSI:70 EMA:+0.15% flat"
+        "info": "$625.48 RSI:59 EMA:+0.14% flat"
       },
       {
         "name": "Liq",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": null,
-    "time": "13:19:24"
+    "trend": "📉 连跌3根($-0.43)",
+    "time": "13:24:10"
   },
-  "lock_ts": 1777353578,
-  "current_ts": 1777353791,
+  "lock_ts": 1777353884,
+  "current_ts": 1777353851,
   "history": [
     {
       "epoch": 476019,
@@ -4380,6 +4380,15 @@
       "time_full": "2026-04-28 13:19:24",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476453,
+      "direction": "SKIP",
+      "confidence": 15.0,
+      "time": "13:24:10",
+      "time_full": "2026-04-28 13:24:10",
+      "trend": "📉 连跌3根($-0.43)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4449,10 +4458,10 @@
     "hour": 13,
     "bull": 7,
     "bear": 9,
-    "skip": 0,
-    "total": 16
+    "skip": 1,
+    "total": 17
   },
-  "bnb_price": 625.54,
+  "bnb_price": 625.47,
   "kline": [
     {
       "timestamp": 1777335900.0,
@@ -4871,9 +4880,9 @@
       "timestamp": 1777353600.0,
       "open": 625.57,
       "high": 625.63,
-      "low": 625.53,
-      "close": 625.54
+      "low": 625.47,
+      "close": 625.47
     }
   ],
-  "updated": "2026-04-28T13:23:11.612055"
+  "updated": "2026-04-28T13:24:12.003547"
 }
