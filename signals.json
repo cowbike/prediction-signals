@@ -3,27 +3,27 @@
     "epoch": 476437,
     "direction": "SKIP",
     "confidence": 0,
-    "pool_total": 0.4657,
-    "pool_bull": 0.1724,
-    "pool_bear": 0.2933,
+    "pool_total": 0.61,
+    "pool_bull": 0,
+    "pool_bear": 0,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:37.0%(2.7x) R:63.0%(1.6x)"
-      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
-        "info": "11h Tue neutral"
+        "info": "12h Tue neutral"
+      },
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:35.6%(2.8x) R:64.4%(1.6x)"
       },
       {
         "name": "Mom",
         "direction": "BEAR",
-        "score": 62,
-        "info": "$624.41 RSI:79 EMA:-0.00% OB"
+        "score": 4,
+        "info": "$624.41 RSI:71 EMA:+0.03% OB"
       },
       {
         "name": "Liq",
@@ -38,62 +38,12 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": null,
-    "time": "11:58:37"
+    "trend": "📈 连涨3根(+$0.77)",
+    "time": "12:02:50"
   },
   "lock_ts": 1777348976,
-  "current_ts": 1777348921,
+  "current_ts": 1777348991,
   "history": [
-    {
-      "epoch": 475992,
-      "direction": "BEAR",
-      "confidence": 37.0,
-      "time": "22:09:25",
-      "time_full": "2026-04-28 22:09:25",
-      "trend": null,
-      "outcome": "SKIP",
-      "result": "BULL"
-    },
-    {
-      "epoch": 475993,
-      "direction": "BEAR",
-      "confidence": 54.0,
-      "time": "22:13:53",
-      "time_full": "2026-04-28 22:13:53",
-      "trend": null,
-      "outcome": "LOSS",
-      "result": "BULL"
-    },
-    {
-      "epoch": 475994,
-      "direction": "BEAR",
-      "confidence": 40.0,
-      "time": "22:19:00",
-      "time_full": "2026-04-28 22:19:00",
-      "trend": null,
-      "outcome": "LOSS",
-      "result": "BULL"
-    },
-    {
-      "epoch": 475995,
-      "direction": "BEAR",
-      "confidence": 26.0,
-      "time": "22:24:05",
-      "time_full": "2026-04-28 22:24:05",
-      "trend": "📈 连涨3根(+$0.69)",
-      "outcome": "WIN",
-      "result": "BEAR"
-    },
-    {
-      "epoch": 475996,
-      "direction": "BULL",
-      "confidence": 42.0,
-      "time": "22:29:17",
-      "time_full": "2026-04-28 22:29:17",
-      "trend": "📈 连涨3根(+$0.70)",
-      "outcome": "SKIP",
-      "result": "BEAR"
-    },
     {
       "epoch": 475997,
       "direction": "BEAR",
@@ -4489,19 +4439,29 @@
       "time": "11:57:09",
       "time_full": "2026-04-28 11:57:09",
       "trend": null,
+      "outcome": "LOSS",
+      "result": "BEAR"
+    },
+    {
+      "epoch": 476437,
+      "direction": "SKIP",
+      "confidence": 16.0,
+      "time": "12:02:50",
+      "time_full": "2026-04-28 12:02:50",
+      "trend": "📈 连涨3根(+$0.77)",
       "outcome": null
     }
   ],
   "tracking": {
     "wins": 1488,
-    "losses": 1427,
+    "losses": 1428,
     "skips": 951,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 48.3,
-    "total_24h": 290,
+    "total_24h": 288,
     "hourly_wins": {
-      "22": 10,
+      "22": 9,
       "23": 9,
       "0": 5,
       "2": 5,
@@ -4527,7 +4487,7 @@
       "1": 5
     },
     "hourly_losses": {
-      "22": 9,
+      "22": 7,
       "23": 7,
       "0": 10,
       "1": 12,
@@ -4550,22 +4510,19 @@
       "19": 3,
       "20": 4,
       "21": 7,
-      "11": 2
+      "11": 3
     },
     "tracking_win_rate_24h": 48.3,
-    "tracking_total_24h": 290
+    "tracking_total_24h": 288
   },
   "hourly_stats": {
-    "hour": 11,
-    "bull": 5,
-    "bear": 12,
-    "skip": 6,
-    "total": 23
+    "hour": 12,
+    "bull": 9,
+    "bear": 3,
+    "skip": 1,
+    "total": 13
   },
-  "bnb_price": 624.47,
-  "updated": "2026-04-28T12:02:11.792262",
-  "live_price": 624.54,
-  "live_price_ts": 1777348921,
+  "bnb_price": 624.42,
   "kline": [
     {
       "timestamp": 1777331100.0,
@@ -4984,8 +4941,9 @@
       "timestamp": 1777348800.0,
       "open": 624.52,
       "high": 624.63,
-      "low": 624.46,
-      "close": 624.47
+      "low": 624.41,
+      "close": 624.42
     }
-  ]
+  ],
+  "updated": "2026-04-28T12:03:11.603651"
 }
