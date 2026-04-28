@@ -1,18 +1,12 @@
 {
   "current": {
     "epoch": 476535,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.1795,
-    "pool_bull": 0.1565,
-    "pool_bear": 0.023,
+    "direction": "BEAR",
+    "confidence": 26.0,
+    "pool_total": 0.88,
+    "pool_bull": 0.81,
+    "pool_bear": 0.08,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:87.2%(1.1x) R:12.8%(7.8x)"
-      },
       {
         "name": "Time",
         "direction": "BEAR",
@@ -20,10 +14,16 @@
         "info": "20h Tue BEAR:52.1%"
       },
       {
-        "name": "Mom",
+        "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "$622.11 RSI:51 EMA:-0.05% flat"
+        "info": "B:91.1%(1.1x) R:8.9%(11.3x) ⚠️ trap(BULL极端失衡)"
+      },
+      {
+        "name": "Mom",
+        "direction": "BEAR",
+        "score": 33,
+        "info": "$621.93 RSI:75 EMA:-0.04% OB"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "20:19:02"
+    "time": "20:22:59"
   },
   "lock_ts": 1777379018,
-  "current_ts": 1777378895,
+  "current_ts": 1777378991,
   "history": [
     {
       "epoch": 476125,
@@ -4140,6 +4140,15 @@
       "time_full": "2026-04-28 20:18:09",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476535,
+      "direction": "BEAR",
+      "confidence": 26.0,
+      "time": "20:22:59",
+      "time_full": "2026-04-28 20:22:59",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4208,12 +4217,11 @@
   "hourly_stats": {
     "hour": 20,
     "bull": 1,
-    "bear": 11,
+    "bear": 12,
     "skip": 3,
-    "total": 15
+    "total": 16
   },
-  "bnb_price": 621.62,
-  "updated": "2026-04-28T20:22:11.009312",
+  "bnb_price": 621.82,
   "kline": [
     {
       "timestamp": 1777361100.0,
@@ -4633,9 +4641,8 @@
       "open": 621.83,
       "high": 622.94,
       "low": 621.62,
-      "close": 621.62
+      "close": 621.82
     }
   ],
-  "live_price": 622.1,
-  "live_price_ts": 1777378917
+  "updated": "2026-04-28T20:23:11.465182"
 }
