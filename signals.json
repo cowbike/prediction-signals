@@ -3,16 +3,10 @@
     "epoch": 476498,
     "direction": "SKIP",
     "confidence": 0,
-    "pool_total": 0.3227,
-    "pool_bull": 0.0327,
-    "pool_bear": 0.29,
+    "pool_total": 0.38,
+    "pool_bull": 0,
+    "pool_bear": 0,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:10.1%(9.9x) R:89.9%(1.1x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,10 +14,16 @@
         "info": "17h Tue neutral"
       },
       {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:14.9%(6.7x) R:85.1%(1.2x) ⚠️ trap(BEAR极端失衡)"
+      },
+      {
         "name": "Mom",
-        "direction": "BULL",
-        "score": 36,
-        "info": "$624.56 RSI:25 EMA:+0.01% OS"
+        "direction": null,
+        "score": 0,
+        "info": "$624.70 RSI:45 EMA:+0.02% flat"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "17:10:02"
+    "time": "17:14:07"
   },
   "lock_ts": 1777367678,
-  "current_ts": 1777367555,
+  "current_ts": 1777367651,
   "history": [
     {
       "epoch": 476067,
@@ -4350,6 +4350,15 @@
       "time_full": "2026-04-28 17:08:52",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476498,
+      "direction": "SKIP",
+      "confidence": 15.0,
+      "time": "17:14:07",
+      "time_full": "2026-04-28 17:14:07",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4419,11 +4428,10 @@
     "hour": 17,
     "bull": 2,
     "bear": 10,
-    "skip": 2,
-    "total": 14
+    "skip": 3,
+    "total": 15
   },
-  "bnb_price": 624.75,
-  "updated": "2026-04-28T17:13:12.195112",
+  "bnb_price": 624.71,
   "kline": [
     {
       "timestamp": 1777349700.0,
@@ -4843,9 +4851,8 @@
       "open": 624.91,
       "high": 624.91,
       "low": 624.55,
-      "close": 624.75
+      "close": 624.71
     }
   ],
-  "live_price": 624.76,
-  "live_price_ts": 1777367583
+  "updated": "2026-04-28T17:14:11.354429"
 }
