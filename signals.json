@@ -3,16 +3,10 @@
     "epoch": 476424,
     "direction": "SKIP",
     "confidence": 0,
-    "pool_total": 0.0514,
-    "pool_bull": 0.0514,
-    "pool_bear": 0.0,
+    "pool_total": 0.71,
+    "pool_bull": 0,
+    "pool_bear": 0,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:100.0%(1.0x) R:0.0%(0.0x)"
-      },
       {
         "name": "Time",
         "direction": null,
@@ -20,10 +14,16 @@
         "info": "10h Tue neutral"
       },
       {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:86.3%(1.2x) R:13.7%(7.3x) ⚠️ trap(BULL极端失衡)"
+      },
+      {
         "name": "Mom",
         "direction": "BULL",
-        "score": 54,
-        "info": "$624.24 RSI:22 EMA:-0.28% OS"
+        "score": 7,
+        "info": "$624.19 RSI:29 EMA:-0.27% OS"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "10:51:55"
+    "time": "10:56:09"
   },
   "lock_ts": 1777344992,
-  "current_ts": 1777344872,
+  "current_ts": 1777344971,
   "history": [
     {
       "epoch": 475984,
@@ -4440,6 +4440,15 @@
       "time_full": "2026-04-28 10:50:49",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476424,
+      "direction": "SKIP",
+      "confidence": 16.0,
+      "time": "10:56:09",
+      "time_full": "2026-04-28 10:56:09",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4508,13 +4517,10 @@
     "hour": 10,
     "bull": 6,
     "bear": 12,
-    "skip": 4,
-    "total": 22
+    "skip": 5,
+    "total": 23
   },
-  "bnb_price": 624.24,
-  "updated": "2026-04-28T10:55:11.599878",
-  "live_price": 624.23,
-  "live_price_ts": 1777344911,
+  "bnb_price": 624.19,
   "kline": [
     {
       "timestamp": 1777327200.0,
@@ -4933,8 +4939,9 @@
       "timestamp": 1777344900.0,
       "open": 624.35,
       "high": 624.38,
-      "low": 624.21,
-      "close": 624.24
+      "low": 624.19,
+      "close": 624.19
     }
-  ]
+  ],
+  "updated": "2026-04-28T10:56:11.801274"
 }
