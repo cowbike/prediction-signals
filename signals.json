@@ -1,23 +1,23 @@
 {
   "current": {
-    "epoch": 476573,
-    "direction": "BEAR",
-    "confidence": 29.0,
-    "pool_total": 1.05,
-    "pool_bull": 0.5,
-    "pool_bear": 0.55,
+    "epoch": 476574,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.0,
+    "pool_bull": 0.0,
+    "pool_bear": 0.0,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "waiting"
+      },
       {
         "name": "Time",
         "direction": "BULL",
         "score": 14,
         "info": "23h Tue BULL:51.4%"
-      },
-      {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:47.5%(2.1x) R:52.5%(1.9x)"
       },
       {
         "name": "Mom",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": "📉 连跌3根($-0.83)",
-    "time": "23:36:48"
+    "trend": null,
+    "time": "23:37:56"
   },
-  "lock_ts": 1777390646,
-  "current_ts": 1777390631,
+  "lock_ts": 1777390952,
+  "current_ts": 1777390682,
   "history": [
     {
       "epoch": 476145,
@@ -4319,7 +4319,8 @@
       "time": "23:32:19",
       "time_full": "2026-04-28 23:32:19",
       "trend": null,
-      "outcome": null
+      "outcome": "SKIP",
+      "result": "BULL"
     },
     {
       "epoch": 476573,
@@ -4334,7 +4335,7 @@
   "tracking": {
     "wins": 1531,
     "losses": 1462,
-    "skips": 1009,
+    "skips": 1010,
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 49.8,
@@ -4401,7 +4402,10 @@
     "skip": 1,
     "total": 20
   },
-  "bnb_price": 622.16,
+  "bnb_price": 622.64,
+  "updated": "2026-04-28T23:38:12.308415",
+  "live_price": 622.56,
+  "live_price_ts": 1777390681,
   "kline": [
     {
       "timestamp": 1777372800.0,
@@ -4819,10 +4823,9 @@
     {
       "timestamp": 1777390500.0,
       "open": 621.99,
-      "high": 622.16,
+      "high": 622.64,
       "low": 621.92,
-      "close": 622.16
+      "close": 622.64
     }
-  ],
-  "updated": "2026-04-28T23:37:12.127564"
+  ]
 }
