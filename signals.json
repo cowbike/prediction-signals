@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 476555,
+    "epoch": 476556,
     "direction": "BEAR",
-    "confidence": 20.0,
-    "pool_total": 0.85,
-    "pool_bull": 0.5,
-    "pool_bear": 0.35,
+    "confidence": 24.0,
+    "pool_total": 0.99,
+    "pool_bull": 0.6,
+    "pool_bear": 0.39,
     "signals": [
       {
         "name": "Time",
@@ -17,18 +17,18 @@
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:58.7%(1.7x) R:41.3%(2.4x)"
+        "info": "B:60.4%(1.7x) R:39.6%(2.5x)"
       },
       {
         "name": "Mom",
-        "direction": null,
-        "score": 0,
-        "info": "$621.31 RSI:37 EMA:-0.05% flat"
+        "direction": "BULL",
+        "score": 19,
+        "info": "$620.90 RSI:27 EMA:-0.11% OS"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 74,
+        "score": 75,
         "info": "LS:2.49 long-squeeze"
       },
       {
@@ -39,21 +39,11 @@
       }
     ],
     "trend": null,
-    "time": "22:05:00"
+    "time": "22:10:05"
   },
-  "lock_ts": 1777385138,
-  "current_ts": 1777385350,
+  "lock_ts": 1777385444,
+  "current_ts": 1777385411,
   "history": [
-    {
-      "epoch": 476138,
-      "direction": "BEAR",
-      "confidence": 21.0,
-      "time": "10:34:05",
-      "time_full": "2026-04-28 10:34:05",
-      "trend": null,
-      "outcome": "SKIP",
-      "result": "BULL"
-    },
     {
       "epoch": 476139,
       "direction": "BEAR",
@@ -4220,6 +4210,15 @@
       "time_full": "2026-04-28 22:05:00",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476556,
+      "direction": "BEAR",
+      "confidence": 24.0,
+      "time": "22:10:05",
+      "time_full": "2026-04-28 22:10:05",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4288,19 +4287,12 @@
   "hourly_stats": {
     "hour": 22,
     "bull": 0,
-    "bear": 14,
+    "bear": 15,
     "skip": 0,
-    "total": 14
+    "total": 15
   },
-  "bnb_price": 621.16,
+  "bnb_price": 620.9,
   "kline": [
-    {
-      "timestamp": 1777367400.0,
-      "open": 624.91,
-      "high": 624.91,
-      "low": 624.55,
-      "close": 624.64
-    },
     {
       "timestamp": 1777367700.0,
       "open": 624.63,
@@ -4711,9 +4703,16 @@
       "timestamp": 1777385100.0,
       "open": 621.37,
       "high": 621.77,
-      "low": 621.15,
-      "close": 621.16
+      "low": 620.92,
+      "close": 621.01
+    },
+    {
+      "timestamp": 1777385400.0,
+      "open": 621.0,
+      "high": 621.01,
+      "low": 620.84,
+      "close": 620.98
     }
   ],
-  "updated": "2026-04-28T22:09:11.279992"
+  "updated": "2026-04-28T22:10:14.009837"
 }
