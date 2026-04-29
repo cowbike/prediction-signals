@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 476904,
+    "epoch": 476905,
     "direction": "BEAR",
-    "confidence": 40.0,
-    "pool_total": 0.77,
-    "pool_bull": 0.64,
-    "pool_bear": 0.14,
+    "confidence": 25.0,
+    "pool_total": 0.65,
+    "pool_bull": 0.6,
+    "pool_bear": 0.05,
     "signals": [
       {
         "name": "Time",
@@ -15,21 +15,21 @@
       },
       {
         "name": "Pool",
-        "direction": "BEAR",
-        "score": 49,
-        "info": "B:82.2%(1.2x) R:17.8%(5.6x)"
+        "direction": null,
+        "score": 0,
+        "info": "B:91.7%(1.1x) R:8.3%(12.1x) ⚠️ trap(BULL极端失衡)"
       },
       {
         "name": "Mom",
         "direction": "BULL",
-        "score": 32,
-        "info": "$613.29 RSI:25 EMA:+0.03% OS"
+        "score": 43,
+        "info": "$613.12 RSI:24 EMA:-0.00% OS"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 84,
-        "info": "LS:2.67 long-squeeze"
+        "info": "LS:2.68 long-squeeze"
       },
       {
         "name": "FR",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": null,
-    "time": "03:46:11"
+    "trend": "📈 连涨3根(+$0.45)",
+    "time": "03:51:21"
   },
-  "lock_ts": 1777492010,
-  "current_ts": 1777492271,
+  "lock_ts": 1777492316,
+  "current_ts": 1777492291,
   "history": [
     {
       "epoch": 476455,
@@ -4542,6 +4542,15 @@
       "time_full": "2026-04-30 03:46:11",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476905,
+      "direction": "BEAR",
+      "confidence": 25.0,
+      "time": "03:51:21",
+      "time_full": "2026-04-30 03:51:21",
+      "trend": "📈 连涨3根(+$0.45)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4610,9 +4619,9 @@
   "hourly_stats": {
     "hour": 3,
     "bull": 4,
-    "bear": 16,
+    "bear": 17,
     "skip": 2,
-    "total": 22
+    "total": 23
   },
   "bnb_price": 613.12,
   "kline": [
@@ -5037,5 +5046,5 @@
       "close": 613.12
     }
   ],
-  "updated": "2026-04-30T03:51:11.493602"
+  "updated": "2026-04-30T03:51:32.010150"
 }
