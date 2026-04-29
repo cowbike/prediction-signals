@@ -432,7 +432,7 @@ const RPC_SERVERS = [
   'https://bsc-dataseed2.binance.org/',
   'https://bsc-dataseed3.binance.org/',
 ];
-const MAX_KLINE = 80; // 80 rounds ≈ 6.7 hours
+const MAX_KLINE = 100; // 100 rounds ≈ 8.3 hours
 
 // Get current epoch from PCSP contract
 async function rpcCall(method, params) {
@@ -501,9 +501,9 @@ async function rebuildChainKline(currentEpoch) {
 
     const kline = [];
     let prevClose = null;
-    const BATCH = 10; // parallel fetches per group (10 = 3 rounds for 30 candles)
+    const BATCH = 10;
 
-    // Fetch in parallel batches of 5, process in epoch-descending order
+    // Fetch historical completed rounds
     for (let i = 0; i < epochs.length; i += BATCH) {
       const batch = epochs.slice(i, i + BATCH);
       const results = await Promise.all(batch.map(e => getRound(e).catch(() => null)));
@@ -521,6 +521,24 @@ async function rebuildChainKline(currentEpoch) {
         });
         prevClose = rd.close_p;
       }
+    }
+
+    // ─── Add current (live) round as the last candle ───
+    const currentRound = await getRound(currentEpoch);
+    if (currentRound && (!currentRound.close_p || currentRound.close_p === 0)) {
+      const livePrice = await getLiveBNBPrice();
+      const open = prevClose !== null ? prevClose : currentRound.lock_p;
+      // Use oracle price for dynamic close, fallback to lock_p if unavailable
+      const currentClose = (livePrice && livePrice > 0) ? livePrice : currentRound.lock_p;
+      kline.push({
+        epoch: currentRound.epoch,
+        timestamp: currentRound.lock_ts,
+        open,
+        high: Math.max(open, currentClose),
+        low: Math.min(open, currentClose),
+        close: currentClose,
+        isLive: true, // mark as live candle
+      });
     }
 
     kline.reverse();
@@ -1074,6 +1092,15 @@ function drawKline(data) {
     const bodyBottom = chartY + ((maxPrice - Math.min(k.open, k.close)) / priceRange) * chartH;
     const bodyH = Math.max(1, bodyBottom - bodyTop);
     ctx.fillRect(x, bodyTop, 4, bodyH);
+
+    // Current (live) candle indicator — dashed outline
+    if (k.isLive) {
+      ctx.strokeStyle = '#ffd700';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([3, 3]);
+      ctx.strokeRect(x - 1, bodyTop - 1, 7, bodyH + 2);
+      ctx.setLineDash([]); // reset
+    }
   }
 
   // Time labels (PCSP real time)
@@ -1090,10 +1117,36 @@ function drawKline(data) {
   }
 
   // ─── PCSP Live Progress Bar ───
-  // Get current epoch from signals.json
-  const currentEpoch = data && data.current && data.current.epoch;
-  const lockTs = data && data.lock_ts;
+  // Calculate lock_ts: prefer chain kline's live candle timestamp (most reliable),
+  // fallback to signals.json lock_ts
   const now = Math.floor(Date.now() / 1000);
+  const lastK = kline.length > 0 ? kline[kline.length - 1] : null;
+  let lockTs = data && data.lock_ts;
+
+  // If last candle is live (current unsettled round), its timestamp IS the lock_ts
+  if (lastK && lastK.isLive) {
+    lockTs = lastK.timestamp;
+  }
+  // Otherwise try to estimate from chain kline epoch pattern
+  else if (!lockTs || lockTs < now - 120) {
+    // signals.json lock_ts is stale — estimate from chain data if available
+    const cache = window._chainKlineCache || [];
+    // Find live candle in cache (it may have isLive set after rebuild)
+    const liveCandle = cache.find(k => k.isLive);
+    if (liveCandle) {
+      lockTs = liveCandle.timestamp;
+    } else if (cache.length > 0) {
+      // No live candle yet (between epochs): estimate next round's lock_ts
+      const earliestTs = Math.min(...cache.map(k => k.timestamp).filter(Boolean));
+      const latestTs = Math.max(...cache.map(k => k.timestamp).filter(Boolean));
+      // Round timestamps are at 300s intervals; estimate next one
+      const nextLock = Math.ceil(now / 300) * 300 - 5; // align to ~5s before the 5-min mark
+      // Only use if it's reasonable (within 5min of latest known candle)
+      if (nextLock - latestTs < 600 && nextLock > now) {
+        lockTs = nextLock;
+      }
+    }
+  }
 
   if (lockTs && lockTs > now) {
     const cycleLen = 300; // 5 min
