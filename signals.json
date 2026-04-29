@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 476759,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 1.05,
-    "pool_bull": 0,
-    "pool_bear": 51.2,
+    "epoch": 476760,
+    "direction": "BEAR",
+    "confidence": 43.0,
+    "pool_total": 0.53,
+    "pool_bull": 0.43,
+    "pool_bear": 0.1,
     "signals": [
       {
         "name": "Time",
@@ -15,21 +15,21 @@
       },
       {
         "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:57.9%(1.7x) R:42.1%(2.4x)"
+        "direction": "BEAR",
+        "score": 71,
+        "info": "B:80.4%(1.2x) R:19.6%(5.1x)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$625.50 RSI:43 EMA:-0.09% flat"
+        "info": "$626.18 RSI:54 EMA:-0.07% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 78,
-        "info": "LS:2.55 long-squeeze"
+        "info": "LS:2.56 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "15:26:47"
+    "time": "15:31:29"
   },
-  "lock_ts": 1777447610,
-  "current_ts": 1777447871,
+  "lock_ts": 1777447916,
+  "current_ts": 1777447900,
   "history": [
     {
       "epoch": 476350,
@@ -4140,6 +4140,15 @@
       "time_full": "2026-04-29 15:26:47",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476760,
+      "direction": "BEAR",
+      "confidence": 43.0,
+      "time": "15:31:29",
+      "time_full": "2026-04-29 15:31:29",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4208,11 +4217,11 @@
   "hourly_stats": {
     "hour": 15,
     "bull": 5,
-    "bear": 8,
+    "bear": 9,
     "skip": 5,
-    "total": 18
+    "total": 19
   },
-  "bnb_price": 626.09,
+  "bnb_price": 626.27,
   "kline": [
     {
       "timestamp": 1777430100.0,
@@ -4630,10 +4639,10 @@
     {
       "timestamp": 1777447800.0,
       "open": 625.68,
-      "high": 626.1,
+      "high": 626.27,
       "low": 625.68,
-      "close": 626.09
+      "close": 626.27
     }
   ],
-  "updated": "2026-04-29T15:31:11.838493"
+  "updated": "2026-04-29T15:31:40.715900"
 }
