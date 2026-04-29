@@ -1,12 +1,21 @@
 {
   "current": {
-    "epoch": 476767,
-    "direction": "BULL",
-    "confidence": 36.0,
-    "pool_total": 1.0,
-    "pool_bull": 0.47,
-    "pool_bear": 0.53,
+    "epoch": 476768,
+    "direction": "BEAR",
+    "confidence": 22.4,
+    "pool_total": 0.6725,
+    "pool_bull": 0.3516,
+    "pool_bear": 0.3209,
+    "lock_p": 0.0,
+    "lock_ts": 1777450364,
+    "close_ts": 1777450664,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": null,
+        "score": 0,
+        "info": "B:52.3%(1.9x) R:47.7%(2.1x)"
+      },
       {
         "name": "Time",
         "direction": null,
@@ -14,22 +23,16 @@
         "info": "16h Wed neutral"
       },
       {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:47.0%(2.1x) R:53.0%(1.9x)"
-      },
-      {
         "name": "Mom",
         "direction": "BULL",
-        "score": 100,
-        "info": "$624.84 RSI:12 EMA:-0.10% OS"
+        "score": 7,
+        "info": "$625.02 RSI:25 EMA:-0.11% OS"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 78,
-        "info": "LS:2.57 long-squeeze"
+        "score": 16,
+        "info": "LS:2.56 long-squeeze"
       },
       {
         "name": "FR",
@@ -38,11 +41,10 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": "📉 连跌3根($-0.67)",
-    "time": "16:07:02"
+    "trend": null,
+    "time": "16:12:10"
   },
-  "lock_ts": 1777450058,
-  "current_ts": 1777450270,
+  "current_ts": 1777450330,
   "history": [
     {
       "epoch": 476355,
@@ -4242,7 +4244,7 @@
     "skip": 1,
     "total": 14
   },
-  "bnb_price": 624.98,
+  "bnb_price": 625.0,
   "kline": [
     {
       "timestamp": 1777432500.0,
@@ -4660,10 +4662,12 @@
     {
       "timestamp": 1777450200.0,
       "open": 624.81,
-      "high": 624.99,
+      "high": 625.09,
       "low": 624.8,
-      "close": 624.99
+      "close": 625.0
     }
   ],
-  "updated": "2026-04-29T16:11:10.374877"
+  "updated": "2026-04-29T16:12:10.920518",
+  "live_price": 625.0,
+  "live_price_ts": 1777450330
 }
