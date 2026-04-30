@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 宋的bnb量化乐 · BNB 5分K线 1000</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body{width:100%;height:100%;overflow:hidden;background:#0d1117;color:#e6edf3;font-family:'SF Mono','Cascadia Code','Consolas',monospace;display:flex;flex-direction:column;}
+.header{text-align:center;padding:12px 16px 6px;background:linear-gradient(135deg,#1a1e2e 0%,#161b22 100%);border-bottom:1px solid #30363d;flex-shrink:0;}
+.header h1{font-size:18px;font-weight:800;}
+.header .sub{color:#8b949e;font-size:11px;}
+.controls{display:flex;justify-content:space-between;align-items:center;padding:6px 16px;background:#161b22;border-bottom:1px solid #30363d;font-size:12px;flex-shrink:0;}
+.controls .info{display:flex;gap:12px;align-items:center;}
+.controls .info span{color:#8b949e;}
+.controls .info .val{color:#e6edf3;font-weight:600;}
+.controls .nav-btn{background:rgba(255,255,255,0.05);border:1px solid #30363d;color:#8b949e;border-radius:4px;padding:2px 10px;cursor:pointer;font-family:inherit;font-size:13px;}
+.controls .nav-btn:hover{border-color:#58a6ff;color:#58a6ff;}
+.controls .nav-btn:disabled{opacity:.3;cursor:default;}
+.chart-wrap{flex:1;display:flex;flex-direction:column;min-height:0;padding:4px 8px 0;}
+.chart-header{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#8b949e;padding:2px 4px;flex-shrink:0;}
+.chart-header .title{font-weight:600;color:#e6edf3;}
+.chart-header .badge{font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(88,166,255,0.15);color:#58a6ff;}
+#chartContainer{flex:1;position:relative;min-height:0;background:#161b22;border:1px solid #30363d;border-radius:6px;overflow:hidden;}
+#klineCanvas{width:100%!important;height:100%!important;display:block;}
+.no-data{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8b949e;font-size:14px;z-index:1;pointer-events:none;}
+.status-bar{display:flex;justify-content:center;gap:20px;padding:5px;font-size:10px;color:#8b949e;border-top:1px solid #30363d;flex-shrink:0;}
+.status-bar .dot{width:5px;height:5px;border-radius:50%;display:inline-block;margin-right:3px;}
+.dot-live{background:#3fb950;animation:pulse 1.5s infinite;}
+.dot-stale{background:#f85149;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.footer{text-align:center;padding:4px;font-size:10px;color:#8b949e;border-top:1px solid #30363d;flex-shrink:0;}
+</style>
+</head>
+<body>
+<div class="header"><h1>📊 宋的bnb量化乐</h1><div class="sub">链上实时版 · PCSP合约 · 1000条历史</div></div>
+<div class="controls">
+  <div class="info">
+    <span>当前: <span class="val" id="priceDisplay">--</span><span id="flashArrow" style="font-size:11px;margin-left:2px;"></span></span>
+    <span>Epoch: <span class="val" id="epochDisplay">--</span></span>
+    <span>视野: <span class="val" id="viewRange">0</span>/<span id="totalCandles">0</span></span>
+  </div>
+  <div style="display:flex;gap:4px;align-items:center;">
+    <button class="nav-btn" id="btnFirst">⟪</button>
+    <button class="nav-btn" id="btnPrev">◀</button>
+    <span id="rangeLabel" style="font-size:11px;color:#8b949e;min-width:50px;text-align:center;">0–0</span>
+    <button class="nav-btn" id="btnNext">▶</button>
+    <button class="nav-btn" id="btnLast">⟫</button>
+  </div>
+</div>
+<div class="chart-wrap">
+  <div class="chart-header"><span class="title">BNB 5分钟 (链上Candle)</span><span class="badge">🔗 ONCHAIN · 实时</span></div>
+  <div id="chartContainer">
+    <div class="no-data" id="noData">正在加载链上数据...</div>
+    <canvas id="klineCanvas"></canvas>
+  </div>
+</div>
+<div class="status-bar"><span><span class="dot" id="statusDot"></span><span id="statusText">初始化中...</span></span><span id="timeDisplay">--</span></div>
+<div class="footer">Powered by PancakeSwap PCSP Contract · bjlbnb.uk/1000</div>
+
+<script>
+// 直接从原版index.html抄过来的K线逻辑
+const PCSP_CONTRACT = '0x18B2A687610328590Bc8F2e5fEdDe3b582A49cdA';
+const RPC_SERVERS = ['https://bsc-dataseed.binance.org/','https://bsc-dataseed1.binance.org/','https://bsc-dataseed2.binance.org/','https://bsc-dataseed3.binance.org/'];
+const CHAINLINK_BNB_USD = '0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE';
+
+const MAX_CANDLES = 1000;
+const WINDOW = 60;
+
+let allCandles = [];       // {epoch,timestamp,open,high,low,close,isLive}
+let viewOffset = 0;
+let currentEpochNum = 0;
+let livePrice = 0;
+
+const canvas = document.getElementById('klineCanvas');
+const ctx = canvas.getContext('2d');
+const chartBox = document.getElementById('chartContainer');
+function $(id){return document.getElementById(id);}
+
+async function rpcCall(method, params) {
+  for (const rpc of RPC_SERVERS) {
+    try {
+      const resp = await fetch(rpc, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method,params})});
+      const d = await resp.json();
+      if (d.result) return d.result;
+    } catch(e){}
+  }
+  return null;
+}
+
+function parseRound(f) {
+  if (!f||f.length<10) return null;
+  return {epoch:f[0],lock_ts:f[2],lock_p:f[4]/1e8,close_p:f[5]/1e8};
+}
+
+async function getRound(epoch) {
+  const data = '0x8c65c81f'+epoch.toString(16).padStart(64,'0');
+  const result = await rpcCall('eth_call',[{to:PCSP_CONTRACT,data},'latest']);
+  if(!result||result==='0x'||result.length<192) return null;
+  const h=result.slice(2);const f=[];
+  for(let i=0;i<1920&&i<h.length;i+=64){let v=parseInt(h.slice(i,i+64),16);if(v>=2**255)v-=2**256;f.push(v);}
+  return parseRound(f);
+}
+
+async function getCurrentEpoch() {
+  const result = await rpcCall('eth_call',[{to:PCSP_CONTRACT,data:'0x76671808'},'latest']);
+  if(!result||result==='0x') return null;
+  return parseInt(result.slice(2),16);
+}
+
+async function getLiveBNBPrice() {
+  const result = await rpcCall('eth_call',[{to:CHAINLINK_BNB_USD,data:'0xfeaf968c'},'latest']);
+  if(!result||result==='0x'||result.length<200) return null;
+  const h=result.slice(2);const answerHex=h.slice(64,128);
+  return parseInt(answerHex,16)/1e8;
+}
+
+// 批量抓取epoch，用迭代避免递归栈溢出
+async function fetchEpochs(startEpoch,endEpoch) {
+  const BATCH=10;
+  const kline=[];
+  let prevClose=null;
+  for(let e=endEpoch;e>=startEpoch;e-=BATCH){
+    const batch=[];for(let i=0;i<BATCH&&e-i>=startEpoch;i++)batch.push(e-i);
+    const results=await Promise.all(batch.map(ep=>getRound(ep).catch(()=>null)));
+    for(const rd of results){
+      if(!rd||!rd.close_p||rd.close_p===0) continue;
+      const open=prevClose!==null?prevClose:rd.lock_p;
+      kline.push({epoch:rd.epoch,timestamp:rd.lock_ts,open,high:Math.max(open,rd.lock_p,rd.close_p),low:Math.min(open,rd.lock_p,rd.close_p),close:rd.close_p});
+      prevClose=rd.close_p;
+    }
+  }
+  kline.reverse();
+  return kline;
+}
+
+// 先拉最近60根立即显示，后台补剩下的
+async function loadData() {
+  setStatus('loading','正在获取链上数据...');
+  const ce=await getCurrentEpoch();
+  if(!ce){setStatus('stale','获取Epoch失败');return;}
+  currentEpochNum=ce;
+  $('epochDisplay').textContent='Epoch: '+ce;
+  
+  // 1. 先拉最近WINDOW根快速显示
+  const fastStart=Math.max(1,ce-WINDOW-5);
+  let candles=await fetchEpochs(fastStart,ce-1);
+  
+  // 加当前轮
+  const curRound=await getRound(ce);
+  const isLiveRound=!curRound||!curRound.close_p||curRound.close_p===0;
+  if(curRound&&isLiveRound){
+    const lp=await getLiveBNBPrice();
+    const open=candles.length>0?candles[candles.length-1].close:curRound.lock_p;
+    const close=(lp&&lp>0)?lp:(curRound.lock_p>0?curRound.lock_p:open);
+    const safeLow=Math.min(open,close,curRound.lock_p);
+    candles.push({epoch:curRound.epoch,timestamp:curRound.lock_ts,open,high:Math.max(open,close,curRound.lock_p),low:safeLow>0?safeLow:open,close,isLive:true});
+  }
+  
+  if(candles.length>0){
+    allCandles=candles;
+    viewOffset=Math.max(0,allCandles.length-WINDOW);
+    updateUI();
+    setStatus('live',candles.length+'根蜡烛');
+    if(lp&&lp>0){$('priceDisplay').textContent='$'+lp.toFixed(2);livePrice=lp;}
+    
+    // 2. 后台补拉更早的历史
+    const moreStart=Math.max(1,ce-MAX_CANDLES-10);
+    if(moreStart<fastStart){
+      setStatus('live',candles.length+'根·加载更多...');
+      const more=await fetchEpochs(moreStart,fastStart-1);
+      if(more.length>0){
+        allCandles=more.concat(candles);
+        viewOffset=Math.max(0,allCandles.length-WINDOW);
+        updateUI();
+        setStatus('live',allCandles.length+'根蜡烛');
+      }
+    }
+  }else{
+    setStatus('stale','未获取到数据');
+  }
+}
+
+// 实时更新 — 每2.5秒跑一轮
+let _tickLock=false;
+async function tick() {
+  if(allCandles.length===0||_tickLock) return;
+  _tickLock=true;
+  try {
+    let newEpoch=await getCurrentEpoch();
+    if(newEpoch&&newEpoch!==currentEpochNum){
+      currentEpochNum=newEpoch;
+      $('epochDisplay').textContent='Epoch: '+newEpoch;
+      await rebuildOnNewEpoch(newEpoch);
+    }else{
+      const lp=await getLiveBNBPrice();
+      if(lp&&lp>0){
+        const prev=$('priceDisplay').textContent==='--'?0:parseFloat($('priceDisplay').textContent.replace('$',''));
+        livePrice=lp;
+        $('priceDisplay').textContent='$'+lp.toFixed(2);
+        if(prev>0){
+          const arrow=document.getElementById('flashArrow');
+          if(lp>prev){arrow.textContent='↑';arrow.style.color='#f85149';arrow.style.fontWeight='bold';setTimeout(()=>arrow.textContent='',800);}
+          else if(lp<prev){arrow.textContent='↓';arrow.style.color='#3fb950';setTimeout(()=>arrow.textContent='',800);}
+        }
+        let d=new Date();$('timeDisplay').textContent=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')+':'+d.getSeconds().toString().padStart(2,'0');
+        if(allCandles.length>0){
+          const last=allCandles[allCandles.length-1];
+          last.close=lp;
+          if(lp>last.high)last.high=lp;
+          if(lp<last.low && lp>0)last.low=lp; // 防止RPC返回0把low重置为0
+          const isLiveView=viewOffset>=allCandles.length-WINDOW-5;
+          draw();
+          if(!isLiveView&&$('statusText').textContent.includes('根')){$('statusText').textContent='查看历史中 ⟫ 可回最新';$('statusDot').className='dot-stale';}
+        }
+      }
+    }
+  } catch(e){console.error('tick err',e);}
+  _tickLock=false;
+}
+
+async function rebuildOnNewEpoch(ce){
+  const start=Math.max(1,ce-MAX_CANDLES-10);
+  let candles=await fetchEpochs(start,ce-1);
+  const curRound=await getRound(ce);
+  const isLiveRound=!curRound||!curRound.close_p||curRound.close_p===0;
+  if(curRound&&isLiveRound){
+    const lp=await getLiveBNBPrice();
+    const open=candles.length>0?candles[candles.length-1].close:curRound.lock_p;
+    const close=(lp&&lp>0)?lp:(curRound.lock_p>0?curRound.lock_p:open);
+    const safeLow=Math.min(open,close,curRound.lock_p);
+    candles.push({epoch:curRound.epoch,timestamp:curRound.lock_ts,open,high:Math.max(open,close,curRound.lock_p),low:safeLow>0?safeLow:open,close,isLive:true});
+  }
+  allCandles=candles;
+  viewOffset=Math.max(0,allCandles.length-WINDOW);
+  $('totalCandles').textContent=allCandles.length;
+  updateUI();
+}
+
+function setStatus(s,t){$('statusDot').className='dot-'+s;$('statusText').textContent=t;}
+
+function updateUI(){
+  $('totalCandles').textContent=allCandles.length;
+  const vis=Math.min(WINDOW,allCandles.length-viewOffset);
+  $('viewRange').textContent=vis;
+  const end=Math.min(viewOffset+WINDOW,allCandles.length);
+  $('rangeLabel').textContent=(viewOffset+1)+'-'+end;
+  draw();
+}
+
+// 翻到最新页
+function goToLive(){
+  viewOffset=Math.max(0,allCandles.length-WINDOW);
+  updateUI();
+  const last=allCandles[allCandles.length-1];
+  if(last&&last.isLive){
+    $('statusText').textContent='📡 实时追踪中';
+    $('statusDot').className='dot-live';
+  }
+}
+
+// ─── 从原版抄来的drawKline ───
+function draw(){
+  const kline=allCandles.slice(viewOffset,viewOffset+WINDOW);
+  if(kline.length===0){$('noData').style.display='flex';return;}
+  $('noData').style.display='none';
+  
+  const dpr=window.devicePixelRatio||1;
+  const rect=chartBox.getBoundingClientRect();
+  if(rect.width<10||rect.height<10)return;
+  canvas.width=rect.width*dpr;
+  canvas.height=rect.height*dpr;
+  ctx.scale(dpr,dpr);
+  const w=rect.width;
+  const h=rect.height;
+  
+  let minP=Infinity,maxP=-Infinity;
+  for(const k of kline){if(k.low>0&&k.low<minP)minP=k.low;if(k.high>maxP)maxP=k.high;}
+  if(minP===Infinity||minP<=0)minP=Math.min(...kline.filter(k=>k.close>0).map(k=>k.close))*0.998;
+  minP*=0.999;maxP*=1.001;
+  const range=maxP-minP||1;
+  const chartH=h-42;
+  const chartY=8;
+  
+  // 网格
+  ctx.strokeStyle='rgba(48,54,61,0.5)';ctx.lineWidth=1;
+  ctx.beginPath();
+  for(let i=0;i<=4;i++){const y=chartY+(chartH*i/4);ctx.moveTo(10,y);ctx.lineTo(w-10,y);}
+  ctx.stroke();
+  
+  // 价格标签
+  ctx.font='10px "SF Mono",monospace';ctx.textAlign='right';ctx.textBaseline='middle';
+  for(let i=0;i<=4;i++){
+    const y=chartY+(chartH*i/4);
+    const p=maxP-(range/4)*i;
+    ctx.fillStyle='#8b949e';
+    ctx.fillText('$'+(p<100?p.toFixed(2):p.toFixed(1)),8,y);
+  }
+  
+  // 蜡烛
+  const step=(w-20)/kline.length;
+  for(let i=0;i<kline.length;i++){
+    const k=kline[i];
+    const x=10+i*step;
+    const isBull=k.close>=k.open;
+    const color=isBull?'#f85149':'#3fb950';
+    
+    ctx.strokeStyle=color;ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(x+2,chartY+((maxP-k.high)/range)*chartH);ctx.lineTo(x+2,chartY+((maxP-k.low)/range)*chartH);ctx.stroke();
+    
+    ctx.fillStyle=color;
+    const bodyTop=chartY+((maxP-Math.max(k.open,k.close))/range)*chartH;
+    const bodyBot=chartY+((maxP-Math.min(k.open,k.close))/range)*chartH;
+    const bodyHt=Math.max(1,bodyBot-bodyTop);
+    ctx.fillRect(x,bodyTop,4,bodyHt);
+    
+    if(k.isLive){
+      ctx.strokeStyle='#ffd700';ctx.lineWidth=1.5;ctx.setLineDash([3,3]);
+      ctx.strokeRect(x-1,bodyTop-1,7,bodyHt+2);ctx.setLineDash([]);
+    }
+  }
+  
+  // 时间标签
+  ctx.fillStyle='#8b949e';ctx.font='9px monospace';ctx.textAlign='center';
+  for(let i=0;i<kline.length;i+=10){
+    const k=kline[i];if(!k.timestamp)continue;
+    const d=new Date(k.timestamp*1000);
+    ctx.fillText(d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0'),10+i*step,h-5);
+  }
+  
+  // 当前价虚线
+  if(kline.length>0){
+    const lastClose=kline[kline.length-1].close;
+    const priceY=chartY+((maxP-lastClose)/range)*chartH;
+    ctx.setLineDash([2,2]);ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(10,priceY);ctx.lineTo(w-10,priceY);ctx.stroke();ctx.setLineDash([]);
+  }
+}
+
+// 导航
+$('btnFirst').onclick=function(){viewOffset=0;updateUI();};
+$('btnPrev').onclick=function(){viewOffset=Math.max(0,viewOffset-Math.floor(WINDOW*0.7));updateUI();};
+$('btnNext').onclick=function(){viewOffset=Math.min(allCandles.length-WINDOW,viewOffset+Math.floor(WINDOW*0.7));updateUI();};
+$('btnLast').onclick=function(){goToLive();};
+
+window.onresize=function(){clearTimeout(window._rs);window._rs=setTimeout(draw,200);};
+
+// 启动
+setTimeout(loadData,100);
+setInterval(tick,2000);
+setTimeout(tick,1500);
+</script>
+</body>
+</html>
