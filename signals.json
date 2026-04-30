@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 476980,
-    "direction": "BULL",
-    "confidence": 52.0,
-    "pool_total": 0.66,
-    "pool_bull": 0.15,
-    "pool_bear": 0.51,
+    "epoch": 476981,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.25,
+    "pool_bull": 0,
+    "pool_bear": 0,
     "signals": [
       {
         "name": "Time",
@@ -15,21 +15,21 @@
       },
       {
         "name": "Pool",
-        "direction": "BULL",
-        "score": 97,
-        "info": "B:23.4%(4.3x) R:76.6%(1.3x)"
+        "direction": null,
+        "score": 0,
+        "info": "B:10.8%(9.2x) R:89.2%(1.1x) ⚠️ trap(BEAR极端失衡)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$619.53 RSI:46 EMA:-0.03% flat"
+        "info": "$619.65 RSI:45 EMA:-0.03% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 87,
-        "info": "LS:2.75 long-squeeze"
+        "info": "LS:2.74 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "10:13:55"
+    "time": "10:19:06"
   },
-  "lock_ts": 1777515273,
-  "current_ts": 1777515490,
+  "lock_ts": 1777515578,
+  "current_ts": 1777515550,
   "history": [
     {
       "epoch": 476500,
@@ -4852,6 +4852,15 @@
       "time_full": "2026-04-30 10:13:55",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476981,
+      "direction": "SKIP",
+      "confidence": 17.0,
+      "time": "10:19:06",
+      "time_full": "2026-04-30 10:19:06",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4921,10 +4930,10 @@
     "hour": 10,
     "bull": 9,
     "bear": 3,
-    "skip": 2,
-    "total": 14
+    "skip": 3,
+    "total": 15
   },
-  "bnb_price": 619.63,
+  "bnb_price": 619.64,
   "kline": [
     {
       "timestamp": 1777497600.0,
@@ -5344,8 +5353,8 @@
       "open": 619.67,
       "high": 620.0,
       "low": 619.46,
-      "close": 619.63
+      "close": 619.64
     }
   ],
-  "updated": "2026-04-30T10:18:10.449562"
+  "updated": "2026-04-30T10:19:11.206503"
 }
