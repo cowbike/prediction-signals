@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 476971,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 1.25,
-    "pool_bull": 0,
-    "pool_bear": 0,
+    "epoch": 476972,
+    "direction": "BULL",
+    "confidence": 51.0,
+    "pool_total": 0.22,
+    "pool_bull": 0.05,
+    "pool_bear": 0.17,
     "signals": [
       {
         "name": "Time",
@@ -15,20 +15,20 @@
       },
       {
         "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:87.6%(1.1x) R:12.4%(8.1x) ⚠️ trap(BULL极端失衡)"
+        "direction": "BULL",
+        "score": 95,
+        "info": "B:22.8%(4.4x) R:77.2%(1.3x)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$620.34 RSI:53 EMA:+0.17% flat"
+        "info": "$620.38 RSI:53 EMA:+0.15% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 87,
+        "score": 88,
         "info": "LS:2.75 long-squeeze"
       },
       {
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "09:28:37"
+    "time": "09:33:06"
   },
-  "lock_ts": 1777512518,
-  "current_ts": 1777512730,
+  "lock_ts": 1777512824,
+  "current_ts": 1777512791,
   "history": [
     {
       "epoch": 476493,
@@ -4832,6 +4832,15 @@
       "time_full": "2026-04-30 09:28:37",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 476972,
+      "direction": "BULL",
+      "confidence": 51.0,
+      "time": "09:33:06",
+      "time_full": "2026-04-30 09:33:06",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4899,12 +4908,12 @@
   },
   "hourly_stats": {
     "hour": 9,
-    "bull": 8,
+    "bull": 9,
     "bear": 9,
     "skip": 1,
-    "total": 18
+    "total": 19
   },
-  "bnb_price": 620.51,
+  "bnb_price": 620.38,
   "kline": [
     {
       "timestamp": 1777494900.0,
@@ -5324,8 +5333,8 @@
       "open": 620.07,
       "high": 620.53,
       "low": 620.07,
-      "close": 620.51
+      "close": 620.38
     }
   ],
-  "updated": "2026-04-30T09:32:11.030899"
+  "updated": "2026-04-30T09:33:11.297261"
 }
