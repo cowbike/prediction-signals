@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478313,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 1.31,
-    "pool_bull": 0,
-    "pool_bear": 0,
+    "epoch": 478314,
+    "direction": "BULL",
+    "confidence": 35.0,
+    "pool_total": 1.43,
+    "pool_bull": 0.66,
+    "pool_bear": 0.77,
     "signals": [
       {
         "name": "Time",
@@ -17,13 +17,13 @@
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:87.2%(1.1x) R:12.8%(7.8x) ⚠️ trap(BULL极端失衡)"
+        "info": "B:46.4%(2.2x) R:53.6%(1.9x)"
       },
       {
         "name": "Mom",
-        "direction": null,
-        "score": 0,
-        "info": "$625.29 RSI:43 EMA:-0.14% flat"
+        "direction": "BULL",
+        "score": 100,
+        "info": "$625.01 RSI:9 EMA:-0.13% OS"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "03:36:04"
+    "time": "03:40:38"
   },
-  "lock_ts": 1777923368,
-  "current_ts": 1777923611,
+  "lock_ts": 1777923674,
+  "current_ts": 1777923650,
   "history": [
     {
       "epoch": 477648,
@@ -4232,6 +4232,15 @@
       "time_full": "2026-05-05 03:36:04",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 478314,
+      "direction": "BULL",
+      "confidence": 35.0,
+      "time": "03:40:38",
+      "time_full": "2026-05-05 03:40:38",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4299,12 +4308,12 @@
   },
   "hourly_stats": {
     "hour": 3,
-    "bull": 6,
+    "bull": 7,
     "bear": 10,
     "skip": 3,
-    "total": 19
+    "total": 20
   },
-  "bnb_price": 625.04,
+  "bnb_price": 625.01,
   "kline": [
     {
       "timestamp": 1777905900.0,
@@ -4723,9 +4732,9 @@
       "timestamp": 1777923600.0,
       "open": 625.01,
       "high": 625.04,
-      "low": 625.01,
-      "close": 625.04
+      "low": 625.0,
+      "close": 625.01
     }
   ],
-  "updated": "2026-05-05T03:40:11.302887"
+  "updated": "2026-05-05T03:40:50.507238"
 }
