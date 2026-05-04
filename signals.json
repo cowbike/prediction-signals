@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478332,
-    "direction": "BULL",
-    "confidence": 47.0,
-    "pool_total": 1.48,
-    "pool_bull": 0.43,
-    "pool_bear": 1.05,
+    "epoch": 478333,
+    "direction": "BEAR",
+    "confidence": 38.0,
+    "pool_total": 1.25,
+    "pool_bull": 0.13,
+    "pool_bear": 1.13,
     "signals": [
       {
         "name": "Time",
@@ -15,15 +15,15 @@
       },
       {
         "name": "Pool",
-        "direction": "BULL",
-        "score": 81,
-        "info": "B:29.3%(3.4x) R:70.7%(1.4x)"
+        "direction": null,
+        "score": 0,
+        "info": "B:10.0%(10.0x) R:90.0%(1.1x) ⚠️ trap(BEAR极端失衡)"
       },
       {
         "name": "Mom",
-        "direction": null,
-        "score": 0,
-        "info": "$623.85 RSI:67 EMA:-0.11% flat"
+        "direction": "BEAR",
+        "score": 100,
+        "info": "$624.20 RSI:88 EMA:-0.05% OB"
       },
       {
         "name": "Liq",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0028% neutral"
       }
     ],
-    "trend": "📈 连涨3根(+$0.89)",
-    "time": "05:12:34"
+    "trend": "📈 连涨3根(+$0.90)",
+    "time": "05:17:44"
   },
-  "lock_ts": 1777929194,
-  "current_ts": 1777929430,
+  "lock_ts": 1777929500,
+  "current_ts": 1777929474,
   "history": [
     {
       "epoch": 477657,
@@ -4332,6 +4332,15 @@
       "time_full": "2026-05-05 05:12:34",
       "trend": "📈 连涨3根(+$0.89)",
       "outcome": null
+    },
+    {
+      "epoch": 478333,
+      "direction": "BEAR",
+      "confidence": 38.0,
+      "time": "05:17:44",
+      "time_full": "2026-05-05 05:17:44",
+      "trend": "📈 连涨3根(+$0.90)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4400,11 +4409,11 @@
   "hourly_stats": {
     "hour": 5,
     "bull": 1,
-    "bear": 9,
+    "bear": 10,
     "skip": 4,
-    "total": 14
+    "total": 15
   },
-  "bnb_price": 624.2,
+  "bnb_price": 624.19,
   "kline": [
     {
       "timestamp": 1777911600.0,
@@ -4824,8 +4833,8 @@
       "open": 624.06,
       "high": 624.33,
       "low": 624.05,
-      "close": 624.2
+      "close": 624.19
     }
   ],
-  "updated": "2026-05-05T05:17:10.556792"
+  "updated": "2026-05-05T05:17:55.137630"
 }
