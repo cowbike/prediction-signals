@@ -1229,6 +1229,11 @@ async function cloudRemove(wallet) {
   cloudRefresh();
 }
 
+async function cloudSetTiming(wallet, sec) {
+  await cloudApi('POST', '/mode', { wallet, bet_after: sec });
+  cloudRefresh();
+}
+
 function renderWalletCard(ws) {
   const dirBullActive = ws.direction === 'BULL';
   const isPaused = ws.paused || ws.mode === 'paused';
@@ -1249,12 +1254,15 @@ function renderWalletCard(ws) {
         <button onclick="cloudSetMode('${ws.wallet}','0.003')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${mode003 ? 'var(--green)' : 'var(--border)'};color:${mode003 ? 'var(--green)' : 'var(--dim)'};background:var(--card)">🚀 0.003</button>
         <button onclick="cloudSetMode('${ws.wallet}','0.002')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${!mode003 && !isPaused ? 'var(--green)' : 'var(--border)'};color:${!mode003 && !isPaused ? 'var(--green)' : 'var(--dim)'};background:var(--card)">🐢 0.002</button>
       </div>
+      <div style="display:flex;gap:3px;margin-bottom:6px">
+        ${[90,120,150,180,210].map(s => `<button onclick="cloudSetTiming('${ws.wallet}',${s})" style="flex:1;padding:4px;font-size:10px;border-radius:6px;cursor:pointer;border:1px solid ${ws.bet_after===s ? 'var(--blue)' : 'var(--border)'};color:${ws.bet_after===s ? 'var(--blue)' : 'var(--dim)'};background:var(--card)">${s}s</button>`).join('')}
+      </div>
       <div style="display:flex;gap:4px">
         <button onclick="cloudPause('${ws.wallet}')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${isPaused ? 'var(--yellow)' : 'var(--red)'};color:${isPaused ? 'var(--yellow)' : 'var(--red)'};background:var(--card)">${isPaused ? '⏸ 已暂停' : '⏸ 暂停'}</button>
         <button onclick="cloudRemove('${ws.wallet}')" style="flex:0 0 auto;padding:6px 10px;font-size:11px;border-radius:8px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">✕</button>
       </div>
       <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:var(--dim)">
-        <span>${ws.bet_count} 次下注</span>
+        <span>${ws.bet_count} 次下注 · 开局后${ws.bet_after || 90}s下注</span>
         <span>投入 ${ws.total_wagered} BNB</span>
       </div>
       ${ws.last_error ? '<div style="font-size:10px;color:var(--red);margin-top:2px">' + ws.last_error + '</div>' : ''}

@@ -38,6 +38,7 @@ class WalletState:
         self.private_key = private_key
         self.mode = 'paused'       # 'paused', '0.003', '0.002'
         self.direction = 'BULL'    # 'BULL' or 'BEAR'
+        self.bet_after = 90        # seconds after round opens (90/120/150/180/210)
         self.paused = True
         self.last_bet_epoch = 0
         self.status = '已授权'
@@ -50,6 +51,7 @@ class WalletState:
             'wallet': self.addr,
             'mode': self.mode,
             'direction': self.direction,
+            'bet_after': self.bet_after,
             'paused': self.paused,
             'status': self.status,
             'bet_count': self.bet_count,
@@ -167,48 +169,49 @@ def bet_loop():
             round_start = lock_ts - ROUND_INTERVAL
             elapsed = now - round_start
 
-            # Wait if too early
-            if elapsed < BET_AFTER_OPEN:
-                wait = BET_AFTER_OPEN - elapsed
-                for ws in active:
+            # Process each wallet with its own timing
+            for ws in active:
+                ba = ws.bet_after
+                if elapsed < ba:
+                    wait = ba - elapsed
                     with _lock:
                         ws.status = f'⏳ 等待下注 (E{epoch}, {wait:.0f}s后)'
-                time.sleep(min(wait, 5))
-                continue
+                    continue
 
-            # In the betting window (90-100s after round opens)
-            if BET_AFTER_OPEN <= elapsed <= BET_AFTER_OPEN + 10:
-                for ws in active:
-                    if ws.last_bet_epoch == epoch:
-                        continue
+                # In the betting window (ba to ba+10s after round opens)
+                if not (ba <= elapsed <= ba + 10):
+                    continue
 
-                    amount = 0.003 if ws.mode == '0.003' else 0.002
-                    balance = get_balance(ws.addr)
+                if ws.last_bet_epoch == epoch:
+                    continue
 
-                    if balance < amount + 0.001:
-                        with _lock:
-                            ws.status = f'❌ 余额不足 ({balance:.4f} BNB)'
-                            ws.paused = True
-                        continue
+                amount = 0.003 if ws.mode == '0.003' else 0.002
+                balance = get_balance(ws.addr)
 
+                if balance < amount + 0.001:
                     with _lock:
-                        ws.status = f'⚡ 下注中... E{epoch} {ws.direction} {amount}BNB'
+                        ws.status = f'❌ 余额不足 ({balance:.4f} BNB)'
+                        ws.paused = True
+                    continue
 
-                    try:
-                        tx_hash = sign_and_send(ws, ws.direction, epoch, amount)
-                        with _lock:
-                            ws.last_bet_epoch = epoch
-                            ws.bet_count += 1
-                            ws.total_wagered += amount
-                            ws.status = f'✅ E{epoch} {ws.direction} {amount}BNB | {tx_hash[:10]}...'
-                            ws.last_error = None
-                    except Exception as e:
-                        err = str(e)[:120]
-                        with _lock:
-                            ws.status = f'❌ E{epoch} 失败: {err}'
-                            ws.last_error = err
+                with _lock:
+                    ws.status = f'⚡ 下注中... E{epoch} {ws.direction} {amount}BNB'
 
-                    time.sleep(1)  # stagger between wallets
+                try:
+                    tx_hash = sign_and_send(ws, ws.direction, epoch, amount)
+                    with _lock:
+                        ws.last_bet_epoch = epoch
+                        ws.bet_count += 1
+                        ws.total_wagered += amount
+                        ws.status = f'✅ E{epoch} {ws.direction} {amount}BNB | {tx_hash[:10]}...'
+                        ws.last_error = None
+                except Exception as e:
+                    err = str(e)[:120]
+                    with _lock:
+                        ws.status = f'❌ E{epoch} 失败: {err}'
+                        ws.last_error = err
+
+                time.sleep(1)  # stagger between wallets
 
             time.sleep(5)
 
@@ -223,6 +226,7 @@ def save_config():
             'private_key': ws.private_key,
             'mode': ws.mode,
             'direction': ws.direction,
+            'bet_after': ws.bet_after,
             'paused': ws.paused,
             'bet_count': ws.bet_count,
             'total_wagered': ws.total_wagered,
@@ -245,6 +249,7 @@ def load_config():
                 ws = WalletState(acct.address, data['private_key'])
                 ws.mode = data.get('mode', 'paused')
                 ws.direction = data.get('direction', 'BULL')
+                ws.bet_after = data.get('bet_after', 90)
                 ws.paused = data.get('paused', True)
                 ws.bet_count = data.get('bet_count', 0)
                 ws.total_wagered = data.get('total_wagered', 0)
@@ -334,6 +339,7 @@ class BetAPI(BaseHTTPRequestHandler):
             wallet = data.get('wallet', '').lower().strip()
             mode = data.get('mode', '')
             direction = data.get('direction', '')
+            bet_after = data.get('bet_after')
 
             if not wallet or wallet not in wallets:
                 self._json({'error': '钱包未授权'}, 400)
@@ -344,11 +350,16 @@ class BetAPI(BaseHTTPRequestHandler):
             if direction and direction not in ('BULL', 'BEAR'):
                 self._json({'error': '无效方向'}, 400)
                 return
+            if bet_after is not None and bet_after not in (90, 120, 150, 180, 210):
+                self._json({'error': '无效时间'}, 400)
+                return
 
             ws = wallets[wallet]
             with _lock:
                 if direction:
                     ws.direction = direction
+                if bet_after is not None:
+                    ws.bet_after = bet_after
                 if mode:
                     ws.mode = mode
                     ws.paused = (mode == 'paused')
