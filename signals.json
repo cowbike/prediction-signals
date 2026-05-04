@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478311,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 1.63,
-    "pool_bull": 0,
-    "pool_bear": 0,
+    "epoch": 478312,
+    "direction": "BULL",
+    "confidence": 31.0,
+    "pool_total": 0.81,
+    "pool_bull": 0.69,
+    "pool_bear": 0.11,
     "signals": [
       {
         "name": "Time",
@@ -17,13 +17,13 @@
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:52.4%(1.9x) R:47.6%(2.1x)"
+        "info": "B:85.9%(1.2x) R:14.1%(7.1x) ⚠️ trap(BULL极端失衡)"
       },
       {
         "name": "Mom",
-        "direction": null,
-        "score": 0,
-        "info": "$625.01 RSI:31 EMA:-0.17% flat"
+        "direction": "BULL",
+        "score": 79,
+        "info": "$625.20 RSI:18 EMA:-0.16% OS"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "03:25:52"
+    "time": "03:30:26"
   },
-  "lock_ts": 1777922757,
-  "current_ts": 1777923010,
+  "lock_ts": 1777923062,
+  "current_ts": 1777923037,
   "history": [
     {
       "epoch": 477644,
@@ -4252,6 +4252,15 @@
       "time_full": "2026-05-05 03:25:52",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 478312,
+      "direction": "BULL",
+      "confidence": 31.0,
+      "time": "03:30:26",
+      "time_full": "2026-05-05 03:30:26",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4319,12 +4328,12 @@
   },
   "hourly_stats": {
     "hour": 3,
-    "bull": 5,
+    "bull": 6,
     "bear": 10,
     "skip": 2,
-    "total": 17
+    "total": 18
   },
-  "bnb_price": 625.15,
+  "bnb_price": 625.24,
   "kline": [
     {
       "timestamp": 1777905300.0,
@@ -4742,10 +4751,10 @@
     {
       "timestamp": 1777923000.0,
       "open": 625.14,
-      "high": 625.15,
+      "high": 625.24,
       "low": 625.14,
-      "close": 625.15
+      "close": 625.24
     }
   ],
-  "updated": "2026-05-05T03:30:11.183107"
+  "updated": "2026-05-05T03:30:37.403302"
 }
