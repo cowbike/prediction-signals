@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478298,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 1.74,
-    "pool_bull": 0,
-    "pool_bear": 0,
+    "epoch": 478299,
+    "direction": "BULL",
+    "confidence": 36.0,
+    "pool_total": 0.74,
+    "pool_bull": 0.28,
+    "pool_bear": 0.47,
     "signals": [
       {
         "name": "Time",
@@ -17,13 +17,13 @@
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:60.1%(1.7x) R:39.9%(2.5x)"
+        "info": "B:36.9%(2.7x) R:63.1%(1.6x)"
       },
       {
         "name": "Mom",
-        "direction": null,
-        "score": 0,
-        "info": "$626.88 RSI:42 EMA:+0.08% flat"
+        "direction": "BULL",
+        "score": 100,
+        "info": "$626.43 RSI:14 EMA:+0.03% OS"
       },
       {
         "name": "Liq",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0028% neutral"
       }
     ],
-    "trend": null,
-    "time": "02:19:34"
+    "trend": "📉 连跌3根($-1.01)",
+    "time": "02:24:08"
   },
-  "lock_ts": 1777918778,
-  "current_ts": 1777918991,
+  "lock_ts": 1777919084,
+  "current_ts": 1777919050,
   "history": [
     {
       "epoch": 477637,
@@ -4192,6 +4192,15 @@
       "time_full": "2026-05-05 02:19:34",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 478299,
+      "direction": "BULL",
+      "confidence": 36.0,
+      "time": "02:24:08",
+      "time_full": "2026-05-05 02:24:08",
+      "trend": "📉 连跌3根($-1.01)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4259,12 +4268,12 @@
   },
   "hourly_stats": {
     "hour": 2,
-    "bull": 6,
+    "bull": 7,
     "bear": 7,
     "skip": 3,
-    "total": 16
+    "total": 17
   },
-  "bnb_price": 626.67,
+  "bnb_price": 626.43,
   "kline": [
     {
       "timestamp": 1777901100.0,
@@ -4683,9 +4692,9 @@
       "timestamp": 1777918800.0,
       "open": 626.88,
       "high": 626.88,
-      "low": 626.53,
-      "close": 626.67
+      "low": 626.4,
+      "close": 626.43
     }
   ],
-  "updated": "2026-05-05T02:23:11.327471"
+  "updated": "2026-05-05T02:24:11.113022"
 }
