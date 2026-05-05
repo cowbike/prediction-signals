@@ -1,29 +1,29 @@
 {
   "current": {
-    "epoch": 478564,
-    "direction": "BULL",
-    "confidence": 32.0,
-    "pool_total": 0.59,
-    "pool_bull": 0.57,
-    "pool_bear": 0.02,
+    "epoch": 478565,
+    "direction": "BEAR",
+    "confidence": 34.0,
+    "pool_total": 0.53,
+    "pool_bull": 0.45,
+    "pool_bear": 0.08,
     "signals": [
       {
         "name": "Time",
         "direction": null,
         "score": 0,
-        "info": "0h Wed neutral"
+        "info": "1h Wed neutral"
       },
       {
         "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:96.6%(1.0x) R:3.4%(29.0x) ⚠️ trap(BULL极端失衡)"
+        "direction": "BEAR",
+        "score": 15,
+        "info": "B:84.2%(1.2x) R:15.8%(6.3x)"
       },
       {
         "name": "Mom",
         "direction": "BULL",
-        "score": 84,
-        "info": "$629.23 RSI:17 EMA:-0.27% OS"
+        "score": 67,
+        "info": "$629.25 RSI:20 EMA:-0.27% OS"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "00:56:19"
+    "time": "01:01:25"
   },
-  "lock_ts": 1778000216,
-  "current_ts": 1778000470,
+  "lock_ts": 1778000522,
+  "current_ts": 1778000496,
   "history": [
     {
       "epoch": 477854,
@@ -4682,6 +4682,15 @@
       "time_full": "2026-05-06 00:56:19",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 478565,
+      "direction": "BEAR",
+      "confidence": 34.0,
+      "time": "01:01:25",
+      "time_full": "2026-05-06 01:01:25",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4748,11 +4757,11 @@
     "tracking_total_24h": 312
   },
   "hourly_stats": {
-    "hour": 0,
-    "bull": 8,
-    "bear": 12,
-    "skip": 4,
-    "total": 24
+    "hour": 1,
+    "bull": 2,
+    "bear": 9,
+    "skip": 2,
+    "total": 13
   },
   "bnb_price": 629.25,
   "kline": [
@@ -5177,5 +5186,5 @@
       "close": 629.25
     }
   ],
-  "updated": "2026-05-06T01:01:11.144576"
+  "updated": "2026-05-06T01:01:36.420718"
 }
