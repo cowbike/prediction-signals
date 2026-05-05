@@ -323,7 +323,7 @@
   <div id="wallet-list" style="margin-top:10px"></div>
 
   <div id="pause-all-wrap" style="display:none;margin-top:10px">
-    <button class="btn" onclick="cloudPauseAll()" style="width:100%;padding:10px;font-size:13px;background:var(--card);color:var(--red);border:1px solid var(--red);border-radius:10px;cursor:pointer;font-weight:600">⏸ 全部暂停</button>
+    <button id="pause-all-btn" class="btn" onclick="cloudPauseAll()" style="width:100%;padding:10px;font-size:13px;background:var(--card);color:var(--red);border:1px solid var(--red);border-radius:10px;cursor:pointer;font-weight:600">⏸ 全部暂停</button>
   </div>
 </div>
 
@@ -944,6 +944,30 @@ function renderTracking(t) {
   el.innerHTML = html;
 }
 
+// Global countdown to lock time — updates every second
+let _globalCountdownInterval = null;
+function startGlobalCountdown() {
+  if (_globalCountdownInterval) clearInterval(_globalCountdownInterval);
+  const el = document.getElementById('global-countdown');
+  if (!el) return;
+  _globalCountdownInterval = setInterval(() => {
+    const lockTs = window._signalData?.lock_ts;
+    if (!lockTs) { el.textContent = '⏳ --'; return; }
+    const now = Math.floor(Date.now() / 1000);
+    const diff = lockTs - now;
+    if (diff <= 0) {
+      el.textContent = '🔒 LOCK';
+      el.style.color = '#f85149';
+    } else if (diff <= 15) {
+      el.textContent = '🔒 ' + diff + 's';
+      el.style.color = '#f85149';
+    } else {
+      el.textContent = '⏳ ' + diff + 's';
+      el.style.color = '';
+    }
+  }, 1000);
+}
+
 async function fetchData() {
   try {
     const resp = await fetch(DATA_URL + '?t=' + Date.now());
@@ -1217,9 +1241,29 @@ async function cloudPause(wallet) {
   cloudRefresh();
 }
 
+async function cloudResume(wallet) {
+  // Resume with default mode 0.003 (or last known mode)
+  await cloudApi('POST', '/mode', { wallet, mode: '0.003' });
+  showBetStatus('success', '▶ ' + shortAddr(wallet) + ' 恢复下注');
+  cloudRefresh();
+}
+
 async function cloudPauseAll() {
   await cloudApi('POST', '/pause-all', {});
   showBetStatus('countdown', '⏸ 全部暂停');
+  cloudRefresh();
+}
+
+async function cloudResumeAll() {
+  const res = await cloudApi('GET', '/status');
+  if (res.wallets) {
+    for (const w of res.wallets) {
+      if (w.paused || w.mode === 'paused') {
+        await cloudApi('POST', '/mode', { wallet: w.wallet, mode: '0.003' });
+      }
+    }
+  }
+  showBetStatus('success', '▶ 全部恢复下注');
   cloudRefresh();
 }
 
@@ -1258,7 +1302,10 @@ function renderWalletCard(ws) {
         ${[90,120,150,180,210].map(s => `<button onclick="cloudSetTiming('${ws.wallet}',${s})" style="flex:1;padding:4px;font-size:10px;border-radius:6px;cursor:pointer;border:1px solid ${ws.bet_after===s ? 'var(--blue)' : 'var(--border)'};color:${ws.bet_after===s ? 'var(--blue)' : 'var(--dim)'};background:var(--card)">${s}s</button>`).join('')}
       </div>
       <div style="display:flex;gap:4px">
-        <button onclick="cloudPause('${ws.wallet}')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${isPaused ? 'var(--yellow)' : 'var(--red)'};color:${isPaused ? 'var(--yellow)' : 'var(--red)'};background:var(--card)">${isPaused ? '⏸ 已暂停' : '⏸ 暂停'}</button>
+        ${isPaused
+          ? `<button onclick="cloudResume('${ws.wallet}')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid var(--green);color:var(--green);background:var(--card)">▶ 开始</button>`
+          : `<button onclick="cloudPause('${ws.wallet}')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid var(--red);color:var(--red);background:var(--card)">⏸ 暂停</button>`
+        }
         <button onclick="cloudRemove('${ws.wallet}')" style="flex:0 0 auto;padding:6px 10px;font-size:11px;border-radius:8px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">✕</button>
       </div>
       <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:var(--dim)">
@@ -1277,6 +1324,22 @@ async function cloudRefresh() {
     if (res.wallets && res.wallets.length > 0) {
       list.innerHTML = res.wallets.map(renderWalletCard).join('');
       pauseWrap.style.display = 'block';
+      // Toggle "全部暂停" / "▶ 全部开始" based on wallet states
+      const allPaused = res.wallets.every(w => w.paused || w.mode === 'paused');
+      const btn = document.getElementById('pause-all-btn');
+      if (btn) {
+        if (allPaused) {
+          btn.textContent = '▶ 全部开始';
+          btn.style.borderColor = 'var(--green)';
+          btn.style.color = 'var(--green)';
+          btn.onclick = () => cloudResumeAll();
+        } else {
+          btn.textContent = '⏸ 全部暂停';
+          btn.style.borderColor = 'var(--red)';
+          btn.style.color = 'var(--red)';
+          btn.onclick = () => cloudPauseAll();
+        }
+      }
     } else {
       list.innerHTML = '<div style="text-align:center;color:var(--dim);font-size:12px;padding:20px">暂无授权钱包，请输入私钥授权</div>';
       pauseWrap.style.display = 'none';

@@ -475,7 +475,7 @@ def backfill_history_odds():
         sys.path.insert(0, str(HOME))
         from prediction_monitor import get_round
         filled = 0
-        for h in missing:
+        for h in missing[:30]:  # cap at 30 RPC calls per run
             try:
                 rd = get_round(h["epoch"])
                 if not rd or rd.get("total", 0) == 0:
