@@ -1,12 +1,21 @@
 {
   "current": {
-    "epoch": 478561,
-    "direction": "BULL",
-    "confidence": 36.0,
-    "pool_total": 0.95,
-    "pool_bull": 0.85,
-    "pool_bear": 0.1,
+    "epoch": 478562,
+    "direction": "BEAR",
+    "confidence": 45.1,
+    "pool_total": 0.8725,
+    "pool_bull": 0.6,
+    "pool_bear": 0.2725,
+    "lock_p": 0.0,
+    "lock_ts": 1777999605,
+    "close_ts": 1777999905,
     "signals": [
+      {
+        "name": "Pool",
+        "direction": "BEAR",
+        "score": 37,
+        "info": "B:68.8%(1.5x) R:31.2%(3.2x)"
+      },
       {
         "name": "Time",
         "direction": null,
@@ -14,22 +23,16 @@
         "info": "0h Wed neutral"
       },
       {
-        "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:89.8%(1.1x) R:10.2%(9.8x) ⚠️ trap(BULL极端失衡)"
-      },
-      {
         "name": "Mom",
         "direction": "BULL",
-        "score": 100,
-        "info": "$629.24 RSI:7 EMA:-0.14% OS"
+        "score": 8,
+        "info": "$629.61 RSI:24 EMA:-0.20% OS"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 78,
-        "info": "LS:2.56 long-squeeze"
+        "score": 37,
+        "info": "LS:2.57 long-squeeze"
       },
       {
         "name": "FR",
@@ -38,11 +41,10 @@
         "info": "FR:+0.0107% neutral"
       }
     ],
-    "trend": "📉 连跌3根($-1.81)",
-    "time": "00:41:03"
+    "trend": null,
+    "time": "00:46:10"
   },
-  "lock_ts": 1777999299,
-  "current_ts": 1777999510,
+  "current_ts": 1777999570,
   "history": [
     {
       "epoch": 477853,
@@ -4734,7 +4736,7 @@
     "skip": 4,
     "total": 21
   },
-  "bnb_price": 628.96,
+  "bnb_price": 629.61,
   "kline": [
     {
       "timestamp": 1777981800.0,
@@ -5152,10 +5154,10 @@
     {
       "timestamp": 1777999500.0,
       "open": 628.96,
-      "high": 628.96,
+      "high": 629.61,
       "low": 628.95,
-      "close": 628.95
+      "close": 629.61
     }
   ],
-  "updated": "2026-05-06T00:45:10.697224"
+  "updated": "2026-05-06T00:46:10.938547"
 }
