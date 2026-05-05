@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478609,
+    "epoch": 478610,
     "direction": "BEAR",
-    "confidence": 21.0,
-    "pool_total": 0.4,
-    "pool_bull": 0.06,
-    "pool_bear": 0.35,
+    "confidence": 27.0,
+    "pool_total": 1.16,
+    "pool_bull": 0.75,
+    "pool_bear": 0.41,
     "signals": [
       {
         "name": "Time",
@@ -17,19 +17,19 @@
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:13.7%(7.3x) R:86.3%(1.2x) ⚠️ trap(BEAR极端失衡)"
+        "info": "B:64.4%(1.6x) R:35.6%(2.8x)"
       },
       {
         "name": "Mom",
-        "direction": "BEAR",
-        "score": 12,
-        "info": "$633.99 RSI:72 EMA:+0.24% OB"
+        "direction": "BULL",
+        "score": 42,
+        "info": "$633.43 RSI:67 EMA:+0.21% ↑"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 78,
-        "info": "LS:2.57 long-squeeze"
+        "info": "LS:2.56 long-squeeze"
       },
       {
         "name": "FR",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0107% neutral"
       }
     ],
-    "trend": null,
-    "time": "04:46:07"
+    "trend": "📉 连跌3根($-0.62)",
+    "time": "04:51:12"
   },
-  "lock_ts": 1778014004,
-  "current_ts": 1778014269,
+  "lock_ts": 1778014310,
+  "current_ts": 1778014282,
   "history": [
     {
       "epoch": 478147,
@@ -4672,6 +4672,15 @@
       "time_full": "2026-05-06 04:46:07",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 478610,
+      "direction": "BEAR",
+      "confidence": 27.0,
+      "time": "04:51:12",
+      "time_full": "2026-05-06 04:51:12",
+      "trend": "📉 连跌3根($-0.62)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4740,9 +4749,9 @@
   "hourly_stats": {
     "hour": 4,
     "bull": 2,
-    "bear": 19,
+    "bear": 20,
     "skip": 1,
-    "total": 22
+    "total": 23
   },
   "bnb_price": 633.44,
   "kline": [
@@ -5167,5 +5176,5 @@
       "close": 633.44
     }
   ],
-  "updated": "2026-05-06T04:51:10.180406"
+  "updated": "2026-05-06T04:51:23.045229"
 }
