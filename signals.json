@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478627,
-    "direction": "BEAR",
-    "confidence": 41.0,
-    "pool_total": 0.3,
-    "pool_bull": 0.24,
-    "pool_bear": 0.06,
+    "epoch": 478628,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.15,
+    "pool_bull": 0,
+    "pool_bear": 0,
     "signals": [
       {
         "name": "Time",
@@ -15,15 +15,15 @@
       },
       {
         "name": "Pool",
-        "direction": "BEAR",
-        "score": 76,
-        "info": "B:79.9%(1.3x) R:20.1%(5.0x)"
+        "direction": null,
+        "score": 0,
+        "info": "B:100.0%(1.0x) R:0.0%(999.0x) ⚠️ trap(BULL极端失衡)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$633.47 RSI:63 EMA:+0.06% flat"
+        "info": "$633.23 RSI:56 EMA:+0.06% flat"
       },
       {
         "name": "Liq",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0107% neutral"
       }
     ],
-    "trend": null,
-    "time": "06:17:55"
+    "trend": "📉 连跌3根($-0.99)",
+    "time": "06:23:08"
   },
-  "lock_ts": 1778019512,
-  "current_ts": 1778019730,
+  "lock_ts": 1778019818,
+  "current_ts": 1778019790,
   "history": [
     {
       "epoch": 478176,
@@ -4562,6 +4562,15 @@
       "time_full": "2026-05-06 06:17:55",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 478628,
+      "direction": "SKIP",
+      "confidence": 14.0,
+      "time": "06:23:08",
+      "time_full": "2026-05-06 06:23:08",
+      "trend": "📉 连跌3根($-0.99)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4631,10 +4640,10 @@
     "hour": 6,
     "bull": 5,
     "bear": 10,
-    "skip": 1,
-    "total": 16
+    "skip": 2,
+    "total": 17
   },
-  "bnb_price": 633.47,
+  "bnb_price": 633.23,
   "kline": [
     {
       "timestamp": 1778001900.0,
@@ -5052,10 +5061,10 @@
     {
       "timestamp": 1778019600.0,
       "open": 633.25,
-      "high": 633.47,
+      "high": 633.48,
       "low": 633.2,
-      "close": 633.47
+      "close": 633.23
     }
   ],
-  "updated": "2026-05-06T06:22:10.428816"
+  "updated": "2026-05-06T06:23:10.640223"
 }
