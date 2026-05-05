@@ -44,6 +44,7 @@ class WalletState:
         self.status = '已授权'
         self.last_error = None
         self.bet_count = 0
+        self.bet_attempts = 0
         self.total_wagered = 0.0
 
     def to_dict(self):
@@ -55,6 +56,7 @@ class WalletState:
             'paused': self.paused,
             'status': self.status,
             'bet_count': self.bet_count,
+            'bet_attempts': self.bet_attempts,
             'total_wagered': round(self.total_wagered, 4),
             'last_error': self.last_error,
         }
@@ -195,6 +197,7 @@ def bet_loop():
                     continue
 
                 with _lock:
+                    ws.bet_attempts += 1
                     ws.status = f'⚡ 下注中... E{epoch} {ws.direction} {amount}BNB'
 
                 try:
@@ -229,6 +232,7 @@ def save_config():
             'bet_after': ws.bet_after,
             'paused': ws.paused,
             'bet_count': ws.bet_count,
+            'bet_attempts': ws.bet_attempts,
             'total_wagered': ws.total_wagered,
         }
     try:
@@ -252,6 +256,7 @@ def load_config():
                 ws.bet_after = data.get('bet_after', 90)
                 ws.paused = data.get('paused', True)
                 ws.bet_count = data.get('bet_count', 0)
+                ws.bet_attempts = data.get('bet_attempts', 0)
                 ws.total_wagered = data.get('total_wagered', 0)
                 wallets[ws.addr] = ws
             except:

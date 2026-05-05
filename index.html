@@ -1309,8 +1309,8 @@ function renderWalletCard(ws) {
         <button onclick="cloudRemove('${ws.wallet}')" style="flex:0 0 auto;padding:6px 10px;font-size:11px;border-radius:8px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">✕</button>
       </div>
       <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:var(--dim)">
-        <span>${ws.bet_count} 次下注 · 开局后${ws.bet_after || 90}s下注</span>
-        <span>投入 ${ws.total_wagered} BNB</span>
+        <span>尝试 ${ws.bet_attempts || 0} · 成功 ${ws.bet_count} · 投入 ${ws.total_wagered} BNB</span>
+        <span>开局后${ws.bet_after || 90}s</span>
       </div>
       ${ws.last_error ? '<div style="font-size:10px;color:var(--red);margin-top:2px">' + ws.last_error + '</div>' : ''}
     </div>`;
