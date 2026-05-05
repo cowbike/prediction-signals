@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478554,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 1.38,
-    "pool_bull": 0,
-    "pool_bear": 0,
+    "epoch": 478555,
+    "direction": "BULL",
+    "confidence": 48.0,
+    "pool_total": 0.24,
+    "pool_bull": 0.05,
+    "pool_bear": 0.18,
     "signals": [
       {
         "name": "Time",
@@ -15,20 +15,20 @@
       },
       {
         "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:45.3%(2.2x) R:54.7%(1.8x)"
+        "direction": "BULL",
+        "score": 92,
+        "info": "B:22.2%(4.5x) R:77.8%(1.3x)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$631.74 RSI:46 EMA:+0.07% flat"
+        "info": "$631.52 RSI:37 EMA:+0.06% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 79,
+        "score": 78,
         "info": "LS:2.57 long-squeeze"
       },
       {
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "00:05:56"
+    "time": "00:10:27"
   },
-  "lock_ts": 1777997156,
-  "current_ts": 1777997411,
+  "lock_ts": 1777997463,
+  "current_ts": 1777997437,
   "history": [
     {
       "epoch": 477847,
@@ -4652,6 +4652,15 @@
       "time_full": "2026-05-06 00:05:56",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 478555,
+      "direction": "BULL",
+      "confidence": 48.0,
+      "time": "00:10:27",
+      "time_full": "2026-05-06 00:10:27",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4719,12 +4728,12 @@
   },
   "hourly_stats": {
     "hour": 0,
-    "bull": 3,
+    "bull": 4,
     "bear": 7,
     "skip": 4,
-    "total": 14
+    "total": 15
   },
-  "bnb_price": 631.46,
+  "bnb_price": 631.52,
   "kline": [
     {
       "timestamp": 1777979700.0,
@@ -5143,9 +5152,9 @@
       "timestamp": 1777997400.0,
       "open": 631.63,
       "high": 631.64,
-      "low": 631.46,
-      "close": 631.46
+      "low": 631.45,
+      "close": 631.52
     }
   ],
-  "updated": "2026-05-06T00:10:11.667225"
+  "updated": "2026-05-06T00:10:37.255631"
 }
