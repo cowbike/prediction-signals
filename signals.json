@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478491,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 1.77,
-    "pool_bull": 0,
-    "pool_bear": 0,
+    "epoch": 478492,
+    "direction": "BEAR",
+    "confidence": 22.0,
+    "pool_total": 0.44,
+    "pool_bull": 0.05,
+    "pool_bear": 0.38,
     "signals": [
       {
         "name": "Time",
@@ -17,19 +17,19 @@
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "B:44.4%(2.3x) R:55.6%(1.8x)"
+        "info": "B:12.6%(7.9x) R:87.4%(1.1x) ⚠️ trap(BEAR极端失衡)"
       },
       {
         "name": "Mom",
         "direction": "BEAR",
-        "score": 6,
-        "info": "$628.12 RSI:71 EMA:+0.16% OB"
+        "score": 28,
+        "info": "$628.21 RSI:74 EMA:+0.16% OB"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 83,
-        "info": "LS:2.66 long-squeeze"
+        "info": "LS:2.65 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "18:44:36"
+    "time": "18:49:05"
   },
-  "lock_ts": 1777977878,
-  "current_ts": 1777978089,
+  "lock_ts": 1777978185,
+  "current_ts": 1777978150,
   "history": [
     {
       "epoch": 477810,
@@ -4392,6 +4392,15 @@
       "time_full": "2026-05-05 18:44:36",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 478492,
+      "direction": "BEAR",
+      "confidence": 22.0,
+      "time": "18:49:05",
+      "time_full": "2026-05-05 18:49:05",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4460,11 +4469,11 @@
   "hourly_stats": {
     "hour": 18,
     "bull": 5,
-    "bear": 12,
+    "bear": 13,
     "skip": 3,
-    "total": 20
+    "total": 21
   },
-  "bnb_price": 628.24,
+  "bnb_price": 628.2,
   "kline": [
     {
       "timestamp": 1777960200.0,
@@ -4884,8 +4893,8 @@
       "open": 628.09,
       "high": 628.26,
       "low": 628.0,
-      "close": 628.24
+      "close": 628.2
     }
   ],
-  "updated": "2026-05-05T18:48:10.199069"
+  "updated": "2026-05-05T18:49:10.597523"
 }
