@@ -3,24 +3,21 @@
     "epoch": 478553,
     "direction": "BEAR",
     "confidence": 49.0,
-    "pool_total": 0.5293,
-    "pool_bull": 0.4086,
-    "pool_bear": 0.1207,
-    "lock_p": 0.0,
-    "lock_ts": 1777996850,
-    "close_ts": 1777997150,
+    "pool_total": 0.53,
+    "pool_bull": 0.41,
+    "pool_bear": 0.12,
     "signals": [
-      {
-        "name": "Pool",
-        "direction": "BEAR",
-        "score": 49,
-        "info": "B:77.2%(1.3x) R:22.8%(4.4x)"
-      },
       {
         "name": "Time",
         "direction": null,
         "score": 0,
         "info": "0h Wed neutral"
+      },
+      {
+        "name": "Pool",
+        "direction": "BEAR",
+        "score": 95,
+        "info": "B:77.2%(1.3x) R:22.8%(4.4x)"
       },
       {
         "name": "Mom",
@@ -31,7 +28,7 @@
       {
         "name": "Liq",
         "direction": "BEAR",
-        "score": 49,
+        "score": 78,
         "info": "LS:2.57 long-squeeze"
       },
       {
@@ -41,10 +38,11 @@
         "info": "FR:+0.0107% neutral"
       }
     ],
-    "trend": null,
-    "time": "00:00:10"
+    "trend": "📉 连跌3根($-0.73)",
+    "time": "00:00:09"
   },
-  "current_ts": 1777996810,
+  "lock_ts": 1777996850,
+  "current_ts": 1777996820,
   "history": [
     {
       "epoch": 477842,
@@ -4684,6 +4682,15 @@
       "time_full": "2026-05-05 23:55:15",
       "trend": "📉 连跌3根($-0.40)",
       "outcome": null
+    },
+    {
+      "epoch": 478553,
+      "direction": "BEAR",
+      "confidence": 49.0,
+      "time": "00:00:09",
+      "time_full": "2026-05-06 00:00:09",
+      "trend": "📉 连跌3根($-0.73)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4750,11 +4757,11 @@
     "tracking_total_24h": 310
   },
   "hourly_stats": {
-    "hour": 23,
-    "bull": 4,
-    "bear": 19,
-    "skip": 0,
-    "total": 23
+    "hour": 0,
+    "bull": 3,
+    "bear": 7,
+    "skip": 3,
+    "total": 13
   },
   "bnb_price": 631.31,
   "kline": [
@@ -5179,7 +5186,5 @@
       "close": 631.31
     }
   ],
-  "updated": "2026-05-06T00:00:11.531897",
-  "live_price": 631.31,
-  "live_price_ts": 1777996811
+  "updated": "2026-05-06T00:00:20.695539"
 }
