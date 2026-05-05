@@ -1195,10 +1195,44 @@ function shortAddr(addr) {
   return addr.slice(0, 6) + '...' + addr.slice(-4);
 }
 
+// ── Auth Token Management (localStorage) ──
+function getAuthTokens() {
+  try { return JSON.parse(localStorage.getItem('bet_auth_tokens') || '{}'); } catch { return {}; }
+}
+function saveAuthTokens(tokens) {
+  localStorage.setItem('bet_auth_tokens', JSON.stringify(tokens));
+}
+function getAuthToken(wallet) {
+  return getAuthTokens()[wallet.toLowerCase()] || '';
+}
+function setAuthToken(wallet, token) {
+  const tokens = getAuthTokens();
+  tokens[wallet.toLowerCase()] = token;
+  saveAuthTokens(tokens);
+}
+function removeAuthToken(wallet) {
+  const tokens = getAuthTokens();
+  delete tokens[wallet.toLowerCase()];
+  saveAuthTokens(tokens);
+}
+
 async function cloudApi(method, path, body) {
   const opts = { method, headers: { 'Content-Type': 'application/json' } };
   if (body) opts.body = JSON.stringify(body);
   const r = await fetch(BET_API + path, opts);
+  if (r.status === 403) {
+    showBetStatus('countdown', '🔒 无权操作，请先授权钱包');
+    throw new Error('auth_required');
+  }
+  return r.json();
+}
+
+// GET /status with auth tokens in query string
+async function cloudStatusApi() {
+  const tokens = getAuthTokens();
+  const tokenStr = Object.entries(tokens).map(([k,v]) => k + ':' + v).join(',');
+  const url = BET_API + '/status' + (tokenStr ? '?tokens=' + encodeURIComponent(tokenStr) : '');
+  const r = await fetch(url);
   return r.json();
 }
 
@@ -1209,7 +1243,8 @@ async function cloudAuthorize() {
   status.textContent = '⏳ 授权中...'; status.style.color = 'var(--yellow)';
   try {
     const res = await cloudApi('POST', '/authorize', { private_key: pk });
-    if (res.ok) {
+    if (res.ok && res.auth_token) {
+      setAuthToken(res.wallet, res.auth_token);
       document.getElementById('pk-input').value = '';
       status.textContent = '✅ 已授权: ' + shortAddr(res.wallet) + ' (' + res.count + '/5)';
       status.style.color = 'var(--green)';
@@ -1219,47 +1254,55 @@ async function cloudAuthorize() {
       status.style.color = 'var(--red)';
     }
   } catch (e) {
-    status.textContent = '❌ 连接失败: ' + e.message;
-    status.style.color = 'var(--red)';
+    if (e.message !== 'auth_required') {
+      status.textContent = '❌ 连接失败: ' + e.message;
+      status.style.color = 'var(--red)';
+    }
   }
 }
 
+function _body(wallet, extra) {
+  return { wallet, auth_token: getAuthToken(wallet), ...extra };
+}
+
 async function cloudSetDir(wallet, dir) {
-  await cloudApi('POST', '/mode', { wallet, direction: dir });
+  await cloudApi('POST', '/mode', _body(wallet, { direction: dir }));
   cloudRefresh();
 }
 
 async function cloudSetMode(wallet, mode) {
-  await cloudApi('POST', '/mode', { wallet, mode });
+  await cloudApi('POST', '/mode', _body(wallet, { mode }));
   showBetStatus('success', '🚀 ' + shortAddr(wallet) + ' 启动 ' + mode + ' BNB/轮');
   cloudRefresh();
 }
 
 async function cloudPause(wallet) {
-  await cloudApi('POST', '/pause', { wallet });
+  await cloudApi('POST', '/pause', _body(wallet));
   showBetStatus('countdown', '⏸ ' + shortAddr(wallet) + ' 已暂停');
   cloudRefresh();
 }
 
 async function cloudResume(wallet) {
-  // Resume with default mode 0.003 (or last known mode)
-  await cloudApi('POST', '/mode', { wallet, mode: '0.003' });
+  await cloudApi('POST', '/mode', _body(wallet, { mode: '0.003' }));
   showBetStatus('success', '▶ ' + shortAddr(wallet) + ' 恢复下注');
   cloudRefresh();
 }
 
 async function cloudPauseAll() {
-  await cloudApi('POST', '/pause-all', {});
+  // Send auth token for any wallet we own
+  const tokens = getAuthTokens();
+  const firstToken = Object.values(tokens)[0] || '';
+  await cloudApi('POST', '/pause-all', { auth_token: firstToken });
   showBetStatus('countdown', '⏸ 全部暂停');
   cloudRefresh();
 }
 
 async function cloudResumeAll() {
-  const res = await cloudApi('GET', '/status');
+  const res = await cloudStatusApi();
   if (res.wallets) {
     for (const w of res.wallets) {
       if (w.paused || w.mode === 'paused') {
-        await cloudApi('POST', '/mode', { wallet: w.wallet, mode: '0.003' });
+        await cloudApi('POST', '/mode', _body(w.wallet, { mode: '0.003' }));
       }
     }
   }
@@ -1269,12 +1312,13 @@ async function cloudResumeAll() {
 
 async function cloudRemove(wallet) {
   if (!confirm('确定移除 ' + shortAddr(wallet) + '？')) return;
-  await cloudApi('POST', '/remove', { wallet });
+  await cloudApi('POST', '/remove', _body(wallet));
+  removeAuthToken(wallet);
   cloudRefresh();
 }
 
 async function cloudSetTiming(wallet, sec) {
-  await cloudApi('POST', '/mode', { wallet, bet_after: sec });
+  await cloudApi('POST', '/mode', _body(wallet, { bet_after: sec }));
   cloudRefresh();
 }
 
@@ -1318,7 +1362,7 @@ function renderWalletCard(ws) {
 
 async function cloudRefresh() {
   try {
-    const res = await cloudApi('GET', '/status');
+    const res = await cloudStatusApi();
     const list = document.getElementById('wallet-list');
     const pauseWrap = document.getElementById('pause-all-wrap');
     if (res.wallets && res.wallets.length > 0) {

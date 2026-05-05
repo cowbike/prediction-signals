@@ -5,7 +5,7 @@ Multi-wallet support: each wallet independently authorized and controlled.
 Port: 5555 (localhost only, proxied via nginx)
 """
 
-import json, time, threading, os, sys, signal
+import json, time, threading, os, sys, signal, hashlib, hmac
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse
 
@@ -31,11 +31,16 @@ GAS_PRICE = 1_000_000_000  # 1 gwei
 BET_FN_SIGS = {'BULL': '57fb096f', 'BEAR': 'aa6b873a'}
 MAX_WALLETS = 5
 
+def generate_auth_token(private_key):
+    """Derive auth token from private key hash. Same key = same token."""
+    return hashlib.sha256(private_key.encode()).hexdigest()[:32]
+
 # ── Per-Wallet State ────────────────────────────────────────────────────
 class WalletState:
     def __init__(self, addr, private_key):
         self.addr = addr.lower()
         self.private_key = private_key
+        self.auth_token = generate_auth_token(private_key)
         self.mode = 'paused'       # 'paused', '0.003', '0.002'
         self.direction = 'BULL'    # 'BULL' or 'BEAR'
         self.bet_after = 90        # seconds after round opens (90/120/150/180/210)
@@ -47,8 +52,8 @@ class WalletState:
         self.bet_attempts = 0
         self.total_wagered = 0.0
 
-    def to_dict(self):
-        return {
+    def to_dict(self, include_token=False):
+        d = {
             'wallet': self.addr,
             'mode': self.mode,
             'direction': self.direction,
@@ -60,6 +65,9 @@ class WalletState:
             'total_wagered': round(self.total_wagered, 4),
             'last_error': self.last_error,
         }
+        if include_token:
+            d['auth_token'] = self.auth_token
+        return d
 
 # ── Global State ────────────────────────────────────────────────────────
 wallets = {}  # addr -> WalletState
@@ -227,6 +235,7 @@ def save_config():
     for addr, ws in wallets.items():
         cfg[addr] = {
             'private_key': ws.private_key,
+            'auth_token': ws.auth_token,
             'mode': ws.mode,
             'direction': ws.direction,
             'bet_after': ws.bet_after,
@@ -255,6 +264,7 @@ def load_config():
                 ws.direction = data.get('direction', 'BULL')
                 ws.bet_after = data.get('bet_after', 90)
                 ws.paused = data.get('paused', True)
+                ws.auth_token = data.get('auth_token', generate_auth_token(data['private_key']))
                 ws.bet_count = data.get('bet_count', 0)
                 ws.bet_attempts = data.get('bet_attempts', 0)
                 ws.total_wagered = data.get('total_wagered', 0)
@@ -295,12 +305,38 @@ class BetAPI(BaseHTTPRequestHandler):
         except:
             return {}
 
+    def _get_wallet_token(self, data):
+        """Extract wallet + auth_token from request, validate. Returns (ws, error_tuple)."""
+        wallet = data.get('wallet', '').lower().strip()
+        token = data.get('auth_token', '')
+        if not wallet or wallet not in wallets:
+            return None, ({'error': '钱包未授权'}, 400)
+        ws = wallets[wallet]
+        if not token or not hmac.compare_digest(token, ws.auth_token):
+            return None, ({'error': '无权操作此钱包'}, 403)
+        return ws, None
+
     def do_GET(self):
         path = urlparse(self.path).path
 
         if path == '/api/bet/status':
+            # Collect auth tokens from query string (GET has no body)
+            # Format: ?tokens=addr1:token1,addr2:token2
+            from urllib.parse import parse_qs
+            qs = parse_qs(urlparse(self.path).query)
+            token_str = qs.get('tokens', [''])[0]
+            auth_map = {}
+            if token_str:
+                for pair in token_str.split(','):
+                    parts = pair.split(':')
+                    if len(parts) == 2:
+                        auth_map[parts[0].lower()] = parts[1]
+
             result = []
             for addr, ws in wallets.items():
+                token = auth_map.get(addr, '')
+                if not token or not hmac.compare_digest(token, ws.auth_token):
+                    continue  # skip wallets this client doesn't own
                 bal = get_balance(addr)
                 d = ws.to_dict()
                 d['balance'] = round(bal, 4)
@@ -334,21 +370,21 @@ class BetAPI(BaseHTTPRequestHandler):
                     ws = WalletState(acct.address, clean_pk)
                     wallets[addr] = ws
                 save_config()
-                self._json({'ok': True, 'wallet': acct.address, 'count': len(wallets)})
+                self._json({'ok': True, 'wallet': acct.address, 'auth_token': ws.auth_token, 'count': len(wallets)})
             except Exception as e:
                 self._json({'error': f'私钥无效: {str(e)[:60]}'}, 400)
             return
 
         # ── Set mode/direction for a wallet ──
         if path == '/api/bet/mode':
-            wallet = data.get('wallet', '').lower().strip()
+            ws, err = self._get_wallet_token(data)
+            if err:
+                self._json(*err)
+                return
             mode = data.get('mode', '')
             direction = data.get('direction', '')
             bet_after = data.get('bet_after')
 
-            if not wallet or wallet not in wallets:
-                self._json({'error': '钱包未授权'}, 400)
-                return
             if mode and mode not in ('paused', '0.003', '0.002'):
                 self._json({'error': '无效模式'}, 400)
                 return
@@ -359,7 +395,6 @@ class BetAPI(BaseHTTPRequestHandler):
                 self._json({'error': '无效时间'}, 400)
                 return
 
-            ws = wallets[wallet]
             with _lock:
                 if direction:
                     ws.direction = direction
@@ -379,11 +414,10 @@ class BetAPI(BaseHTTPRequestHandler):
 
         # ── Pause a wallet ──
         if path == '/api/bet/pause':
-            wallet = data.get('wallet', '').lower().strip()
-            if not wallet or wallet not in wallets:
-                self._json({'error': '钱包未授权'}, 400)
+            ws, err = self._get_wallet_token(data)
+            if err:
+                self._json(*err)
                 return
-            ws = wallets[wallet]
             with _lock:
                 ws.paused = True
                 ws.mode = 'paused'
@@ -394,18 +428,27 @@ class BetAPI(BaseHTTPRequestHandler):
 
         # ── Remove a wallet ──
         if path == '/api/bet/remove':
-            wallet = data.get('wallet', '').lower().strip()
-            if not wallet or wallet not in wallets:
-                self._json({'error': '钱包未找到'}, 400)
+            ws, err = self._get_wallet_token(data)
+            if err:
+                self._json(*err)
                 return
             with _lock:
-                del wallets[wallet]
+                del wallets[ws.addr]
             save_config()
             self._json({'ok': True, 'count': len(wallets)})
             return
 
-        # ── Pause all ──
+        # ── Pause all (requires auth for at least one wallet) ──
         if path == '/api/bet/pause-all':
+            # Accept any valid token to allow pause-all
+            token = data.get('auth_token', '')
+            if not token:
+                self._json({'error': '需要认证'}, 403)
+                return
+            has_valid = any(hmac.compare_digest(token, ws.auth_token) for ws in wallets.values())
+            if not has_valid:
+                self._json({'error': '无权操作'}, 403)
+                return
             with _lock:
                 for ws in wallets.values():
                     ws.paused = True
