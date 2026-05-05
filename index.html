@@ -945,25 +945,59 @@ function renderTracking(t) {
 }
 
 // Global countdown to lock time — updates every second
+// Uses chain K-line live candle timestamp (most reliable), falls back to signals.json lock_ts
 let _globalCountdownInterval = null;
 function startGlobalCountdown() {
   if (_globalCountdownInterval) clearInterval(_globalCountdownInterval);
   const el = document.getElementById('global-countdown');
   if (!el) return;
   _globalCountdownInterval = setInterval(() => {
-    const lockTs = window._signalData?.lock_ts;
-    if (!lockTs) { el.textContent = '⏳ --'; return; }
     const now = Math.floor(Date.now() / 1000);
+    let lockTs = null;
+
+    // Priority 1: chain K-line live candle timestamp (real-time from RPC)
+    const cache = window._chainKlineCache;
+    if (cache && cache.length > 0) {
+      const live = cache.find(k => k.isLive);
+      if (live) lockTs = live.timestamp;
+    }
+
+    // Priority 2: signals.json lock_ts (may be stale up to 60s)
+    if (!lockTs) lockTs = window._signalData?.lock_ts;
+
+    // Priority 3: estimate from 300s round intervals if lock_ts is stale
+    if (lockTs && (now - lockTs) > 120) {
+      // lock_ts too old, estimate next round's lock
+      lockTs = Math.ceil(now / 300) * 300 - 2;
+    }
+
+    if (!lockTs) { el.textContent = '⏳ --'; el.style.color = ''; return; }
+
     const diff = lockTs - now;
-    if (diff <= 0) {
+    if (diff <= 0 && diff > -120) {
       el.textContent = '🔒 LOCK';
       el.style.color = '#f85149';
-    } else if (diff <= 15) {
+    } else if (diff <= 15 && diff > 0) {
       el.textContent = '🔒 ' + diff + 's';
       el.style.color = '#f85149';
-    } else {
-      el.textContent = '⏳ ' + diff + 's';
+    } else if (diff > 15) {
+      const min = Math.floor(diff / 60);
+      const sec = diff % 60;
+      el.textContent = '⏳ ' + (min > 0 ? min + 'm' : '') + sec + 's';
       el.style.color = '';
+    } else {
+      // Between rounds, estimate next
+      const nextLock = Math.ceil(now / 300) * 300 - 2;
+      const nd = nextLock - now;
+      if (nd > 0) {
+        const min = Math.floor(nd / 60);
+        const sec = nd % 60;
+        el.textContent = '⏳ ' + (min > 0 ? min + 'm' : '') + sec + 's';
+        el.style.color = '';
+      } else {
+        el.textContent = '⏳ --';
+        el.style.color = '';
+      }
     }
   }, 1000);
 }
