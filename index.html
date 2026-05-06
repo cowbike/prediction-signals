@@ -309,10 +309,39 @@
 <div class="wallet-section">
   <!-- Cloud Auto-Bet UI -->
   <div id="cloud-auth">
-    <div style="font-size:12px;color:var(--dim);margin-bottom:8px;padding:0 2px;">☁️ 云端自动下注 · 最多5个钱包 · 关掉浏览器不影响</div>
-    <div style="display:flex;gap:6px;margin-bottom:8px">
-      <input type="password" id="pk-input" placeholder="输入钱包私钥 (0x...)" style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:13px;outline:none" />
-      <button class="btn" id="btn-authorize" onclick="cloudAuthorize()" style="flex:0 0 auto;padding:10px 16px;font-size:13px;background:var(--card);color:var(--yellow);border:1px solid var(--yellow);border-radius:10px;cursor:pointer;font-weight:600">🔐 授权</button>
+    <div style="font-size:12px;color:var(--dim);margin-bottom:8px;padding:0 2px;">☁️ OKX 钱包自动下注 · 关掉浏览器不影响</div>
+    <!-- PIN gate -->
+    <div id="pin-gate" style="margin-bottom:8px">
+      <div style="display:flex;gap:6px">
+        <input type="password" id="pin-input" placeholder="输入控制密码" style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:13px;outline:none" />
+        <button onclick="verifyPin()" style="flex:0 0 auto;padding:10px 16px;font-size:13px;background:var(--card);color:var(--yellow);border:1px solid var(--yellow);border-radius:10px;cursor:pointer;font-weight:600">🔓 解锁</button>
+      </div>
+    </div>
+    <!-- Wallet info (hidden until PIN verified) -->
+    <div id="okx-wallet-bar" style="display:none;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:13px;font-weight:600" id="okx-addr">--</span>
+        <span style="font-size:14px;color:var(--yellow);font-weight:700" id="okx-balance">-- BNB</span>
+        <span style="font-size:12px;color:var(--dim)" id="okx-balance-usd">≈ $--</span>
+      </div>
+      <!-- Stats row -->
+      <div id="bet-stats" style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--dim);margin-bottom:6px;padding:0 2px">
+        <span>参与 <b id="stat-bets" style="color:var(--text)">0</b> 局</span>
+        <span>胜 <b id="stat-wins" style="color:var(--green)">0</b> 局</span>
+        <span>胜率 <b id="stat-rate" style="color:var(--yellow)">--%</b></span>
+        <span>投入 <b id="stat-wagered" style="color:var(--text)">0</b> BNB</span>
+      </div>
+      <div style="font-size:11px;color:var(--dim);padding:4px 0 8px;text-align:center">💡 点击每局的「💰提取」按钮可单局提取</div>
+    </div>
+
+    <!-- Bet History -->
+    <div id="bet-history-section" style="display:none;margin-top:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);overflow:hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border)">
+        <span style="font-size:13px;font-weight:600">📋 下注历史</span>
+        <span id="history-total" style="font-size:11px;color:var(--dim)">共 0 局</span>
+      </div>
+      <div id="history-list" style="max-height:380px;overflow-y:auto"></div>
+      <div id="history-pagination" style="display:flex;justify-content:center;align-items:center;gap:8px;padding:10px;border-top:1px solid var(--border)"></div>
     </div>
     <div id="pk-status" style="font-size:11px;color:var(--dim);margin-bottom:8px"></div>
   </div>
@@ -322,9 +351,7 @@
   <!-- Wallet list (dynamically rendered) -->
   <div id="wallet-list" style="margin-top:10px"></div>
 
-  <div id="pause-all-wrap" style="display:none;margin-top:10px">
-    <button id="pause-all-btn" class="btn" onclick="cloudPauseAll()" style="width:100%;padding:10px;font-size:13px;background:var(--card);color:var(--red);border:1px solid var(--red);border-radius:10px;cursor:pointer;font-weight:600">⏸ 全部暂停</button>
-  </div>
+  <div id="pause-all-wrap" style="display:none"></div>
 </div>
 
 <div class="signal-card" id="signal-card">
@@ -1271,27 +1298,158 @@ async function cloudStatusApi() {
 }
 
 async function cloudAuthorize() {
-  const pk = document.getElementById('pk-input').value.trim();
+  // No longer needed — auto-detected via /wallet-info
+}
+
+// PIN verification and wallet auto-detection
+async function verifyPin() {
+  const pin = document.getElementById('pin-input').value.trim();
   const status = document.getElementById('pk-status');
-  if (!pk) { status.textContent = '❌ 请输入私钥'; status.style.color = 'var(--red)'; return; }
-  status.textContent = '⏳ 授权中...'; status.style.color = 'var(--yellow)';
+  if (!pin) { status.textContent = '❌ 请输入密码'; status.style.color = 'var(--red)'; return; }
+  status.textContent = '⏳ 验证中...'; status.style.color = 'var(--yellow)';
   try {
-    const res = await cloudApi('POST', '/authorize', { private_key: pk });
-    if (res.ok && res.auth_token) {
-      setAuthToken(res.wallet, res.auth_token);
-      document.getElementById('pk-input').value = '';
-      status.textContent = '✅ 已授权: ' + shortAddr(res.wallet) + ' (' + res.count + '/5)';
+    const res = await fetch(BET_API + '/wallet-info?pin=' + encodeURIComponent(pin));
+    const data = await res.json();
+    if (data.ok && data.wallet) {
+      // Auto-save auth token and PIN for polling
+      setAuthToken(data.wallet, data.auth_token);
+      localStorage.setItem('bet_pin', pin);
+      // Show wallet bar, hide PIN gate
+      document.getElementById('okx-addr').textContent = shortAddr(data.wallet);
+      document.getElementById('okx-balance').textContent = data.balance + ' BNB';
+      document.getElementById('okx-wallet-bar').style.display = 'block';
+      document.getElementById('pin-gate').style.display = 'none';
+      status.textContent = '✅ OKX 钱包已连接';
       status.style.color = 'var(--green)';
       cloudRefresh();
+      startBalancePolling();
     } else {
-      status.textContent = '❌ ' + (res.error || '授权失败');
+      status.textContent = data.error === 'PIN_INCORRECT' ? '❌ 密码错误' : '❌ ' + (data.error || '未检测到钱包');
       status.style.color = 'var(--red)';
     }
   } catch (e) {
-    if (e.message !== 'auth_required') {
-      status.textContent = '❌ 连接失败: ' + e.message;
-      status.style.color = 'var(--red)';
+    status.textContent = '❌ 连接失败: ' + e.message;
+    status.style.color = 'var(--red)';
+  }
+}
+
+// Auto-detect if PIN was saved
+async function detectOkxWallet() {
+  const savedPin = localStorage.getItem('bet_pin');
+  if (savedPin) {
+    document.getElementById('pin-input').value = savedPin;
+    await verifyPin();
+  }
+}
+
+// Real-time balance polling
+let _balanceInterval = null;
+function startBalancePolling() {
+  refreshBalance();
+  refreshStats();
+  loadHistory(1);
+  if (_balanceInterval) clearInterval(_balanceInterval);
+  _balanceInterval = setInterval(() => { refreshBalance(); refreshStats(); }, 15000);
+  // Refresh history every 5 minutes
+  setInterval(() => { if (_historyPage === 1) loadHistory(1); }, 300000);
+}
+
+// Cache BNB/USD price globally for wallet card display
+let _bnbUsdPrice = null;
+
+async function refreshBalance() {
+  const tokens = getAuthTokens();
+  const entries = Object.entries(tokens);
+  if (!entries.length) return;
+  const [wallet, token] = entries[0];
+  try {
+    // Fetch balance + live price in parallel
+    const [res, price] = await Promise.all([
+      fetch(`${BET_API}/balance?wallet=${wallet}&token=${encodeURIComponent(token)}`),
+      getLiveBNBPrice().catch(() => null)
+    ]);
+    const data = await res.json();
+    if (price && price > 0) _bnbUsdPrice = price;
+    if (data.ok) {
+      const el = document.getElementById('okx-balance');
+      if (el) el.textContent = data.balance + ' BNB';
+      const usdEl = document.getElementById('okx-balance-usd');
+      if (usdEl && _bnbUsdPrice) {
+        const usd = (parseFloat(data.balance) * _bnbUsdPrice).toFixed(2);
+        usdEl.textContent = '≈ $' + Number(usd).toLocaleString('en-US');
+      }
+      // Update wallet card balance with USD too
+      document.querySelectorAll('[data-card-balance]').forEach(span => {
+        const bnb = parseFloat(span.dataset.cardBinance);
+        if (!isNaN(bnb) && _bnbUsdPrice) {
+          span.textContent = bnb.toFixed(4) + ' BNB ≈ $' + (bnb * _bnbUsdPrice).toFixed(2);
+        }
+      });
     }
+  } catch (e) {}
+}
+
+async function refreshStats() {
+  const tokens = getAuthTokens();
+  const entries = Object.entries(tokens);
+  if (!entries.length) return;
+  const [wallet, token] = entries[0];
+  try {
+    const res = await fetch(`${BET_API}/stats?wallet=${wallet}&token=${encodeURIComponent(token)}`);
+    const data = await res.json();
+    if (data.ok) {
+      document.getElementById('stat-bets').textContent = data.total_bets;
+      document.getElementById('stat-wins').textContent = data.wins;
+      document.getElementById('stat-rate').textContent = data.total_bets > 0 ? data.win_rate + '%' : '--%';
+      document.getElementById('stat-wagered').textContent = data.total_wagered;
+    }
+  } catch (e) {}
+}
+
+// Claim winnings
+async function claimWinnings() {
+  const btn = document.getElementById('claim-btn');
+  const tokens = getAuthTokens();
+  const entries = Object.entries(tokens);
+  if (!entries.length) { alert('请先解锁钱包'); return; }
+  const [wallet, token] = entries[0];
+
+  btn.textContent = '⏳ 扫描可提取局数...';
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+
+  try {
+    const res = await fetch(`${BET_API}/claim?wallet=${wallet}&token=${encodeURIComponent(token)}`);
+    const data = await res.json();
+    if (data.ok) {
+      btn.textContent = data.message || '✅ 已提取';
+      btn.style.color = 'var(--green)';
+      setTimeout(() => {
+        btn.textContent = '💰 提取盈利到钱包';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.color = 'var(--green)';
+      }, 5000);
+      refreshBalance();
+    } else {
+      btn.textContent = '❌ ' + (data.error || '提取失败');
+      btn.style.color = 'var(--red)';
+      setTimeout(() => {
+        btn.textContent = '💰 提取盈利到钱包';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.color = 'var(--green)';
+      }, 5000);
+    }
+  } catch (e) {
+    btn.textContent = '❌ 网络错误';
+    btn.style.color = 'var(--red)';
+    setTimeout(() => {
+      btn.textContent = '💰 提取盈利到钱包';
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.color = 'var(--green)';
+    }, 3000);
   }
 }
 
@@ -1299,27 +1457,60 @@ function _body(wallet, extra) {
   return { wallet, auth_token: getAuthToken(wallet), ...extra };
 }
 
-async function cloudSetDir(wallet, dir) {
-  await cloudApi('POST', '/mode', _body(wallet, { direction: dir }));
+// ── Pending settings (staged before "开始" is clicked) ──
+const _pending = {};  // wallet -> { direction, mode, bet_after }
+
+function getPending(wallet) {
+  if (!_pending[wallet]) {
+    _pending[wallet] = {};
+  }
+  return _pending[wallet];
+}
+
+function stageDir(wallet, dir) {
+  getPending(wallet).direction = dir;
+  cloudRefresh();
+}
+function stageAmount(wallet, mode) {
+  getPending(wallet).mode = mode;
+  cloudRefresh();
+}
+function stageTiming(wallet, sec) {
+  getPending(wallet).bet_after = sec;
   cloudRefresh();
 }
 
-async function cloudSetMode(wallet, mode) {
-  await cloudApi('POST', '/mode', _body(wallet, { mode }));
-  showBetStatus('success', '🚀 ' + shortAddr(wallet) + ' 启动 ' + mode + ' BNB/轮');
+// Commit all pending settings and start
+async function cloudStart(wallet) {
+  const p = getPending(wallet);
+  const body = {};
+  if (p.direction) body.direction = p.direction;
+  if (p.mode) body.mode = p.mode;
+  if (p.bet_after) body.bet_after = p.bet_after;
+  // If nothing selected, use defaults
+  if (!body.mode) body.mode = '0.002';
+  if (!body.direction) body.direction = 'BULL';
+  await cloudApi('POST', '/mode', _body(wallet, body));
+  const modeStr = body.mode || '0.002';
+  const dirStr = body.direction === 'BEAR' ? '买跌' : '买涨';
+  showBetStatus('success', '🚀 ' + shortAddr(wallet) + ' 启动 ' + modeStr + ' BNB ' + dirStr);
+  // Clear pending after start
+  delete _pending[wallet];
   cloudRefresh();
 }
+
+
 
 async function cloudPause(wallet) {
   await cloudApi('POST', '/pause', _body(wallet));
+  delete _pending[wallet];
   showBetStatus('countdown', '⏸ ' + shortAddr(wallet) + ' 已暂停');
   cloudRefresh();
 }
 
 async function cloudResume(wallet) {
-  await cloudApi('POST', '/mode', _body(wallet, { mode: '0.003' }));
-  showBetStatus('success', '▶ ' + shortAddr(wallet) + ' 恢复下注');
-  cloudRefresh();
+  // Legacy fallback — shouldn't be called in new flow
+  await cloudStart(wallet);
 }
 
 async function cloudPauseAll() {
@@ -1336,7 +1527,7 @@ async function cloudResumeAll() {
   if (res.wallets) {
     for (const w of res.wallets) {
       if (w.paused || w.mode === 'paused') {
-        await cloudApi('POST', '/mode', _body(w.wallet, { mode: '0.003' }));
+        await cloudStart(w.wallet);
       }
     }
   }
@@ -1351,43 +1542,47 @@ async function cloudRemove(wallet) {
   cloudRefresh();
 }
 
-async function cloudSetTiming(wallet, sec) {
-  await cloudApi('POST', '/mode', _body(wallet, { bet_after: sec }));
-  cloudRefresh();
-}
 
 function renderWalletCard(ws) {
-  const dirBullActive = ws.direction === 'BULL';
   const isPaused = ws.paused || ws.mode === 'paused';
-  const mode003 = ws.mode === '0.003';
+  // Merge pending settings with server state for display
+  const p = getPending(ws.wallet);
+  const displayDir = p.direction || ws.direction;
+  const displayMode = p.mode || ws.mode;
+  const displayTiming = p.bet_after || ws.bet_after;
+  const dirBullActive = displayDir === 'BULL';
+  const mode001 = displayMode === '0.001';
+  const mode002 = displayMode === '0.002';
+  const mode003 = displayMode === '0.003';
+  const hasPending = p.direction || p.mode || p.bet_after;
 
   return `
     <div style="padding:10px 12px;margin-bottom:8px;border-radius:10px;border:1px solid var(--border);background:var(--card)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
         <span style="font-weight:600;font-size:13px">${shortAddr(ws.wallet)}</span>
-        <span style="font-size:12px;color:var(--yellow)">${ws.balance || '--'} BNB</span>
+        <span style="font-size:12px;color:var(--yellow)" data-card-balance data-card-binance="${ws.balance || 0}">${ws.balance || '--'} BNB${_bnbUsdPrice && ws.balance ? ' ≈ $' + (parseFloat(ws.balance) * _bnbUsdPrice).toFixed(2) : ''}</span>
       </div>
       <div style="font-size:11px;color:var(--dim);margin-bottom:6px">${ws.status || ''}</div>
       <div style="display:flex;gap:4px;margin-bottom:6px">
-        <button onclick="cloudSetDir('${ws.wallet}','BULL')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${dirBullActive ? 'var(--green)' : 'var(--border)'};color:${dirBullActive ? 'var(--green)' : 'var(--dim)'};background:var(--card)">🐂 买涨</button>
-        <button onclick="cloudSetDir('${ws.wallet}','BEAR')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${!dirBullActive ? 'var(--green)' : 'var(--border)'};color:${!dirBullActive ? 'var(--green)' : 'var(--dim)'};background:var(--card)">🐻 买跌</button>
+        <button onclick="stageDir('${ws.wallet}','BULL')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${dirBullActive ? 'var(--green)' : 'var(--border)'};color:${dirBullActive ? 'var(--green)' : 'var(--dim)'};background:var(--card)">🐂 买涨</button>
+        <button onclick="stageDir('${ws.wallet}','BEAR')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${!dirBullActive ? 'var(--green)' : 'var(--border)'};color:${!dirBullActive ? 'var(--green)' : 'var(--dim)'};background:var(--card)">🐻 买跌</button>
       </div>
       <div style="display:flex;gap:4px;margin-bottom:6px">
-        <button onclick="cloudSetMode('${ws.wallet}','0.003')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${mode003 ? 'var(--green)' : 'var(--border)'};color:${mode003 ? 'var(--green)' : 'var(--dim)'};background:var(--card)">🚀 0.003</button>
-        <button onclick="cloudSetMode('${ws.wallet}','0.002')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${!mode003 && !isPaused ? 'var(--green)' : 'var(--border)'};color:${!mode003 && !isPaused ? 'var(--green)' : 'var(--dim)'};background:var(--card)">🐢 0.002</button>
+        <button onclick="stageAmount('${ws.wallet}','0.001')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${mode001 ? 'var(--green)' : 'var(--border)'};color:${mode001 ? 'var(--green)' : 'var(--dim)'};background:var(--card)">🐜 0.001</button>
+        <button onclick="stageAmount('${ws.wallet}','0.002')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${mode002 ? 'var(--green)' : 'var(--border)'};color:${mode002 ? 'var(--green)' : 'var(--dim)'};background:var(--card)">🐢 0.002</button>
+        <button onclick="stageAmount('${ws.wallet}','0.003')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid ${mode003 ? 'var(--green)' : 'var(--border)'};color:${mode003 ? 'var(--green)' : 'var(--dim)'};background:var(--card)">🚀 0.003</button>
       </div>
       <div style="display:flex;gap:3px;margin-bottom:6px">
-        ${[90,120,150,180,210].map(s => `<button onclick="cloudSetTiming('${ws.wallet}',${s})" style="flex:1;padding:4px;font-size:10px;border-radius:6px;cursor:pointer;border:1px solid ${ws.bet_after===s ? 'var(--blue)' : 'var(--border)'};color:${ws.bet_after===s ? 'var(--blue)' : 'var(--dim)'};background:var(--card)">${s}s</button>`).join('')}
+        ${[90,120,150,180,210].map(s => `<button onclick="stageTiming('${ws.wallet}',${s})" style="flex:1;padding:4px;font-size:10px;border-radius:6px;cursor:pointer;border:1px solid ${displayTiming===s ? 'var(--blue)' : 'var(--border)'};color:${displayTiming===s ? 'var(--blue)' : 'var(--dim)'};background:var(--card)">${s}s</button>`).join('')}
       </div>
       <div style="display:flex;gap:4px">
         ${isPaused
-          ? `<button onclick="cloudResume('${ws.wallet}')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid var(--green);color:var(--green);background:var(--card)">▶ 开始</button>`
+          ? `<button onclick="cloudStart('${ws.wallet}')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid var(--green);color:var(--green);background:${hasPending ? 'rgba(63,185,80,0.08)' : 'var(--card)'}">▶ 开始</button>`
           : `<button onclick="cloudPause('${ws.wallet}')" style="flex:1;padding:6px;font-size:12px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid var(--red);color:var(--red);background:var(--card)">⏸ 暂停</button>`
         }
         <button onclick="cloudRemove('${ws.wallet}')" style="flex:0 0 auto;padding:6px 10px;font-size:11px;border-radius:8px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">✕</button>
       </div>
-      <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:var(--dim)">
-        <span>尝试 ${ws.bet_attempts || 0} · 成功 ${ws.bet_count} · 投入 ${ws.total_wagered} BNB</span>
+      <div style="display:flex;justify-content:flex-end;margin-top:4px;font-size:10px;color:var(--dim)">
         <span>开局后${ws.bet_after || 90}s</span>
       </div>
       ${ws.last_error ? '<div style="font-size:10px;color:var(--red);margin-top:2px">' + ws.last_error + '</div>' : ''}
@@ -1401,25 +1596,9 @@ async function cloudRefresh() {
     const pauseWrap = document.getElementById('pause-all-wrap');
     if (res.wallets && res.wallets.length > 0) {
       list.innerHTML = res.wallets.map(renderWalletCard).join('');
-      pauseWrap.style.display = 'block';
-      // Toggle "全部暂停" / "▶ 全部开始" based on wallet states
-      const allPaused = res.wallets.every(w => w.paused || w.mode === 'paused');
-      const btn = document.getElementById('pause-all-btn');
-      if (btn) {
-        if (allPaused) {
-          btn.textContent = '▶ 全部开始';
-          btn.style.borderColor = 'var(--green)';
-          btn.style.color = 'var(--green)';
-          btn.onclick = () => cloudResumeAll();
-        } else {
-          btn.textContent = '⏸ 全部暂停';
-          btn.style.borderColor = 'var(--red)';
-          btn.style.color = 'var(--red)';
-          btn.onclick = () => cloudPauseAll();
-        }
-      }
+      pauseWrap.style.display = 'none';
     } else {
-      list.innerHTML = '<div style="text-align:center;color:var(--dim);font-size:12px;padding:20px">暂无授权钱包，请输入私钥授权</div>';
+      list.innerHTML = '<div style="text-align:center;color:var(--dim);font-size:12px;padding:20px">暂无可用钱包，请先充值 BNB</div>';
       pauseWrap.style.display = 'none';
     }
   } catch (e) {}
@@ -1428,15 +1607,9 @@ async function cloudRefresh() {
 // Poll every 5s
 setInterval(cloudRefresh, 5000);
 
-// Initial load
-cloudRefresh();
+// Initial load — auto-detect OKX wallet
+detectOkxWallet();
 
-
-// ─── Claim Winnings (cloud version) ───
-async function claimWinnings() {
-  showBetStatus('countdown', '💰 提取功能开发中，请手动到 PancakeSwap 提取');
-  setTimeout(hideBetStatus, 3000);
-}
 
 // Old claim function (disabled, needs cloud API support)
 async function _claimWinningsOLD() {
@@ -1533,6 +1706,79 @@ async function _claimWinningsOLD() {
   btn.disabled = false;
 }
 
+// ─── Bet History ─────────────────────────────────────
+let _historyPage = 1;
+const _historyPerPage = 10;
+
+async function loadHistory(page) {
+  _historyPage = page || 1;
+  const section = document.getElementById('bet-history-section');
+  const list = document.getElementById('history-list');
+  const pag = document.getElementById('history-pagination');
+  const totalEl = document.getElementById('history-total');
+
+  const tokens = getAuthTokens();
+  const entries = Object.entries(tokens);
+  if (!entries.length) { section.style.display = 'none'; return; }
+  const [wallet, token] = entries[0];
+
+  try {
+    const url = `${BET_API}/history?wallet=${wallet}&token=${encodeURIComponent(token)}&page=${_historyPage}&per_page=${_historyPerPage}`;
+    const res = await fetch(url);
+    const j = await res.json();
+    if (!j.ok) { section.style.display = 'none'; return; }
+
+    section.style.display = 'block';
+    totalEl.textContent = '共 ' + j.total + ' 局';
+
+    if (j.items.length === 0) {
+      list.innerHTML = '<div style="text-align:center;color:var(--dim);font-size:12px;padding:20px">暂无下注记录</div>';
+      pag.innerHTML = '';
+      return;
+    }
+
+    list.innerHTML = j.items.map((h, i) => {
+      const isPending = h.result === 'PENDING';
+      const won = h.result === 'WIN';
+      const color = isPending ? 'var(--yellow)' : (won ? 'var(--green)' : 'var(--red)');
+      const icon = isPending ? '⏳' : (won ? '✅' : '❌');
+      const label = isPending ? '等待结果' : (won ? '赢钱' : '输钱');
+      const dir = h.dir === 'BULL' ? '🟢 买涨' : '🔴 买跌';
+      const bullOdds = h.bull_odds ? h.bull_odds.toFixed(2) + 'x' : '--';
+      const bearOdds = h.bear_odds ? h.bear_odds.toFixed(2) + 'x' : '--';
+      const num = (j.page - 1) * j.per_page + i + 1;
+      const claimed = h.claimed;
+      let claimBtn = '';
+      if (won && !claimed) {
+        claimBtn = `<button onclick="claimSingleEpoch(${h.epoch},this)" style="padding:2px 6px;font-size:10px;border-radius:4px;cursor:pointer;border:1px solid var(--green);color:var(--green);background:var(--card);white-space:nowrap">💰提取</button>`;
+      } else if (won && claimed) {
+        claimBtn = `<span style="font-size:10px;color:var(--dim)">已提</span>`;
+      }
+      return `<div style="display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px">
+        <span style="color:var(--dim);width:22px;text-align:right">${num}</span>
+        <span style="font-weight:600;width:68px">${dir}</span>
+        <span style="color:var(--text);width:56px">${h.amount} BNB</span>
+        <span style="color:var(--green);font-size:11px;width:68px;text-align:right">🐂${bullOdds}</span>
+        <span style="color:var(--red);font-size:11px;width:68px;text-align:right">🐻${bearOdds}</span>
+        <span style="color:${color};font-weight:600;width:68px;text-align:center">${icon}${label}</span>
+        <span style="width:54px;text-align:center">${claimBtn}</span>
+        <span style="color:var(--dim);font-size:10px;flex:1;text-align:right">#${h.epoch}</span>
+      </div>`;
+    }).join('');
+
+    // Pagination
+    let phtml = '';
+    if (j.total_pages > 1) {
+      phtml += `<button onclick="loadHistory(${j.page - 1})" ${j.page <= 1 ? 'disabled' : ''} style="padding:4px 10px;font-size:11px;border-radius:6px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">‹ 上一页</button>`;
+      phtml += `<span style="font-size:11px;color:var(--dim)">${j.page} / ${j.total_pages}</span>`;
+      phtml += `<button onclick="loadHistory(${j.page + 1})" ${j.page >= j.total_pages ? 'disabled' : ''} style="padding:4px 10px;font-size:11px;border-radius:6px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">下一页 ›</button>`;
+    }
+    pag.innerHTML = phtml;
+  } catch (e) {
+    list.innerHTML = '<div style="text-align:center;color:var(--red);font-size:12px;padding:10px">加载失败</div>';
+  }
+}
+
 // Pre-computed keccak256 function selectors for PancakeSwap V2 Prediction
 function getSelector(method) {
   const selectors = {
@@ -1540,6 +1786,41 @@ function getSelector(method) {
     'betBear(uint256)': 'aa6b873a',
   };
   return '0x' + (selectors[method] || '00000000');
+}
+
+// Single epoch claim
+async function claimSingleEpoch(epoch, btn) {
+  const tokens = getAuthTokens();
+  const entries = Object.entries(tokens);
+  if (!entries.length) { alert('请先解锁钱包'); return; }
+  const [wallet, token] = entries[0];
+
+  const origText = btn.textContent;
+  btn.textContent = '⏳';
+  btn.disabled = true;
+  btn.style.opacity = '0.5';
+
+  try {
+    const res = await fetch(`${BET_API}/claim?wallet=${wallet}&token=${encodeURIComponent(token)}&epoch=${epoch}`);
+    const data = await res.json();
+    if (data.ok) {
+      btn.textContent = '✅';
+      btn.style.color = 'var(--green)';
+      btn.style.borderColor = 'var(--green)';
+      refreshBalance();
+      // Reload history to update claimed status
+      setTimeout(() => loadHistory(_historyPage), 2000);
+    } else {
+      btn.textContent = '❌';
+      btn.style.color = 'var(--red)';
+      btn.title = data.error || '提取失败';
+      setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.opacity = '1'; }, 3000);
+    }
+  } catch (e) {
+    btn.textContent = '❌';
+    btn.style.color = 'var(--red)';
+    setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.opacity = '1'; }, 3000);
+  }
 }
 </script>
 </body>
