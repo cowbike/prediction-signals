@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478714,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 1.01,
-    "pool_bull": 0,
-    "pool_bear": 0,
+    "epoch": 478715,
+    "direction": "BEAR",
+    "confidence": 24.0,
+    "pool_total": 0.71,
+    "pool_bull": 0.59,
+    "pool_bear": 0.12,
     "signals": [
       {
         "name": "Time",
@@ -15,15 +15,15 @@
       },
       {
         "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:90.6%(1.1x) R:9.4%(10.7x) ⚠️ trap(BULL极端失衡)"
+        "direction": "BEAR",
+        "score": 31,
+        "info": "B:83.3%(1.2x) R:16.7%(6.0x)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$633.48 RSI:41 EMA:-0.10% flat"
+        "info": "$634.00 RSI:51 EMA:-0.09% flat"
       },
       {
         "name": "Liq",
@@ -39,10 +39,10 @@
       }
     ],
     "trend": null,
-    "time": "13:42:22"
+    "time": "13:46:56"
   },
-  "lock_ts": 1778046146,
-  "current_ts": 1778046370,
+  "lock_ts": 1778046452,
+  "current_ts": 1778046426,
   "history": [
     {
       "epoch": 478237,
@@ -4822,6 +4822,15 @@
       "time_full": "2026-05-06 13:42:22",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 478715,
+      "direction": "BEAR",
+      "confidence": 24.0,
+      "time": "13:46:56",
+      "time_full": "2026-05-06 13:46:56",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4890,11 +4899,11 @@
   "hourly_stats": {
     "hour": 13,
     "bull": 4,
-    "bear": 13,
+    "bear": 14,
     "skip": 4,
-    "total": 21
+    "total": 22
   },
-  "bnb_price": 633.78,
+  "bnb_price": 633.96,
   "kline": [
     {
       "timestamp": 1778028600.0,
@@ -5312,10 +5321,10 @@
     {
       "timestamp": 1778046300.0,
       "open": 633.86,
-      "high": 633.87,
+      "high": 634.0,
       "low": 633.75,
-      "close": 633.78
+      "close": 633.96
     }
   ],
-  "updated": "2026-05-06T13:46:11.167483"
+  "updated": "2026-05-06T13:47:06.676322"
 }
