@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478774,
-    "direction": "BULL",
-    "confidence": 35.0,
-    "pool_total": 1.09,
-    "pool_bull": 0.34,
-    "pool_bear": 0.76,
+    "epoch": 478775,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 1.89,
+    "pool_bull": 0,
+    "pool_bear": 0,
     "signals": [
       {
         "name": "Time",
@@ -15,21 +15,21 @@
       },
       {
         "name": "Pool",
-        "direction": "BULL",
-        "score": 67,
-        "info": "B:30.8%(3.3x) R:69.2%(1.4x)"
+        "direction": null,
+        "score": 0,
+        "info": "B:39.0%(2.6x) R:61.0%(1.6x)"
       },
       {
         "name": "Mom",
-        "direction": "BULL",
-        "score": 2,
-        "info": "$645.66 RSI:30 EMA:+0.10% OS"
+        "direction": null,
+        "score": 0,
+        "info": "$646.01 RSI:35 EMA:+0.04% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 54,
-        "info": "LS:2.08 long-squeeze"
+        "info": "LS:2.09 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,51 +39,11 @@
       }
     ],
     "trend": null,
-    "time": "18:48:11"
+    "time": "18:53:52"
   },
-  "lock_ts": 1778064530,
-  "current_ts": 1778064789,
+  "lock_ts": 1778064837,
+  "current_ts": 1778064851,
   "history": [
-    {
-      "epoch": 478285,
-      "direction": "SKIP",
-      "confidence": 17.0,
-      "time": "01:13:15",
-      "time_full": "2026-05-06 01:13:15",
-      "trend": null,
-      "outcome": "SKIP",
-      "result": "BULL"
-    },
-    {
-      "epoch": 478286,
-      "direction": "BEAR",
-      "confidence": 54.0,
-      "time": "01:17:48",
-      "time_full": "2026-05-06 01:17:48",
-      "trend": "📈 连涨3根(+$1.19)",
-      "outcome": "LOSS",
-      "result": "BULL"
-    },
-    {
-      "epoch": 478287,
-      "direction": "BEAR",
-      "confidence": 27.0,
-      "time": "01:22:53",
-      "time_full": "2026-05-06 01:22:53",
-      "trend": "📈 连涨3根(+$0.61)",
-      "outcome": "LOSS",
-      "result": "BULL"
-    },
-    {
-      "epoch": 478288,
-      "direction": "BEAR",
-      "confidence": 36.0,
-      "time": "01:28:01",
-      "time_full": "2026-05-06 01:28:01",
-      "trend": "📈 连涨3根(+$0.59)",
-      "outcome": "WIN",
-      "result": "BEAR"
-    },
     {
       "epoch": 478289,
       "direction": "BEAR",
@@ -4891,19 +4851,29 @@
       "time": "18:48:11",
       "time_full": "2026-05-06 18:48:11",
       "trend": null,
+      "outcome": "WIN",
+      "result": "BULL"
+    },
+    {
+      "epoch": 478775,
+      "direction": "SKIP",
+      "confidence": 11.0,
+      "time": "18:53:52",
+      "time_full": "2026-05-06 18:53:52",
+      "trend": null,
       "outcome": null
     }
   ],
   "tracking": {
-    "wins": 2140,
+    "wins": 2141,
     "losses": 2114,
     "skips": 1680,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 48.2,
-    "total_24h": 334,
+    "win_rate_24h": 48.5,
+    "total_24h": 332,
     "hourly_wins": {
-      "1": 7,
+      "1": 6,
       "2": 7,
       "3": 6,
       "4": 9,
@@ -4920,7 +4890,7 @@
       "15": 9,
       "16": 9,
       "17": 10,
-      "18": 7,
+      "18": 8,
       "19": 2,
       "20": 4,
       "21": 4,
@@ -4929,7 +4899,7 @@
       "0": 5
     },
     "hourly_losses": {
-      "1": 6,
+      "1": 4,
       "2": 11,
       "3": 11,
       "4": 9,
@@ -4954,17 +4924,17 @@
       "23": 4,
       "0": 3
     },
-    "tracking_win_rate_24h": 48.2,
-    "tracking_total_24h": 334
+    "tracking_win_rate_24h": 48.5,
+    "tracking_total_24h": 332
   },
   "hourly_stats": {
     "hour": 18,
     "bull": 4,
     "bear": 8,
-    "skip": 5,
-    "total": 17
+    "skip": 6,
+    "total": 18
   },
-  "bnb_price": 645.76,
+  "bnb_price": 646.41,
   "kline": [
     {
       "timestamp": 1778046900.0,
@@ -5382,10 +5352,10 @@
     {
       "timestamp": 1778064600.0,
       "open": 645.44,
-      "high": 646.23,
+      "high": 646.37,
       "low": 645.23,
-      "close": 645.75
+      "close": 646.37
     }
   ],
-  "updated": "2026-05-06T18:53:11.113299"
+  "updated": "2026-05-06T18:54:11.440553"
 }
