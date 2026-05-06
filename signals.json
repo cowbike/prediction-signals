@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478928,
-    "direction": "BEAR",
-    "confidence": 20.0,
-    "pool_total": 0.14,
-    "pool_bull": 0.1,
-    "pool_bear": 0.04,
+    "epoch": 478929,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.16,
+    "pool_bull": 0,
+    "pool_bear": 53.5,
     "signals": [
       {
         "name": "Time",
@@ -17,13 +17,13 @@
         "name": "Pool",
         "direction": null,
         "score": 0,
-        "info": "no data"
+        "info": "B:52.7%(1.9x) R:47.3%(2.1x)"
       },
       {
         "name": "Mom",
-        "direction": "BEAR",
-        "score": 6,
-        "info": "$647.56 RSI:71 EMA:+0.06% OB"
+        "direction": null,
+        "score": 0,
+        "info": "$647.73 RSI:69 EMA:+0.07% flat"
       },
       {
         "name": "Liq",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0095% neutral"
       }
     ],
-    "trend": null,
-    "time": "07:54:15"
+    "trend": "📈 连涨3根(+$0.74)",
+    "time": "07:59:09"
   },
-  "lock_ts": 1778111678,
-  "current_ts": 1778111890,
+  "lock_ts": 1778111984,
+  "current_ts": 1778111950,
   "history": [
     {
       "epoch": 478423,
@@ -5052,6 +5052,15 @@
       "time_full": "2026-05-07 07:54:15",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 478929,
+      "direction": "SKIP",
+      "confidence": 19.0,
+      "time": "07:59:09",
+      "time_full": "2026-05-07 07:59:09",
+      "trend": "📈 连涨3根(+$0.74)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -5121,10 +5130,10 @@
     "hour": 7,
     "bull": 0,
     "bear": 22,
-    "skip": 0,
-    "total": 22
+    "skip": 1,
+    "total": 23
   },
-  "bnb_price": 647.65,
+  "bnb_price": 647.73,
   "kline": [
     {
       "timestamp": 1778094000.0,
@@ -5543,9 +5552,9 @@
       "timestamp": 1778111700.0,
       "open": 647.76,
       "high": 647.76,
-      "low": 647.65,
-      "close": 647.65
+      "low": 647.52,
+      "close": 647.73
     }
   ],
-  "updated": "2026-05-07T07:58:10.745510"
+  "updated": "2026-05-07T07:59:10.991900"
 }
