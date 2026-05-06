@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478699,
+    "epoch": 478700,
     "direction": "BEAR",
-    "confidence": 34.0,
-    "pool_total": 0.44,
-    "pool_bull": 0.3,
-    "pool_bear": 0.14,
+    "confidence": 20.0,
+    "pool_total": 0.53,
+    "pool_bull": 0.25,
+    "pool_bear": 0.28,
     "signals": [
       {
         "name": "Time",
@@ -15,15 +15,15 @@
       },
       {
         "name": "Pool",
-        "direction": "BEAR",
-        "score": 57,
-        "info": "B:68.5%(1.5x) R:31.5%(3.2x)"
+        "direction": null,
+        "score": 0,
+        "info": "B:47.3%(2.1x) R:52.7%(1.9x)"
       },
       {
         "name": "Mom",
-        "direction": null,
-        "score": 0,
-        "info": "$634.66 RSI:57 EMA:+0.14% flat"
+        "direction": "BULL",
+        "score": 30,
+        "info": "$633.76 RSI:25 EMA:+0.07% OS"
       },
       {
         "name": "Liq",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0113% neutral"
       }
     ],
-    "trend": null,
-    "time": "12:25:25"
+    "trend": "📉 连跌3根($-1.72)",
+    "time": "12:30:24"
   },
-  "lock_ts": 1778041556,
-  "current_ts": 1778041810,
+  "lock_ts": 1778041863,
+  "current_ts": 1778041834,
   "history": [
     {
       "epoch": 478225,
@@ -4792,6 +4792,15 @@
       "time_full": "2026-05-06 12:25:25",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 478700,
+      "direction": "BEAR",
+      "confidence": 20.0,
+      "time": "12:30:24",
+      "time_full": "2026-05-06 12:30:24",
+      "trend": "📉 连跌3根($-1.72)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -4860,11 +4869,11 @@
   "hourly_stats": {
     "hour": 12,
     "bull": 7,
-    "bear": 9,
+    "bear": 10,
     "skip": 1,
-    "total": 17
+    "total": 18
   },
-  "bnb_price": 634.1,
+  "bnb_price": 633.76,
   "kline": [
     {
       "timestamp": 1778024100.0,
@@ -5283,9 +5292,9 @@
       "timestamp": 1778041800.0,
       "open": 634.18,
       "high": 634.29,
-      "low": 634.14,
-      "close": 634.15
+      "low": 633.75,
+      "close": 633.76
     }
   ],
-  "updated": "2026-05-06T12:30:10.474127"
+  "updated": "2026-05-06T12:30:35.220779"
 }
