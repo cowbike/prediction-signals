@@ -1,11 +1,11 @@
 {
   "current": {
     "epoch": 478945,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.5,
-    "pool_bull": 0,
-    "pool_bear": 0,
+    "direction": "BEAR",
+    "confidence": 51.0,
+    "pool_total": 0.56,
+    "pool_bull": 0.44,
+    "pool_bear": 0.12,
     "signals": [
       {
         "name": "Time",
@@ -15,15 +15,15 @@
       },
       {
         "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:87.2%(1.1x) R:12.8%(7.8x) ⚠️ trap(BULL极端失衡)"
+        "direction": "BEAR",
+        "score": 89,
+        "info": "B:78.3%(1.3x) R:21.7%(4.6x)"
       },
       {
         "name": "Mom",
         "direction": "BULL",
-        "score": 37,
-        "info": "$643.51 RSI:24 EMA:-0.37% OS"
+        "score": 38,
+        "info": "$643.48 RSI:24 EMA:-0.37% OS"
       },
       {
         "name": "Liq",
@@ -39,21 +39,11 @@
       }
     ],
     "trend": null,
-    "time": "09:21:05"
+    "time": "09:21:10"
   },
   "lock_ts": 1778116880,
-  "current_ts": 1778116870,
+  "current_ts": 1778116880,
   "history": [
-    {
-      "epoch": 478428,
-      "direction": "SKIP",
-      "confidence": 17.0,
-      "time": "13:22:57",
-      "time_full": "2026-05-07 13:22:57",
-      "trend": "📈 连涨3根(+$0.53)",
-      "outcome": "SKIP",
-      "result": "BULL"
-    },
     {
       "epoch": 478429,
       "direction": "BEAR",
@@ -5165,10 +5155,10 @@
     },
     {
       "epoch": 478945,
-      "direction": "SKIP",
-      "confidence": 20.0,
-      "time": "09:21:05",
-      "time_full": "2026-05-07 09:21:05",
+      "direction": "BEAR",
+      "confidence": 51.0,
+      "time": "09:21:10",
+      "time_full": "2026-05-07 09:21:10",
       "trend": null,
       "outcome": null
     }
@@ -5239,11 +5229,11 @@
   "hourly_stats": {
     "hour": 9,
     "bull": 1,
-    "bear": 15,
-    "skip": 1,
+    "bear": 16,
+    "skip": 0,
     "total": 17
   },
-  "bnb_price": 643.48,
+  "bnb_price": 643.32,
   "kline": [
     {
       "timestamp": 1778099100.0,
@@ -5662,9 +5652,9 @@
       "timestamp": 1778116800.0,
       "open": 643.65,
       "high": 643.71,
-      "low": 643.47,
-      "close": 643.48
+      "low": 643.32,
+      "close": 643.32
     }
   ],
-  "updated": "2026-05-07T09:21:10.672911"
+  "updated": "2026-05-07T09:21:20.318857"
 }
