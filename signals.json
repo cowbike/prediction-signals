@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478967,
-    "direction": "BULL",
-    "confidence": 47.0,
-    "pool_total": 0.4,
-    "pool_bull": 0.09,
-    "pool_bear": 0.3,
+    "epoch": 478968,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.25,
+    "pool_bull": 0,
+    "pool_bear": 0,
     "signals": [
       {
         "name": "Time",
@@ -15,15 +15,15 @@
       },
       {
         "name": "Pool",
-        "direction": "BULL",
-        "score": 99,
-        "info": "B:24.0%(4.2x) R:76.0%(1.3x)"
+        "direction": null,
+        "score": 0,
+        "info": "B:51.8%(1.9x) R:48.2%(2.1x)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$643.29 RSI:56 EMA:+0.01% flat"
+        "info": "$643.29 RSI:65 EMA:-0.02% flat"
       },
       {
         "name": "Liq",
@@ -38,11 +38,11 @@
         "info": "FR:+0.0099% neutral"
       }
     ],
-    "trend": "📉 连跌3根($-1.24)",
-    "time": "11:13:02"
+    "trend": "📉 连跌3根($-0.94)",
+    "time": "11:18:04"
   },
-  "lock_ts": 1778123612,
-  "current_ts": 1778123830,
+  "lock_ts": 1778123919,
+  "current_ts": 1778123890,
   "history": [
     {
       "epoch": 478445,
@@ -5222,6 +5222,15 @@
       "time_full": "2026-05-07 11:13:02",
       "trend": "📉 连跌3根($-1.24)",
       "outcome": null
+    },
+    {
+      "epoch": 478968,
+      "direction": "SKIP",
+      "confidence": 12.0,
+      "time": "11:18:04",
+      "time_full": "2026-05-07 11:18:04",
+      "trend": "📉 连跌3根($-0.94)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -5291,10 +5300,10 @@
     "hour": 11,
     "bull": 7,
     "bear": 6,
-    "skip": 2,
-    "total": 15
+    "skip": 3,
+    "total": 16
   },
-  "bnb_price": 643.42,
+  "bnb_price": 643.29,
   "kline": [
     {
       "timestamp": 1778106000.0,
@@ -5712,10 +5721,10 @@
     {
       "timestamp": 1778123700.0,
       "open": 643.01,
-      "high": 643.49,
+      "high": 643.61,
       "low": 643.0,
-      "close": 643.43
+      "close": 643.29
     }
   ],
-  "updated": "2026-05-07T11:17:11.114893"
+  "updated": "2026-05-07T11:18:11.101308"
 }
