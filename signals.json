@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 478981,
-    "direction": "BULL",
-    "confidence": 27.0,
-    "pool_total": 0.27,
-    "pool_bull": 0.05,
-    "pool_bear": 0.22,
+    "epoch": 478982,
+    "direction": "SKIP",
+    "confidence": 0,
+    "pool_total": 0.63,
+    "pool_bull": 0,
+    "pool_bear": 0,
     "signals": [
       {
         "name": "Time",
@@ -15,15 +15,15 @@
       },
       {
         "name": "Pool",
-        "direction": "BULL",
-        "score": 39,
-        "info": "B:17.2%(5.8x) R:82.8%(1.2x)"
+        "direction": null,
+        "score": 0,
+        "info": "B:49.2%(2.0x) R:50.8%(2.0x)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$643.31 RSI:35 EMA:-0.06% flat"
+        "info": "$643.25 RSI:42 EMA:-0.03% flat"
       },
       {
         "name": "Liq",
@@ -39,71 +39,11 @@
       }
     ],
     "trend": null,
-    "time": "12:24:20"
+    "time": "12:29:58"
   },
-  "lock_ts": 1778127896,
-  "current_ts": 1778128150,
+  "lock_ts": 1778128202,
+  "current_ts": 1778128211,
   "history": [
-    {
-      "epoch": 478469,
-      "direction": "BEAR",
-      "confidence": 23.0,
-      "time": "16:51:49",
-      "time_full": "2026-05-07 16:51:49",
-      "trend": null,
-      "outcome": "WIN",
-      "result": "BEAR"
-    },
-    {
-      "epoch": 478470,
-      "direction": "BEAR",
-      "confidence": 26.0,
-      "time": "16:56:54",
-      "time_full": "2026-05-07 16:56:54",
-      "trend": null,
-      "outcome": "WIN",
-      "result": "BEAR"
-    },
-    {
-      "epoch": 478471,
-      "direction": "BEAR",
-      "confidence": 31.0,
-      "time": "17:02:01",
-      "time_full": "2026-05-07 17:02:01",
-      "trend": null,
-      "outcome": "WIN",
-      "result": "BEAR"
-    },
-    {
-      "epoch": 478472,
-      "direction": "BULL",
-      "confidence": 37.0,
-      "time": "17:07:04",
-      "time_full": "2026-05-07 17:07:04",
-      "trend": "📉 连跌3根($-0.64)",
-      "outcome": "WIN",
-      "result": "BULL"
-    },
-    {
-      "epoch": 478473,
-      "direction": "BULL",
-      "confidence": 35.0,
-      "time": "17:12:14",
-      "time_full": "2026-05-07 17:12:14",
-      "trend": null,
-      "outcome": "WIN",
-      "result": "BULL"
-    },
-    {
-      "epoch": 478474,
-      "direction": "BEAR",
-      "confidence": 28.0,
-      "time": "17:17:19",
-      "time_full": "2026-05-07 17:17:19",
-      "trend": null,
-      "outcome": "WIN",
-      "result": "BEAR"
-    },
     {
       "epoch": 478475,
       "direction": "BULL",
@@ -5122,6 +5062,15 @@
       "time_full": "2026-05-07 12:24:20",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 478982,
+      "direction": "SKIP",
+      "confidence": 13.0,
+      "time": "12:29:58",
+      "time_full": "2026-05-07 12:29:58",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -5130,11 +5079,10 @@
     "skips": 1750,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 47.2,
-    "total_24h": 360,
+    "win_rate_24h": 46.3,
+    "total_24h": 354,
     "hourly_wins": {
-      "16": 7,
-      "17": 10,
+      "17": 6,
       "18": 8,
       "19": 5,
       "20": 7,
@@ -5156,7 +5104,8 @@
       "12": 4,
       "13": 1,
       "14": 4,
-      "15": 3
+      "15": 3,
+      "16": 5
     },
     "hourly_losses": {
       "17": 9,
@@ -5184,25 +5133,18 @@
       "15": 9,
       "16": 6
     },
-    "tracking_win_rate_24h": 47.2,
-    "tracking_total_24h": 360
+    "tracking_win_rate_24h": 46.3,
+    "tracking_total_24h": 354
   },
   "hourly_stats": {
     "hour": 12,
     "bull": 3,
     "bear": 11,
-    "skip": 2,
-    "total": 16
+    "skip": 3,
+    "total": 17
   },
-  "bnb_price": 643.17,
+  "bnb_price": 643.21,
   "kline": [
-    {
-      "timestamp": 1778110200.0,
-      "open": 647.18,
-      "high": 647.54,
-      "low": 647.07,
-      "close": 647.43
-    },
     {
       "timestamp": 1778110500.0,
       "open": 647.42,
@@ -5614,8 +5556,15 @@
       "open": 643.33,
       "high": 643.52,
       "low": 643.14,
-      "close": 643.17
+      "close": 643.25
+    },
+    {
+      "timestamp": 1778128200.0,
+      "open": 643.25,
+      "high": 643.25,
+      "low": 643.21,
+      "close": 643.21
     }
   ],
-  "updated": "2026-05-07T12:29:11.022412"
+  "updated": "2026-05-07T12:30:11.633047"
 }
