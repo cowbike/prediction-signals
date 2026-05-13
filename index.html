@@ -1907,9 +1907,16 @@ async function loadWhaleData() {
     const addrEl = document.getElementById('whale-addr');
     if (addrEl) addrEl.textContent = d.address.slice(0,6) + '...' + d.address.slice(-4);
 
-    // Balance — ensure BNB price is available
-    const balBNB = d.balance || 0;
+    // Balance — get real-time from chain
     if (!_bnbUsdPrice) { try { const p = await getLiveBNBPrice(); if (p > 0) _bnbUsdPrice = p; } catch(e) {} }
+    const WHALE_ADDR = d.address;
+    let balBNB = d.balance || 0;
+    try {
+      const balHex = await rpcCall('eth_getBalance', [WHALE_ADDR, 'latest']);
+      if (balHex) {
+        balBNB = parseInt(balHex, 16) / 1e18;
+      }
+    } catch(e) {}
     const balUSD = _bnbUsdPrice ? (balBNB * _bnbUsdPrice).toFixed(2) : '--';
 
     // Summary stats
