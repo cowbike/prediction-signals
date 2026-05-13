@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- cache v1776745601 -->
+<!-- cache v1776800004 -->
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -51,6 +51,7 @@
   .theme-toggle:hover { border-color: var(--blue); color: var(--blue); }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
   @keyframes flash { 0% { box-shadow: 0 0 0 0 rgba(88,166,255,0.5); } 100% { box-shadow: 0 0 0 0 transparent; } }
+  @keyframes newBetPulse { 0% { background: rgba(255,215,0,0.15); } 100% { background: transparent; } }
   .flash-update { animation: flash 1s ease-out; }
   .rainbow-price {
     font-weight: 700;
@@ -306,6 +307,15 @@
   <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">🌙</button>
 </div>
 
+<!-- Market Overview Bar -->
+<div id="market-bar" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding:6px 16px;font-size:11px;color:var(--dim);background:var(--card);border-bottom:1px solid var(--border)">
+  <span id="mkt-btc">₿ BTC --</span>
+  <span id="mkt-eth">Ξ ETH --</span>
+  <span id="mkt-bnb">🔶 BNB --</span>
+  <span id="mkt-bnb-fr">📊 FR --</span>
+  <span id="mkt-sentiment">🟡 --</span>
+</div>
+
 <div class="wallet-section">
   <!-- Cloud Auto-Bet UI -->
   <div id="cloud-auth">
@@ -317,32 +327,11 @@
         <button onclick="verifyPin()" style="flex:0 0 auto;padding:10px 16px;font-size:13px;background:var(--card);color:var(--yellow);border:1px solid var(--yellow);border-radius:10px;cursor:pointer;font-weight:600">🔓 解锁</button>
       </div>
     </div>
-    <!-- Wallet info (hidden until PIN verified) -->
-    <div id="okx-wallet-bar" style="display:none;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);margin-bottom:8px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <span style="font-size:13px;font-weight:600" id="okx-addr">--</span>
-        <span style="font-size:14px;color:var(--yellow);font-weight:700" id="okx-balance">-- BNB</span>
-        <span style="font-size:12px;color:var(--dim)" id="okx-balance-usd">≈ $--</span>
-      </div>
-      <!-- Stats row -->
-      <div id="bet-stats" style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--dim);margin-bottom:6px;padding:0 2px">
-        <span>参与 <b id="stat-bets" style="color:var(--text)">0</b> 局</span>
-        <span>胜 <b id="stat-wins" style="color:var(--green)">0</b> 局</span>
-        <span>胜率 <b id="stat-rate" style="color:var(--yellow)">--%</b></span>
-        <span>投入 <b id="stat-wagered" style="color:var(--text)">0</b> BNB</span>
-      </div>
-      <div style="font-size:11px;color:var(--dim);padding:4px 0 8px;text-align:center">💡 点击每局的「💰提取」按钮可单局提取</div>
-    </div>
+    <!-- Wallet Summary (per-wallet stats + balance) -->
+    <div id="wallet-summary" style="display:none;margin-bottom:8px"></div>
 
-    <!-- Bet History -->
-    <div id="bet-history-section" style="display:none;margin-top:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);overflow:hidden">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border)">
-        <span style="font-size:13px;font-weight:600">📋 下注历史</span>
-        <span id="history-total" style="font-size:11px;color:var(--dim)">共 0 局</span>
-      </div>
-      <div id="history-list" style="max-height:380px;overflow-y:auto"></div>
-      <div id="history-pagination" style="display:flex;justify-content:center;align-items:center;gap:8px;padding:10px;border-top:1px solid var(--border)"></div>
-    </div>
+    <!-- Bet History (per-wallet) -->
+    <div id="wallet-histories" style="display:none;margin-top:10px"></div>
     <div id="pk-status" style="font-size:11px;color:var(--dim);margin-bottom:8px"></div>
   </div>
 
@@ -410,6 +399,12 @@
 <div class="tracking">
   <h3>📊 策略胜率统计</h3>
   <div class="tracking-stats" id="tracking-stats"></div>
+</div>
+
+<div class="tracking" id="whale-section" style="display:none">
+  <h3>🐋 榜一大哥下注追踪 <span style="font-size:12px;color:var(--dim)" id="whale-addr"></span></h3>
+  <div id="whale-summary" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;padding:0 12px"></div>
+  <div id="whale-history"></div>
 </div>
 
 <div class="footer">
@@ -1042,6 +1037,7 @@ async function fetchData() {
     startGlobalCountdown();
     renderTracking(data.tracking);
     updateBnbPrice(data);
+    updateMarketOverview(data);
     // K-line: NOT drawn here — initChainKline() handles it from chain RPC
     // This avoids Binance-time kline flashing before chain data arrives
   } catch (e) {
@@ -1072,6 +1068,23 @@ function updateBnbPrice(data) {
  } else {
  document.getElementById('bnb-price').textContent = 'N/A';
  }
+}
+
+function updateMarketOverview(data) {
+ const mo = data && data.market_overview;
+ if (!mo) return;
+ const btc = mo.btc || {};
+ const eth = mo.eth || {};
+ const bnb = mo.bnb || {};
+ const fmt = (v, d) => v != null ? (v >= 0 ? '+' : '') + v.toFixed(d) : '--';
+ const clr = v => v > 0 ? 'var(--green)' : v < 0 ? 'var(--red)' : 'var(--dim)';
+
+ document.getElementById('mkt-btc').innerHTML = `₿ BTC <b style="color:${clr(btc.change24h)}">$${btc.last?.toLocaleString() || '--'} (${fmt(btc.change24h, 2)}%)</b>`;
+ document.getElementById('mkt-eth').innerHTML = `Ξ ETH <b style="color:${clr(eth.change24h)}">$${eth.last?.toLocaleString() || '--'} (${fmt(eth.change24h, 2)}%)</b>`;
+ const bnbPrice = bnb.price || bnb.last;
+ document.getElementById('mkt-bnb').innerHTML = `🔶 BNB <b style="color:${clr(bnb.change24h)}">$${bnbPrice?.toLocaleString() || '--'} (${fmt(bnb.change24h, 2)}%)</b>`;
+ document.getElementById('mkt-bnb-fr').innerHTML = `📊 FR: <b>${bnb.funding != null ? bnb.funding.toFixed(4) + '%' : '--'}</b> | OI: <b>${bnb.oi != null ? (bnb.oi/1000).toFixed(0) + 'K' : '--'}</b>`;
+ document.getElementById('mkt-sentiment').textContent = mo.sentiment || '--';
 }
 
 // Draw chain-derived K-line (PCSP-time-aligned, NOT Binance time)
@@ -1310,27 +1323,45 @@ async function verifyPin() {
   try {
     const res = await fetch(BET_API + '/wallet-info?pin=' + encodeURIComponent(pin));
     const data = await res.json();
-    if (data.ok && data.wallet) {
-      // Auto-save auth token and PIN for polling
-      setAuthToken(data.wallet, data.auth_token);
+    if (data.ok && data.wallets && data.wallets.length > 0) {
+      for (const w of data.wallets) { setAuthToken(w.wallet, w.auth_token); }
       localStorage.setItem('bet_pin', pin);
-      // Show wallet bar, hide PIN gate
-      document.getElementById('okx-addr').textContent = shortAddr(data.wallet);
-      document.getElementById('okx-balance').textContent = data.balance + ' BNB';
-      document.getElementById('okx-wallet-bar').style.display = 'block';
+      // Fetch BNB price first so USD shows immediately
+      try { const p = await getLiveBNBPrice(); if (p > 0) _bnbUsdPrice = p; } catch(e) {}
+      renderWalletSummary(data.wallets);
+      document.getElementById('wallet-summary').style.display = 'block';
       document.getElementById('pin-gate').style.display = 'none';
-      status.textContent = '✅ OKX 钱包已连接';
+      status.textContent = '✅ 已连接 ' + data.wallets.length + ' 个钱包';
       status.style.color = 'var(--green)';
-      cloudRefresh();
-      startBalancePolling();
+      cloudRefresh(); startBalancePolling();
     } else {
       status.textContent = data.error === 'PIN_INCORRECT' ? '❌ 密码错误' : '❌ ' + (data.error || '未检测到钱包');
       status.style.color = 'var(--red)';
     }
   } catch (e) {
-    status.textContent = '❌ 连接失败: ' + e.message;
-    status.style.color = 'var(--red)';
+    status.textContent = '❌ 连接失败: ' + e.message; status.style.color = 'var(--red)';
   }
+}
+
+function renderWalletSummary(wallets) {
+  const summary = document.getElementById('wallet-summary');
+  summary.innerHTML = wallets.map((w, i) => {
+    const short = w.wallet.slice(0,6) + '...' + w.wallet.slice(-4);
+    const label = w.label || ('钱包' + (i+1));
+    const usd = _bnbUsdPrice ? ' ≈ $' + (parseFloat(w.balance) * _bnbUsdPrice).toFixed(2) : '';
+    return `<div style="padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);margin-bottom:6px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:13px;font-weight:600;color:var(--text)">📌 ${label} <span style="color:var(--dim);font-size:11px">${short}</span></span>
+        <span style="display:flex;align-items:baseline;gap:4px"><span style="font-size:14px;color:var(--yellow);font-weight:700" data-wallet-bnb="${w.wallet}">${w.balance} BNB</span><span style="font-size:13px;color:var(--yellow);font-weight:600" data-wallet-usd="${w.wallet}">${usd}</span></span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--dim);padding:0 2px">
+        <span>参与 <b data-wallet-bets="${w.wallet}" style="color:var(--text)">--</b> 局</span>
+        <span>胜 <b data-wallet-wins="${w.wallet}" style="color:var(--green)">--</b> 局</span>
+        <span>胜率 <b data-wallet-rate="${w.wallet}" style="color:var(--yellow)">--%</b></span>
+      </div>
+    </div>`;
+  }).join('');
+  summary.style.display = 'block';
 }
 
 // Auto-detect if PIN was saved
@@ -1350,8 +1381,7 @@ function startBalancePolling() {
   loadHistory(1);
   if (_balanceInterval) clearInterval(_balanceInterval);
   _balanceInterval = setInterval(() => { refreshBalance(); refreshStats(); }, 15000);
-  // Refresh history every 5 minutes
-  setInterval(() => { if (_historyPage === 1) loadHistory(1); }, 300000);
+  setInterval(() => { loadHistory(1); }, 300000);
 }
 
 // Cache BNB/USD price globally for wallet card display
@@ -1361,49 +1391,40 @@ async function refreshBalance() {
   const tokens = getAuthTokens();
   const entries = Object.entries(tokens);
   if (!entries.length) return;
-  const [wallet, token] = entries[0];
-  try {
-    // Fetch balance + live price in parallel
-    const [res, price] = await Promise.all([
-      fetch(`${BET_API}/balance?wallet=${wallet}&token=${encodeURIComponent(token)}`),
-      getLiveBNBPrice().catch(() => null)
-    ]);
-    const data = await res.json();
-    if (price && price > 0) _bnbUsdPrice = price;
-    if (data.ok) {
-      const el = document.getElementById('okx-balance');
-      if (el) el.textContent = data.balance + ' BNB';
-      const usdEl = document.getElementById('okx-balance-usd');
-      if (usdEl && _bnbUsdPrice) {
-        const usd = (parseFloat(data.balance) * _bnbUsdPrice).toFixed(2);
-        usdEl.textContent = '≈ $' + Number(usd).toLocaleString('en-US');
+  const price = await getLiveBNBPrice().catch(() => null);
+  if (price && price > 0) _bnbUsdPrice = price;
+  for (const [wallet, token] of entries) {
+    try {
+      const res = await fetch(`${BET_API}/balance?wallet=${wallet}&token=${encodeURIComponent(token)}`);
+      const data = await res.json();
+      if (data.ok) {
+        const bnbEl = document.querySelector(`[data-wallet-bnb="${wallet}"]`);
+        if (bnbEl) bnbEl.textContent = data.balance + ' BNB';
+        const usdEl = document.querySelector(`[data-wallet-usd="${wallet}"]`);
+        if (usdEl && _bnbUsdPrice) usdEl.textContent = ' ≈ $' + (parseFloat(data.balance) * _bnbUsdPrice).toFixed(2);
       }
-      // Update wallet card balance with USD too
-      document.querySelectorAll('[data-card-balance]').forEach(span => {
-        const bnb = parseFloat(span.dataset.cardBinance);
-        if (!isNaN(bnb) && _bnbUsdPrice) {
-          span.textContent = bnb.toFixed(4) + ' BNB ≈ $' + (bnb * _bnbUsdPrice).toFixed(2);
-        }
-      });
-    }
-  } catch (e) {}
+    } catch (e) {}
+  }
 }
 
 async function refreshStats() {
   const tokens = getAuthTokens();
   const entries = Object.entries(tokens);
   if (!entries.length) return;
-  const [wallet, token] = entries[0];
-  try {
-    const res = await fetch(`${BET_API}/stats?wallet=${wallet}&token=${encodeURIComponent(token)}`);
-    const data = await res.json();
-    if (data.ok) {
-      document.getElementById('stat-bets').textContent = data.total_bets;
-      document.getElementById('stat-wins').textContent = data.wins;
-      document.getElementById('stat-rate').textContent = data.total_bets > 0 ? data.win_rate + '%' : '--%';
-      document.getElementById('stat-wagered').textContent = data.total_wagered;
-    }
-  } catch (e) {}
+  for (const [wallet, token] of entries) {
+    try {
+      const res = await fetch(`${BET_API}/stats?wallet=${wallet}&token=${encodeURIComponent(token)}`);
+      const data = await res.json();
+      if (data.ok) {
+        const betsEl = document.querySelector(`[data-wallet-bets="${wallet}"]`);
+        if (betsEl) betsEl.textContent = data.total_bets;
+        const winsEl = document.querySelector(`[data-wallet-wins="${wallet}"]`);
+        if (winsEl) winsEl.textContent = data.wins;
+        const rateEl = document.querySelector(`[data-wallet-rate="${wallet}"]`);
+        if (rateEl) rateEl.textContent = data.total_bets > 0 ? data.win_rate + '%' : '--%';
+      }
+    } catch (e) {}
+  }
 }
 
 // Claim winnings
@@ -1513,6 +1534,12 @@ async function cloudResume(wallet) {
   await cloudStart(wallet);
 }
 
+async function cloudVirtual(wallet, enabled) {
+  await cloudApi('POST', '/virtual', { ..._body(wallet), enabled });
+  showBetStatus('countdown', (enabled ? '🎲 ' : '⏸ ') + shortAddr(wallet) + (enabled ? ' 虚拟模式已开启' : ' 虚拟模式已关闭'));
+  cloudRefresh();
+}
+
 async function cloudPauseAll() {
   // Send auth token for any wallet we own
   const tokens = getAuthTokens();
@@ -1582,6 +1609,12 @@ function renderWalletCard(ws) {
         }
         <button onclick="cloudRemove('${ws.wallet}')" style="flex:0 0 auto;padding:6px 10px;font-size:11px;border-radius:8px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">✕</button>
       </div>
+      <div style="display:flex;gap:4px;margin-top:4px">
+        ${ws.virtual_mode
+          ? `<button onclick="cloudVirtual('${ws.wallet}', false)" style="flex:1;padding:5px;font-size:11px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid var(--yellow);color:var(--yellow);background:rgba(255,200,0,0.08)">🎲 停止虚拟</button>`
+          : `<button onclick="cloudVirtual('${ws.wallet}', true)" style="flex:1;padding:5px;font-size:11px;border-radius:8px;cursor:pointer;font-weight:600;border:1px solid var(--border);color:var(--dim);background:var(--card)">🎲 虚拟下注</button>`
+        }
+      </div>
       <div style="display:flex;justify-content:flex-end;margin-top:4px;font-size:10px;color:var(--dim)">
         <span>开局后${ws.bet_after || 90}s</span>
       </div>
@@ -1591,6 +1624,8 @@ function renderWalletCard(ws) {
 
 async function cloudRefresh() {
   try {
+    // Ensure we have BNB/USD price for balance display
+    if (!_bnbUsdPrice) { try { const p = await getLiveBNBPrice(); if (p > 0) _bnbUsdPrice = p; } catch(e) {} }
     const res = await cloudStatusApi();
     const list = document.getElementById('wallet-list');
     const pauseWrap = document.getElementById('pause-all-wrap');
@@ -1706,76 +1741,100 @@ async function _claimWinningsOLD() {
   btn.disabled = false;
 }
 
-// ─── Bet History ─────────────────────────────────────
-let _historyPage = 1;
-const _historyPerPage = 10;
+// ─── Bet History (per-wallet) ─────────────────────
+const _walletPages = {};  // wallet -> current page
 
-async function loadHistory(page) {
-  _historyPage = page || 1;
-  const section = document.getElementById('bet-history-section');
-  const list = document.getElementById('history-list');
-  const pag = document.getElementById('history-pagination');
-  const totalEl = document.getElementById('history-total');
-
-  const tokens = getAuthTokens();
-  const entries = Object.entries(tokens);
-  if (!entries.length) { section.style.display = 'none'; return; }
-  const [wallet, token] = entries[0];
+async function loadWalletHistory(wallet, token, page) {
+  _walletPages[wallet] = page;
+  const containerId = 'hist-' + wallet.slice(2, 10);
+  const section = document.getElementById(containerId);
+  if (!section) return;
+  const walletIdx = Object.keys(_walletPages).indexOf(wallet) + 1;
+  const short = wallet.slice(0,6) + '...' + wallet.slice(-4);
+  const label = '钱包' + walletIdx;
 
   try {
-    const url = `${BET_API}/history?wallet=${wallet}&token=${encodeURIComponent(token)}&page=${_historyPage}&per_page=${_historyPerPage}`;
+    const url = `${BET_API}/history?wallet=${wallet}&token=${encodeURIComponent(token)}&page=${page}&per_page=10`;
     const res = await fetch(url);
     const j = await res.json();
-    if (!j.ok) { section.style.display = 'none'; return; }
+    if (!j.ok) { section.innerHTML = '<div style="padding:10px;color:var(--dim);font-size:12px">加载失败</div>'; return; }
 
-    section.style.display = 'block';
-    totalEl.textContent = '共 ' + j.total + ' 局';
+    let headerHtml = `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border)">
+      <span style="font-size:13px;font-weight:600">📋 ${label} 下注历史 <span style="color:var(--dim);font-size:11px">${short}</span></span>
+      <span style="font-size:11px;color:var(--dim)">共 ${j.total} 局</span>
+    </div>`;
 
+    let listHtml = '';
     if (j.items.length === 0) {
-      list.innerHTML = '<div style="text-align:center;color:var(--dim);font-size:12px;padding:20px">暂无下注记录</div>';
-      pag.innerHTML = '';
-      return;
+      listHtml = '<div style="text-align:center;color:var(--dim);font-size:12px;padding:20px">暂无下注记录</div>';
+    } else {
+      listHtml = j.items.map((h, i) => {
+        const isPending = h.result === 'PENDING' || h.result === 'VIRTUAL_PENDING';
+        const isFailed = h.result === 'FAILED';
+        const isVirtual = h.result === '虚拟赢' || h.result === '虚拟输' || h.result === 'VIRTUAL_PENDING';
+        const won = h.result === 'WIN' || h.result === '虚拟赢';
+        const color = isPending ? 'var(--yellow)' : isFailed ? 'var(--dim)' : (won ? 'var(--green)' : 'var(--red)');
+        const icon = isPending ? '⏳' : isFailed ? '⚠️' : (won ? '✅' : '❌');
+        const labelR = isPending ? (isVirtual ? '虚拟等待' : '等待结果') : isFailed ? '没下注' : (h.result === '虚拟赢' ? '虚拟赢' : h.result === '虚拟输' ? '虚拟输' : (won ? '赢钱' : '输钱'));
+        const dir = h.dir === 'BULL' ? '🟢 买涨' : '🔴 买跌';
+        const bullOdds = h.bull_odds ? h.bull_odds.toFixed(2) + 'x' : '--';
+        const bearOdds = h.bear_odds ? h.bear_odds.toFixed(2) + 'x' : '--';
+        const num = (j.page - 1) * j.per_page + i + 1;
+        const claimed = h.claimed;
+        let claimBtn = '';
+        if (won && !claimed) {
+          claimBtn = `<button onclick="claimSingleEpoch(${h.epoch},this,'${wallet}')" style="padding:2px 6px;font-size:10px;border-radius:4px;cursor:pointer;border:1px solid var(--green);color:var(--green);background:var(--card);white-space:nowrap">💰提取</button>`;
+        } else if (won && claimed) {
+          claimBtn = `<span style="font-size:10px;color:var(--dim)">已提</span>`;
+        }
+        return `<div style="display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px">
+          <span style="color:var(--dim);width:22px;text-align:right">${num}</span>
+          <span style="font-weight:600;width:68px">${dir}</span>
+          <span style="color:var(--text);width:56px">${h.amount} BNB</span>
+          <span style="color:var(--green);font-size:11px;width:68px;text-align:right">🐂${bullOdds}</span>
+          <span style="color:var(--red);font-size:11px;width:68px;text-align:right">🐻${bearOdds}</span>
+          <span style="color:${color};font-weight:600;width:68px;text-align:center">${icon}${labelR}</span>
+          <span style="width:54px;text-align:center">${claimBtn}</span>
+          <span style="color:var(--dim);font-size:10px;flex:1;text-align:right">#${h.epoch}</span>
+        </div>`;
+      }).join('');
     }
 
-    list.innerHTML = j.items.map((h, i) => {
-      const isPending = h.result === 'PENDING';
-      const won = h.result === 'WIN';
-      const color = isPending ? 'var(--yellow)' : (won ? 'var(--green)' : 'var(--red)');
-      const icon = isPending ? '⏳' : (won ? '✅' : '❌');
-      const label = isPending ? '等待结果' : (won ? '赢钱' : '输钱');
-      const dir = h.dir === 'BULL' ? '🟢 买涨' : '🔴 买跌';
-      const bullOdds = h.bull_odds ? h.bull_odds.toFixed(2) + 'x' : '--';
-      const bearOdds = h.bear_odds ? h.bear_odds.toFixed(2) + 'x' : '--';
-      const num = (j.page - 1) * j.per_page + i + 1;
-      const claimed = h.claimed;
-      let claimBtn = '';
-      if (won && !claimed) {
-        claimBtn = `<button onclick="claimSingleEpoch(${h.epoch},this)" style="padding:2px 6px;font-size:10px;border-radius:4px;cursor:pointer;border:1px solid var(--green);color:var(--green);background:var(--card);white-space:nowrap">💰提取</button>`;
-      } else if (won && claimed) {
-        claimBtn = `<span style="font-size:10px;color:var(--dim)">已提</span>`;
-      }
-      return `<div style="display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px">
-        <span style="color:var(--dim);width:22px;text-align:right">${num}</span>
-        <span style="font-weight:600;width:68px">${dir}</span>
-        <span style="color:var(--text);width:56px">${h.amount} BNB</span>
-        <span style="color:var(--green);font-size:11px;width:68px;text-align:right">🐂${bullOdds}</span>
-        <span style="color:var(--red);font-size:11px;width:68px;text-align:right">🐻${bearOdds}</span>
-        <span style="color:${color};font-weight:600;width:68px;text-align:center">${icon}${label}</span>
-        <span style="width:54px;text-align:center">${claimBtn}</span>
-        <span style="color:var(--dim);font-size:10px;flex:1;text-align:right">#${h.epoch}</span>
-      </div>`;
-    }).join('');
-
-    // Pagination
-    let phtml = '';
+    let pagHtml = '';
     if (j.total_pages > 1) {
-      phtml += `<button onclick="loadHistory(${j.page - 1})" ${j.page <= 1 ? 'disabled' : ''} style="padding:4px 10px;font-size:11px;border-radius:6px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">‹ 上一页</button>`;
-      phtml += `<span style="font-size:11px;color:var(--dim)">${j.page} / ${j.total_pages}</span>`;
-      phtml += `<button onclick="loadHistory(${j.page + 1})" ${j.page >= j.total_pages ? 'disabled' : ''} style="padding:4px 10px;font-size:11px;border-radius:6px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">下一页 ›</button>`;
+      const prevDis = j.page <= 1 ? 'disabled' : '';
+      const nextDis = j.page >= j.total_pages ? 'disabled' : '';
+      pagHtml = `<div style="display:flex;justify-content:center;align-items:center;gap:8px;padding:10px;border-top:1px solid var(--border)">
+        <button onclick="loadWalletHistory('${wallet}','${token}',${j.page - 1})" ${prevDis} style="padding:4px 10px;font-size:11px;border-radius:6px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">‹ 上一页</button>
+        <span style="font-size:11px;color:var(--dim)">${j.page} / ${j.total_pages}</span>
+        <button onclick="loadWalletHistory('${wallet}','${token}',${j.page + 1})" ${nextDis} style="padding:4px 10px;font-size:11px;border-radius:6px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">下一页 ›</button>
+      </div>`;
     }
-    pag.innerHTML = phtml;
+
+    section.innerHTML = headerHtml + `<div style="max-height:520px;overflow-y:auto">${listHtml}</div>` + pagHtml;
   } catch (e) {
-    list.innerHTML = '<div style="text-align:center;color:var(--red);font-size:12px;padding:10px">加载失败</div>';
+    section.innerHTML = `<div style="padding:10px;color:var(--red);font-size:12px">加载失败: ${e.message}</div>`;
+  }
+}
+
+async function loadHistory(page) {
+  const tokens = getAuthTokens();
+  const entries = Object.entries(tokens);
+  if (!entries.length) { document.getElementById('wallet-histories').style.display = 'none'; return; }
+
+  const container = document.getElementById('wallet-histories');
+  container.style.display = 'block';
+  container.innerHTML = '';
+
+  for (const [wallet, token] of entries) {
+    const containerId = 'hist-' + wallet.slice(2, 10);
+    const section = document.createElement('div');
+    section.id = containerId;
+    section.style.cssText = 'border:1px solid var(--border);border-radius:10px;background:var(--card);overflow:hidden;margin-bottom:8px';
+    container.appendChild(section);
+
+    const currentPage = _walletPages[wallet] || 1;
+    await loadWalletHistory(wallet, token, currentPage);
   }
 }
 
@@ -1789,11 +1848,16 @@ function getSelector(method) {
 }
 
 // Single epoch claim
-async function claimSingleEpoch(epoch, btn) {
+async function claimSingleEpoch(epoch, btn, walletAddr) {
   const tokens = getAuthTokens();
-  const entries = Object.entries(tokens);
-  if (!entries.length) { alert('请先解锁钱包'); return; }
-  const [wallet, token] = entries[0];
+  let wallet, token;
+  if (walletAddr && tokens[walletAddr]) {
+    wallet = walletAddr; token = tokens[walletAddr];
+  } else {
+    const entries = Object.entries(tokens);
+    if (!entries.length) { alert('请先解锁钱包'); return; }
+    [wallet, token] = entries[0];
+  }
 
   const origText = btn.textContent;
   btn.textContent = '⏳';
@@ -1809,7 +1873,8 @@ async function claimSingleEpoch(epoch, btn) {
       btn.style.borderColor = 'var(--green)';
       refreshBalance();
       // Reload history to update claimed status
-      setTimeout(() => loadHistory(_historyPage), 2000);
+      const pg = _walletPages[wallet] || 1;
+      setTimeout(() => loadWalletHistory(wallet, token, pg), 2000);
     } else {
       btn.textContent = '❌';
       btn.style.color = 'var(--red)';
@@ -1822,6 +1887,186 @@ async function claimSingleEpoch(epoch, btn) {
     setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.opacity = '1'; }, 3000);
   }
 }
+
+// ─── Whale Tracker ─────────────────────────────────────
+let _whaleData = null;
+let _whalePage = 1;
+const _whalePerPage = 10;
+
+async function loadWhaleData() {
+  try {
+    const res = await fetch('/whale_data.json?t=' + Date.now());
+    if (!res.ok) return;
+    const d = await res.json();
+    _whaleData = d;
+    const section = document.getElementById('whale-section');
+    if (!section) return;
+    section.style.display = 'block';
+
+    // Address
+    const addrEl = document.getElementById('whale-addr');
+    if (addrEl) addrEl.textContent = d.address.slice(0,6) + '...' + d.address.slice(-4);
+
+    // Balance — ensure BNB price is available
+    const balBNB = d.balance || 0;
+    if (!_bnbUsdPrice) { try { const p = await getLiveBNBPrice(); if (p > 0) _bnbUsdPrice = p; } catch(e) {} }
+    const balUSD = _bnbUsdPrice ? (balBNB * _bnbUsdPrice).toFixed(2) : '--';
+
+    // Summary stats
+    const s = d.stats || {};
+    const summary = document.getElementById('whale-summary');
+    if (summary) {
+      summary.innerHTML = `
+        <div style="padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card)">
+          <div style="font-size:11px;color:var(--dim)">钱包余额</div>
+          <div style="font-size:16px;font-weight:700;color:var(--yellow)">${balBNB} BNB</div>
+          <div style="font-size:12px;color:var(--dim)">≈ $${balUSD}</div>
+        </div>
+        <div style="padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card)">
+          <div style="font-size:11px;color:var(--dim)">下注局数</div>
+          <div style="font-size:16px;font-weight:700;color:var(--text)">${s.total_bets || 0}</div>
+        </div>
+        <div style="padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card)">
+          <div style="font-size:11px;color:var(--dim)">胜 / 负</div>
+          <div style="font-size:16px;font-weight:700"><span style="color:var(--green)">${s.wins||0}</span> / <span style="color:var(--red)">${s.losses||0}</span></div>
+        </div>
+        <div style="padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card)">
+          <div style="font-size:11px;color:var(--dim)">胜率</div>
+          <div style="font-size:16px;font-weight:700;color:${(s.win_rate||0)>=50?'var(--green)':'var(--yellow)'}">${s.win_rate||0}%</div>
+        </div>
+        <div style="padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card)">
+          <div style="font-size:11px;color:var(--dim)">总下注</div>
+          <div style="font-size:16px;font-weight:700;color:var(--yellow)">${s.total_wagered||0} BNB</div>
+        </div>
+      `;
+    }
+
+    renderWhaleHistory();
+  } catch(e) {
+    // whale_data.json not available yet, ignore
+  }
+}
+
+function renderWhaleHistory() {
+  const d = _whaleData;
+  const hist = document.getElementById('whale-history');
+  if (!hist || !d || !d.bets || !d.bets.length) return;
+
+  // 合并实时数据到顶部（去重）
+  let allBets = d.bets;
+  if (_realtimeBets.length) {
+    const existingEpochs = new Set(d.bets.map(b => b.epoch));
+    const newBets = _realtimeBets.filter(b => !existingEpochs.has(b.epoch));
+    allBets = [...newBets, ...d.bets];
+  }
+
+  const total = allBets.length;
+  const totalPages = Math.ceil(total / _whalePerPage);
+  if (_whalePage > totalPages) _whalePage = totalPages;
+  const start = (_whalePage - 1) * _whalePerPage;
+  const pageBets = allBets.slice(start, start + _whalePerPage);
+
+  // 记录实时数据的 epoch 集合，用于高亮
+  const realtimeEpochs = new Set(_realtimeBets.map(b => b.epoch));
+
+  let rows = pageBets.map((b, i) => {
+    const won = b.result === 'WIN';
+    const pending = b.result === 'PENDING';
+    const color = pending ? 'var(--yellow)' : (won ? 'var(--green)' : 'var(--red)');
+    const icon = pending ? '⏳' : (won ? '✅' : '❌');
+    const labelR = pending ? '等待中' : (won ? '赢钱' : '输钱');
+    const dir = b.dir === 'BULL' ? '🟢 买涨' : '🔴 买跌';
+    const bullOdds = b.bull_odds ? b.bull_odds.toFixed(2) + 'x' : '--';
+    const bearOdds = b.bear_odds ? b.bear_odds.toFixed(2) + 'x' : '--';
+    const num = start + i + 1;
+    const isRealtime = realtimeEpochs.has(b.epoch);
+    const rowStyle = isRealtime
+      ? 'display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px;background:rgba(255,215,0,0.08);animation:newBetPulse 2s ease-out 3'
+      : 'display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px';
+    return `<div style="${rowStyle}">
+      <span style="color:var(--dim);width:22px;text-align:right">${num}</span>
+      <span style="font-weight:600;width:68px">${dir}</span>
+      <span style="color:var(--text);width:64px">${b.amount} BNB</span>
+      <span style="color:var(--green);font-size:11px;width:68px;text-align:right">🐂${bullOdds}</span>
+      <span style="color:var(--red);font-size:11px;width:68px;text-align:right">🐻${bearOdds}</span>
+      <span style="color:${color};font-weight:600;width:68px;text-align:center">${icon}${labelR}</span>
+      <span style="color:var(--dim);font-size:10px;flex:1;text-align:right">#${b.epoch}</span>
+      ${isRealtime ? '<span style="color:var(--yellow);font-size:10px;animation:newBetPulse 1.5s ease-out infinite">🆕</span>' : ''}
+    </div>`;
+  }).join('');
+
+  const prevDis = _whalePage <= 1 ? 'disabled' : '';
+  const nextDis = _whalePage >= totalPages ? 'disabled' : '';
+  const rangeStart = start + 1;
+  const rangeEnd = Math.min(start + _whalePerPage, total);
+
+  // Generate page number buttons (show current ±3 pages + first/last)
+  let pageBtns = '';
+  if (totalPages > 1) {
+    const pages = new Set([1, 2, totalPages-1, totalPages]);
+    for (let p = Math.max(1, _whalePage-3); p <= Math.min(totalPages, _whalePage+3); p++) pages.add(p);
+    const sorted = [...pages].sort((a,b)=>a-b);
+    let last = 0;
+    for (const p of sorted) {
+      if (last && p - last > 1) pageBtns += `<span style="color:var(--dim);font-size:10px;padding:0 2px">…</span>`;
+      const active = p === _whalePage;
+      pageBtns += `<button onclick="_whalePage=${p};renderWhaleHistory()" style="padding:3px 7px;font-size:10px;border-radius:5px;cursor:pointer;border:1px solid ${active?'var(--yellow)':'var(--border)'};color:${active?'var(--yellow)':'var(--dim)'};background:${active?'rgba(250,204,21,0.1)':'var(--card)'};font-weight:${active?'700':'400'}">${p}</button>`;
+      last = p;
+    }
+  }
+
+  let pagHtml = `<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:10px 12px;border-top:1px solid var(--border)">
+    <span style="font-size:11px;color:var(--dim)">显示 ${rangeStart}-${rangeEnd} / 共${total}局</span>
+    <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+      <button onclick="_whalePage=1;renderWhaleHistory()" ${prevDis} style="padding:3px 7px;font-size:10px;border-radius:5px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">⟨⟨</button>
+      <button onclick="_whalePage--;renderWhaleHistory()" ${prevDis} style="padding:3px 7px;font-size:10px;border-radius:5px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">‹</button>
+      ${pageBtns}
+      <button onclick="_whalePage++;renderWhaleHistory()" ${nextDis} style="padding:3px 7px;font-size:10px;border-radius:5px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">›</button>
+      <button onclick="_whalePage=${totalPages};renderWhaleHistory()" ${nextDis} style="padding:3px 7px;font-size:10px;border-radius:5px;cursor:pointer;border:1px solid var(--border);color:var(--dim);background:var(--card)">⟩⟩</button>
+      <span style="font-size:11px;color:var(--dim);margin-left:4px">跳转</span>
+      <input id="whale-jump" type="number" min="1" max="${totalPages}" style="width:48px;padding:3px 5px;font-size:10px;border-radius:5px;border:1px solid var(--border);background:var(--card);color:var(--text);text-align:center" onkeydown="if(event.key==='Enter'){_whalePage=Math.max(1,Math.min(${totalPages},parseInt(this.value)||1));renderWhaleHistory()}">
+    </div>
+  </div>`;
+
+  hist.innerHTML = `<div style="padding:10px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+    <span style="font-size:13px;font-weight:600">📋 下注历史 <span style="color:var(--dim);font-size:11px">共${total}局</span></span>
+  </div>
+  <div style="max-height:520px;overflow-y:auto">${rows}</div>${pagHtml}`;
+}
+
+// Load whale data on page load and refresh every 5 min
+loadWhaleData();
+setInterval(loadWhaleData, 300000);
+
+// ─── Realtime whale bet polling (每10秒) ─────────────
+let _realtimeBets = [];  // 最新在前
+let _realtimeLoaded = false;
+
+async function pollRealtimeBets() {
+  try {
+    const res = await fetch('/whale_realtime.json?t=' + Date.now());
+    if (!res.ok) return;
+    const bets = await res.json();
+    if (!Array.isArray(bets) || !bets.length) return;
+
+    const prevFirstEpoch = _realtimeBets.length ? _realtimeBets[0].epoch : 0;
+    _realtimeBets = bets;
+
+    // 如果有新下注且当前在第1页，立即刷新显示
+    if (bets[0].epoch !== prevFirstEpoch && _whalePage === 1 && _realtimeLoaded) {
+      renderWhaleHistory();
+      // 滚动到 whale section 顶部
+      const section = document.getElementById('whale-section');
+      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    _realtimeLoaded = true;
+  } catch(e) {}
+}
+
+// 每10秒轮询实时数据
+pollRealtimeBets();
+setInterval(pollRealtimeBets, 10000);
+
 </script>
 </body>
 </html>
