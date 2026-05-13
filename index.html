@@ -2001,7 +2001,7 @@ function renderWhaleHistory() {
     const num = start + i + 1;
     const isRealtime = realtimeEpochs.has(b.epoch);
     const rowStyle = isRealtime
-      ? 'display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px;background:rgba(255,215,0,0.08);animation:newBetPulse 2s ease-out 3'
+      ? 'display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px;background:rgba(255,215,0,0.08)'
       : 'display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px';
     return `<div style="${rowStyle}">
       <span style="color:var(--dim);width:22px;text-align:right">${num}</span>
@@ -2010,7 +2010,7 @@ function renderWhaleHistory() {
       <span style="color:var(--blue);font-size:11px;width:96px;text-align:right"> ${myOdds}</span>
       <span style="color:${color};font-weight:600;width:68px;text-align:center">${icon}${labelR}</span>
       <span style="color:var(--dim);font-size:10px;flex:1;text-align:right">#${b.epoch}</span>
-      ${isRealtime ? '<span style="color:var(--yellow);font-size:10px;animation:newBetPulse 1.5s ease-out infinite">🆕</span>' : ''}
+      ${isRealtime ? '<span style="color:var(--yellow);font-size:10px">🆕</span>' : ''}
     </div>`;
   }).join('');
 
