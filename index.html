@@ -1952,11 +1952,27 @@ function renderWhaleHistory() {
   const hist = document.getElementById('whale-history');
   if (!hist || !d || !d.bets || !d.bets.length) return;
 
-  // 合并实时数据到顶部（去重）
+  // 并实时数据到顶部（去重 + 结果覆盖）
   let allBets = d.bets;
   if (_realtimeBets.length) {
-    const existingEpochs = new Set(d.bets.map(b => b.epoch));
-    const newBets = _realtimeBets.filter(b => !existingEpochs.has(b.epoch));
+    const dataBetsMap = {};
+    for (const b of d.bets) {
+      dataBetsMap[b.epoch] = b;
+    }
+    const newBets = [];
+    for (const rb of _realtimeBets) {
+      // 如果 whale_data.json 已有该 epoch（有正确的 win/lose 结果），则用已有数据覆盖实时 PENDING
+      if (dataBetsMap[rb.epoch]) {
+        const db = dataBetsMap[rb.epoch];
+        if (db.result !== 'PENDING') {
+          // 覆盖为正确结果
+          db.time = rb.time;  // 保留时间戳
+          continue;
+        }
+      }
+      // 只保留真正的新 bet
+      newBets.push(rb);
+    }
     allBets = [...newBets, ...d.bets];
   }
 
@@ -1976,8 +1992,7 @@ function renderWhaleHistory() {
     const icon = pending ? '⏳' : (won ? '✅' : '❌');
     const labelR = pending ? '等待中' : (won ? '赢钱' : '输钱');
     const dir = b.dir === 'BULL' ? '🟢 买涨' : '🔴 买跌';
-    const bullOdds = b.bull_odds ? b.bull_odds.toFixed(2) + 'x' : '--';
-    const bearOdds = b.bear_odds ? b.bear_odds.toFixed(2) + 'x' : '--';
+    const myOdds = b.dir === 'BULL' ? (b.bull_odds ? b.bull_odds.toFixed(2) + 'x' : '--') : (b.bear_odds ? b.bear_odds.toFixed(2) + 'x' : '--');
     const num = start + i + 1;
     const isRealtime = realtimeEpochs.has(b.epoch);
     const rowStyle = isRealtime
@@ -1985,10 +2000,9 @@ function renderWhaleHistory() {
       : 'display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px';
     return `<div style="${rowStyle}">
       <span style="color:var(--dim);width:22px;text-align:right">${num}</span>
-      <span style="font-weight:600;width:68px">${dir}</span>
+      <span style="font-weight:600;width:100px">${dir}</span>
       <span style="color:var(--text);width:64px">${b.amount} BNB</span>
-      <span style="color:var(--green);font-size:11px;width:68px;text-align:right">🐂${bullOdds}</span>
-      <span style="color:var(--red);font-size:11px;width:68px;text-align:right">🐻${bearOdds}</span>
+      <span style="color:var(--blue);font-size:11px;width:52px;text-align:right">${myOdds}</span>
       <span style="color:${color};font-weight:600;width:68px;text-align:center">${icon}${labelR}</span>
       <span style="color:var(--dim);font-size:10px;flex:1;text-align:right">#${b.epoch}</span>
       ${isRealtime ? '<span style="color:var(--yellow);font-size:10px;animation:newBetPulse 1.5s ease-out infinite">🆕</span>' : ''}
