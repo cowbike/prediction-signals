@@ -280,7 +280,7 @@
   .history .col-actual { width: 44px; font-weight: 600; }
   .history .col-conf { width: 34px; text-align: right; }
   .history .col-result { width: 48px; text-align: center; }
-  .history .col-odds { width: 44px; text-align: right; font-variant-numeric: tabular-nums; }
+  .history .col-odds { width: 90px; text-align: right; font-variant-numeric: tabular-nums; }
   .history .col-time { text-align: right; color: var(--dim); }
   .bull { color: var(--green); }
   .bear { color: var(--red); }
@@ -1992,7 +1992,11 @@ function renderWhaleHistory() {
     const icon = pending ? '⏳' : (won ? '✅' : '❌');
     const labelR = pending ? '等待中' : (won ? '赢钱' : '输钱');
     const dir = b.dir === 'BULL' ? '🟢 买涨' : '🔴 买跌';
-    const myOdds = b.dir === 'BULL' ? (b.bull_odds ? b.bull_odds.toFixed(2) + 'x' : '--') : (b.bear_odds ? b.bear_odds.toFixed(2) + 'x' : '--');
+    const bullOdds = b.bull_odds ? b.bull_odds.toFixed(2)+'x' : '--';
+    const bearOdds = b.bear_odds ? b.bear_odds.toFixed(2)+'x' : '--';
+    const bullStyle = b.dir==='BULL' ? 'color:var(--blue);font-weight:700' : 'color:var(--dim)';
+    const bearStyle = b.dir==='BEAR' ? 'color:var(--blue);font-weight:700' : 'color:var(--dim)';
+    const myOdds = `<span style="${bullStyle}">🐂${bullOdds}</span>/<span style="${bearStyle}">🐻${bearOdds}</span>`;
     const num = start + i + 1;
     const isRealtime = realtimeEpochs.has(b.epoch);
     const rowStyle = isRealtime

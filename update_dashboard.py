@@ -396,7 +396,16 @@ def update_tracking_results():
 
 
 def fetch_bnb_price():
-    """Fetch BNB/USDT price from Binance."""
+    """Fetch BNB/USDT price from OKX (primary) or Binance (fallback)."""
+    # Try OKX first (more data)
+    try:
+        from okx_market import get_bnb_overview
+        overview = get_bnb_overview()
+        if overview and overview.get("spot"):
+            return round(overview["spot"]["last"], 2)
+    except Exception:
+        pass
+    # Fallback: Binance
     try:
         req = urllib.request.Request(
             'https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT',
@@ -406,6 +415,33 @@ def fetch_bnb_price():
             data = json.loads(resp.read())
             return round(float(data['price']), 2)
     except:
+        return None
+
+
+def fetch_market_overview():
+    """Fetch comprehensive market data from OKX for dashboard display."""
+    try:
+        from okx_market import get_bnb_overview, get_market_sentiment
+        overview = get_bnb_overview()
+        sentiment = get_market_sentiment()
+        return {
+            "bnb": {
+                "price": overview.get("spot", {}).get("last"),
+                "change24h": overview.get("spot", {}).get("change24h"),
+                "funding": overview.get("funding", {}).get("fundingPct"),
+                "fundingAnnual": overview.get("funding", {}).get("annualized"),
+                "oi": overview.get("openInterest", {}).get("oiCcy"),
+                "trend1h": overview.get("trend_1h"),
+            },
+            "btc": overview.get("btc"),
+            "eth": overview.get("eth"),
+            "sentiment": sentiment.get("sentiment", "N/A"),
+            "btcFunding": sentiment.get("btc_funding", {}).get("fundingPct"),
+            "ethFunding": sentiment.get("eth_funding", {}).get("fundingPct"),
+            "ts": overview.get("ts"),
+        }
+    except Exception as e:
+        print(f"[market] overview error: {e}")
         return None
 
 
@@ -538,6 +574,7 @@ def main():
                 existing["bnb_price"] = fetch_bnb_price()
                 existing["kline"] = fetch_bnb_kline()
                 existing["hourly_stats"] = hourly_stats
+                existing["market_overview"] = fetch_market_overview()
                 existing["updated"] = datetime.now().isoformat()
                 OUTPUT_FILE.write_text(json.dumps(existing, ensure_ascii=False, indent=2))
                 print(f" Kept daemon signal E{existing_epoch} (cron had E{new_epoch})")
@@ -557,6 +594,7 @@ def main():
         "hourly_stats": hourly_stats,
         "bnb_price": fetch_bnb_price(),
         "kline": fetch_bnb_kline(),
+        "market_overview": fetch_market_overview(),
         "updated": datetime.now().isoformat(),
     }
 
