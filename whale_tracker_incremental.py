@@ -76,6 +76,9 @@ def get_round_winner(epoch):
     bull_raw = int(h[576:640], 16)
     bear_raw = int(h[640:704], 16)
     winner = None
+    if lock_raw == 0 and close_raw == 0:
+        # Contract has no price data — round may be invalid/void
+        return 'VOID', 0, 0
     if lock_raw != 0 and close_raw != 0:
         winner = 'BULL' if close_raw > lock_raw else 'BEAR'
     return winner, bull_raw / 1e18, bear_raw / 1e18
@@ -119,7 +122,9 @@ def main():
         direction = 'BULL' if pos == 0 else 'BEAR'
         winner, bull_amt, bear_amt = get_round_winner(ep)
         bull_odds, bear_odds = calc_odds(bull_amt, bear_amt)
-        if winner:
+        if winner == 'VOID':
+            result = 'VOID'
+        elif winner:
             won = (direction == winner)
             result = 'WIN' if won else 'LOSE'
         else:

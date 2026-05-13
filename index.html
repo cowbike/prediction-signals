@@ -1988,9 +1988,10 @@ function renderWhaleHistory() {
   let rows = pageBets.map((b, i) => {
     const won = b.result === 'WIN';
     const pending = b.result === 'PENDING';
-    const color = pending ? 'var(--yellow)' : (won ? 'var(--green)' : 'var(--red)');
-    const icon = pending ? '⏳' : (won ? '✅' : '❌');
-    const labelR = pending ? '等待中' : (won ? '赢钱' : '输钱');
+    const voided = b.result === 'VOID';
+    const color = voided ? 'var(--dim)' : (pending ? 'var(--yellow)' : (won ? 'var(--green)' : 'var(--red)'));
+    const icon = voided ? '⚪' : (pending ? '⏳' : (won ? '✅' : '❌'));
+    const labelR = voided ? '无效局' : (pending ? '等待中' : (won ? '赢钱' : '输钱'));
     const dir = b.dir === 'BULL' ? '🟢 买涨' : '🔴 买跌';
     const bullOdds = b.bull_odds ? b.bull_odds.toFixed(2)+'x' : '--';
     const bearOdds = b.bear_odds ? b.bear_odds.toFixed(2)+'x' : '--';
