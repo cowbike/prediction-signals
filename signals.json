@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 480983,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.32,
-    "pool_bull": 0,
-    "pool_bear": 0,
+    "epoch": 480984,
+    "direction": "BEAR",
+    "confidence": 47.0,
+    "pool_total": 0.64,
+    "pool_bull": 0.48,
+    "pool_bear": 0.16,
     "signals": [
       {
         "name": "Time",
@@ -15,21 +15,21 @@
       },
       {
         "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:89.7%(1.1x) R:10.3%(9.7x) ⚠️ trap(BULL极端失衡)"
+        "direction": "BEAR",
+        "score": 100,
+        "info": "B:75.4%(1.3x) R:24.6%(4.1x)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$670.15 RSI:53 EMA:+0.10% flat"
+        "info": "$671.16 RSI:66 EMA:+0.11% flat"
       },
       {
         "name": "Liq",
         "direction": "BEAR",
         "score": 59,
-        "info": "LS:2.19 long-squeeze"
+        "info": "LS:2.18 long-squeeze"
       },
       {
         "name": "FR",
@@ -39,51 +39,11 @@
       }
     ],
     "trend": null,
-    "time": "14:38:06"
+    "time": "14:42:54"
   },
-  "lock_ts": 1778740689,
-  "current_ts": 1778740931,
+  "lock_ts": 1778740994,
+  "current_ts": 1778740985,
   "history": [
-    {
-      "epoch": 480627,
-      "direction": "BEAR",
-      "confidence": 32.0,
-      "time": "08:21:24",
-      "time_full": "2026-05-14 08:21:24",
-      "trend": "📈 连涨3根(+$1.32)",
-      "outcome": "LOSS",
-      "result": "BULL"
-    },
-    {
-      "epoch": 480628,
-      "direction": "BEAR",
-      "confidence": 30.0,
-      "time": "08:26:41",
-      "time_full": "2026-05-14 08:26:41",
-      "trend": "📈 连涨3根(+$2.18)",
-      "outcome": "WIN",
-      "result": "BEAR"
-    },
-    {
-      "epoch": 480629,
-      "direction": "BEAR",
-      "confidence": 31.0,
-      "time": "08:31:50",
-      "time_full": "2026-05-14 08:31:50",
-      "trend": null,
-      "outcome": "LOSS",
-      "result": "BULL"
-    },
-    {
-      "epoch": 480630,
-      "direction": "BEAR",
-      "confidence": 31.0,
-      "time": "08:36:53",
-      "time_full": "2026-05-14 08:36:53",
-      "trend": null,
-      "outcome": "LOSS",
-      "result": "BULL"
-    },
     {
       "epoch": 480631,
       "direction": "BEAR",
@@ -3592,6 +3552,15 @@
       "time_full": "2026-05-14 14:38:06",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 480984,
+      "direction": "BEAR",
+      "confidence": 47.0,
+      "time": "14:42:54",
+      "time_full": "2026-05-14 14:42:54",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3600,10 +3569,10 @@
     "skips": 2678,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 48.1,
-    "total_24h": 181,
+    "win_rate_24h": 48.6,
+    "total_24h": 177,
     "hourly_wins": {
-      "8": 6,
+      "8": 5,
       "9": 6,
       "10": 7,
       "12": 8,
@@ -3627,7 +3596,7 @@
       "13": 1
     },
     "hourly_losses": {
-      "8": 10,
+      "8": 7,
       "9": 6,
       "11": 5,
       "12": 4,
@@ -3651,15 +3620,15 @@
       "7": 4,
       "10": 2
     },
-    "tracking_win_rate_24h": 48.1,
-    "tracking_total_24h": 181
+    "tracking_win_rate_24h": 48.6,
+    "tracking_total_24h": 177
   },
   "hourly_stats": {
     "hour": 14,
     "bull": 3,
-    "bear": 12,
+    "bear": 13,
     "skip": 4,
-    "total": 19
+    "total": 20
   },
   "bnb_price": 671.2,
   "kline": [
@@ -4079,9 +4048,9 @@
     {
       "timestamp": 1778740800.0,
       "open": 670.23,
-      "high": 671.24,
+      "high": 671.26,
       "low": 670.23,
-      "close": 671.13
+      "close": 671.25
     }
   ],
   "market_overview": {
@@ -4094,17 +4063,17 @@
       "trend1h": 0.104
     },
     "btc": {
-      "last": 79884.1,
+      "last": 79875.4,
       "change24h": -1.43
     },
     "eth": {
-      "last": 2269.32,
+      "last": 2269.24,
       "change24h": -1.51
     },
     "sentiment": "🟡 中性",
     "btcFunding": 0.0048,
     "ethFunding": 0.0025,
-    "ts": "2026-05-14 14:42:13"
+    "ts": "2026-05-14 14:43:07"
   },
-  "updated": "2026-05-14T14:42:14.277936"
+  "updated": "2026-05-14T14:43:08.226529"
 }
