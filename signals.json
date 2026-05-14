@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 481001,
+    "epoch": 481002,
     "direction": "BULL",
     "confidence": 29.0,
-    "pool_total": 0.13,
-    "pool_bull": 0.12,
-    "pool_bear": 0.0,
+    "pool_total": 0.78,
+    "pool_bull": 0.25,
+    "pool_bear": 0.53,
     "signals": [
       {
         "name": "Time",
@@ -15,15 +15,15 @@
       },
       {
         "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "no data"
+        "direction": "BULL",
+        "score": 49,
+        "info": "B:32.2%(3.1x) R:67.8%(1.5x)"
       },
       {
         "name": "Mom",
-        "direction": "BULL",
-        "score": 85,
-        "info": "$669.58 RSI:17 EMA:-0.05% OS"
+        "direction": null,
+        "score": 0,
+        "info": "$670.74 RSI:41 EMA:-0.06% flat"
       },
       {
         "name": "Liq",
@@ -38,32 +38,12 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": "📉 连跌3根($-2.09)",
-    "time": "16:09:20"
+    "trend": null,
+    "time": "16:15:01"
   },
-  "lock_ts": 1778746196,
-  "current_ts": 1778746451,
+  "lock_ts": 1778746503,
+  "current_ts": 1778746512,
   "history": [
-    {
-      "epoch": 480654,
-      "direction": "BULL",
-      "confidence": 47.0,
-      "time": "10:39:55",
-      "time_full": "2026-05-14 10:39:55",
-      "trend": null,
-      "outcome": "SKIP",
-      "result": "BULL"
-    },
-    {
-      "epoch": 480655,
-      "direction": "SKIP",
-      "confidence": 11.0,
-      "time": "10:44:58",
-      "time_full": "2026-05-14 10:44:58",
-      "trend": "📉 连跌3根($-1.49)",
-      "outcome": "SKIP",
-      "result": "BULL"
-    },
     {
       "epoch": 480656,
       "direction": "SKIP",
@@ -3501,6 +3481,16 @@
       "time": "16:09:20",
       "time_full": "2026-05-14 16:09:20",
       "trend": "📉 连跌3根($-2.09)",
+      "outcome": "WIN",
+      "result": "BULL"
+    },
+    {
+      "epoch": 481002,
+      "direction": "BULL",
+      "confidence": 29.0,
+      "time": "16:15:01",
+      "time_full": "2026-05-14 16:15:01",
+      "trend": null,
       "outcome": null
     }
   ],
@@ -3510,13 +3500,13 @@
     "skips": 2689,
     "time_wins": 0,
     "time_losses": 0,
-    "win_rate_24h": 46.7,
-    "total_24h": 167,
+    "win_rate_24h": 47.0,
+    "total_24h": 168,
     "hourly_wins": {
       "10": 5,
       "12": 8,
       "14": 4,
-      "16": 3,
+      "16": 4,
       "17": 2,
       "18": 2,
       "19": 2,
@@ -3561,25 +3551,18 @@
       "9": 1,
       "10": 2
     },
-    "tracking_win_rate_24h": 46.7,
-    "tracking_total_24h": 167
+    "tracking_win_rate_24h": 47.0,
+    "tracking_total_24h": 168
   },
   "hourly_stats": {
     "hour": 16,
-    "bull": 12,
+    "bull": 13,
     "bear": 0,
     "skip": 2,
-    "total": 14
+    "total": 15
   },
-  "bnb_price": 670.5,
+  "bnb_price": 670.8,
   "kline": [
-    {
-      "timestamp": 1778728500.0,
-      "open": 669.51,
-      "high": 669.61,
-      "low": 668.25,
-      "close": 668.71
-    },
     {
       "timestamp": 1778728800.0,
       "open": 668.7,
@@ -3991,30 +3974,37 @@
       "open": 669.99,
       "high": 670.8,
       "low": 669.95,
-      "close": 670.48
+      "close": 670.71
+    },
+    {
+      "timestamp": 1778746500.0,
+      "open": 670.72,
+      "high": 670.84,
+      "low": 670.71,
+      "close": 670.84
     }
   ],
   "market_overview": {
     "bnb": {
-      "price": 670.5,
-      "change24h": -1.28,
+      "price": 670.8,
+      "change24h": -1.25,
       "funding": -0.0058,
-      "fundingAnnual": -6.39,
-      "oi": 83368.79,
-      "trend1h": 0.239
+      "fundingAnnual": -6.34,
+      "oi": 83374.57,
+      "trend1h": 0.134
     },
     "btc": {
-      "last": 79840.3,
-      "change24h": -1.46
+      "last": 79869.0,
+      "change24h": -1.47
     },
     "eth": {
-      "last": 2268.15,
-      "change24h": -1.47
+      "last": 2268.98,
+      "change24h": -1.46
     },
     "sentiment": "🟡 中性",
     "btcFunding": 0.0037,
     "ethFunding": 0.0008,
-    "ts": "2026-05-14 16:14:12"
+    "ts": "2026-05-14 16:15:14"
   },
-  "updated": "2026-05-14T16:14:13.642346"
+  "updated": "2026-05-14T16:15:15.919570"
 }
