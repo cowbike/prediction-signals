@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 480931,
-    "direction": "SKIP",
-    "confidence": 0,
-    "pool_total": 0.79,
-    "pool_bull": 0,
-    "pool_bear": 0,
+    "epoch": 480932,
+    "direction": "BEAR",
+    "confidence": 35.0,
+    "pool_total": 1.2,
+    "pool_bull": 0.89,
+    "pool_bear": 0.31,
     "signals": [
       {
         "name": "Time",
@@ -15,15 +15,15 @@
       },
       {
         "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:63.2%(1.6x) R:36.8%(2.7x)"
+        "direction": "BEAR",
+        "score": 99,
+        "info": "B:74.3%(1.3x) R:25.7%(3.9x)"
       },
       {
         "name": "Mom",
         "direction": null,
         "score": 0,
-        "info": "$674.18 RSI:37 EMA:-0.04% flat"
+        "info": "$673.81 RSI:32 EMA:-0.09% flat"
       },
       {
         "name": "Liq",
@@ -38,42 +38,12 @@
         "info": "FR:+0.0000% neutral"
       }
     ],
-    "trend": "📉 连跌3根($-1.00)",
-    "time": "10:12:48"
+    "trend": "📉 连跌3根($-1.70)",
+    "time": "10:17:43"
   },
-  "lock_ts": 1778724770,
-  "current_ts": 1778725031,
+  "lock_ts": 1778725077,
+  "current_ts": 1778725074,
   "history": [
-    {
-      "epoch": 480544,
-      "direction": "SKIP",
-      "confidence": 14.0,
-      "time": "01:18:42",
-      "time_full": "2026-05-14 01:18:42",
-      "trend": null,
-      "outcome": "SKIP",
-      "result": "BULL"
-    },
-    {
-      "epoch": 480545,
-      "direction": "BEAR",
-      "confidence": 60.0,
-      "time": "01:23:14",
-      "time_full": "2026-05-14 01:23:14",
-      "trend": null,
-      "outcome": "WIN",
-      "result": "BEAR"
-    },
-    {
-      "epoch": 480546,
-      "direction": "BEAR",
-      "confidence": 34.0,
-      "time": "01:28:19",
-      "time_full": "2026-05-14 01:28:19",
-      "trend": "📈 连涨3根(+$2.46)",
-      "outcome": "LOSS",
-      "result": "BULL"
-    },
     {
       "epoch": 480547,
       "direction": "BEAR",
@@ -3902,6 +3872,15 @@
       "time_full": "2026-05-14 10:12:48",
       "trend": "📉 连跌3根($-1.00)",
       "outcome": null
+    },
+    {
+      "epoch": 480932,
+      "direction": "BEAR",
+      "confidence": 35.0,
+      "time": "10:17:43",
+      "time_full": "2026-05-14 10:17:43",
+      "trend": "📉 连跌3根($-1.70)",
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3911,9 +3890,9 @@
     "time_wins": 0,
     "time_losses": 0,
     "win_rate_24h": 46.5,
-    "total_24h": 215,
+    "total_24h": 213,
     "hourly_wins": {
-      "1": 6,
+      "1": 5,
       "2": 5,
       "3": 10,
       "4": 5,
@@ -3936,7 +3915,7 @@
       "0": 5
     },
     "hourly_losses": {
-      "1": 8,
+      "1": 7,
       "2": 16,
       "3": 12,
       "4": 10,
@@ -3960,16 +3939,16 @@
       "0": 4
     },
     "tracking_win_rate_24h": 46.5,
-    "tracking_total_24h": 215
+    "tracking_total_24h": 213
   },
   "hourly_stats": {
     "hour": 10,
     "bull": 5,
-    "bear": 5,
+    "bear": 6,
     "skip": 4,
-    "total": 14
+    "total": 15
   },
-  "bnb_price": 673.9,
+  "bnb_price": 673.7,
   "kline": [
     {
       "timestamp": 1778707200.0,
@@ -4388,31 +4367,31 @@
       "timestamp": 1778724900.0,
       "open": 673.79,
       "high": 674.62,
-      "low": 673.68,
-      "close": 673.9
+      "low": 673.5,
+      "close": 673.64
     }
   ],
   "market_overview": {
     "bnb": {
-      "price": 673.9,
-      "change24h": -0.72,
+      "price": 673.7,
+      "change24h": -0.75,
       "funding": -0.0055,
       "fundingAnnual": -6.03,
-      "oi": 84786.03,
-      "trend1h": -0.133
+      "oi": 84782.15,
+      "trend1h": -0.163
     },
     "btc": {
-      "last": 79564.7,
-      "change24h": -1.83
+      "last": 79558.1,
+      "change24h": -1.84
     },
     "eth": {
-      "last": 2261.5,
-      "change24h": -1.34
+      "last": 2260.91,
+      "change24h": -1.37
     },
     "sentiment": "🟡 中性",
     "btcFunding": 0.0056,
     "ethFunding": 0.0079,
-    "ts": "2026-05-14 10:17:13"
+    "ts": "2026-05-14 10:17:55"
   },
-  "updated": "2026-05-14T10:17:14.375311"
+  "updated": "2026-05-14T10:17:55.984565"
 }
