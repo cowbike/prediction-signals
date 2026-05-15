@@ -1,11 +1,11 @@
 {
   "current": {
-    "epoch": 481214,
-    "direction": "BULL",
-    "confidence": 20.0,
-    "pool_total": 0.54,
-    "pool_bull": 0.28,
-    "pool_bear": 0.26,
+    "epoch": 481215,
+    "direction": "BEAR",
+    "confidence": 33.0,
+    "pool_total": 0.26,
+    "pool_bull": 0.18,
+    "pool_bear": 0.08,
     "signals": [
       {
         "name": "Time",
@@ -15,15 +15,15 @@
       },
       {
         "name": "Pool",
-        "direction": null,
-        "score": 0,
-        "info": "B:52.3%(1.9x) R:47.7%(2.1x)"
+        "direction": "BEAR",
+        "score": 56,
+        "info": "B:68.4%(1.5x) R:31.6%(3.2x)"
       },
       {
         "name": "Mom",
         "direction": "BULL",
-        "score": 100,
-        "info": "$679.03 RSI:11 EMA:-0.38% OS"
+        "score": 65,
+        "info": "$678.77 RSI:20 EMA:-0.37% OS"
       },
       {
         "name": "Liq",
@@ -39,21 +39,11 @@
       }
     ],
     "trend": null,
-    "time": "10:15:56"
+    "time": "10:21:00"
   },
-  "lock_ts": 1778811392,
-  "current_ts": 1778811610,
+  "lock_ts": 1778811698,
+  "current_ts": 1778811671,
   "history": [
-    {
-      "epoch": 480879,
-      "direction": "BULL",
-      "confidence": 46.0,
-      "time": "05:47:20",
-      "time_full": "2026-05-15 05:47:20",
-      "trend": null,
-      "outcome": "SKIP",
-      "result": "BULL"
-    },
     {
       "epoch": 480880,
       "direction": "BULL",
@@ -3402,6 +3392,15 @@
       "time_full": "2026-05-15 10:15:56",
       "trend": null,
       "outcome": null
+    },
+    {
+      "epoch": 481215,
+      "direction": "BEAR",
+      "confidence": 33.0,
+      "time": "10:21:00",
+      "time_full": "2026-05-15 10:21:00",
+      "trend": null,
+      "outcome": null
     }
   ],
   "tracking": {
@@ -3468,11 +3467,11 @@
   "hourly_stats": {
     "hour": 10,
     "bull": 6,
-    "bear": 5,
+    "bear": 6,
     "skip": 5,
-    "total": 16
+    "total": 17
   },
-  "bnb_price": 679.3,
+  "bnb_price": 678.5,
   "kline": [
     {
       "timestamp": 1778793900.0,
@@ -3891,31 +3890,31 @@
       "timestamp": 1778811600.0,
       "open": 679.45,
       "high": 679.52,
-      "low": 679.33,
-      "close": 679.34
+      "low": 678.5,
+      "close": 678.7
     }
   ],
   "market_overview": {
     "bnb": {
-      "price": 679.3,
-      "change24h": 0.71,
-      "funding": -0.007,
-      "fundingAnnual": -7.61,
-      "oi": 87874.19,
-      "trend1h": -0.469
+      "price": 678.5,
+      "change24h": 0.58,
+      "funding": -0.0072,
+      "fundingAnnual": -7.9,
+      "oi": 87851.54,
+      "trend1h": -0.586
     },
     "btc": {
-      "last": 80938.5,
-      "change24h": 1.62
+      "last": 80930.8,
+      "change24h": 1.63
     },
     "eth": {
-      "last": 2267.0,
-      "change24h": 0.18
+      "last": 2265.95,
+      "change24h": 0.13
     },
     "sentiment": "🟡 中性",
-    "btcFunding": 0.002,
-    "ethFunding": 0.0054,
-    "ts": "2026-05-15 10:20:12"
+    "btcFunding": 0.0019,
+    "ethFunding": 0.0053,
+    "ts": "2026-05-15 10:21:13"
   },
-  "updated": "2026-05-15T10:20:12.702005"
+  "updated": "2026-05-15T10:21:14.118500"
 }
